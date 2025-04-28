@@ -30,6 +30,7 @@ const Login = () => {
       <div className="login-content">        
         <div>        
           <form onSubmit={handleSubmit}>
+          <h1 className='logo' >KSH</h1>
           <h2>Login to your account</h2>
             <input
               type="email"
