@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './index.css';
+import Register from './Register'
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,6 +16,12 @@ const Login = () => {
       return;
     }
     setMessage(`Logged in successfully as ${role} !`);
+  };
+
+  const handleRegister = (e) => {
+    return(
+       <Register/> 
+    );
   };
 
   return (
@@ -56,8 +64,10 @@ const Login = () => {
         </div>
       </div>
       <div className="side-panel">
-        <h2 className='side-text'>Register Your Company</h2>
-        <button>Register</button>
+        <form onSubmit={handleRegister}>
+            <h2 className='side-text'>Register Your Company</h2>
+            <button>Register</button>
+        </form>
       </div>
     </div>
   );
