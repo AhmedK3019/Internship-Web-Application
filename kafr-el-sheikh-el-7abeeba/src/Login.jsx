@@ -3,32 +3,44 @@ import './index.css';
 import Register from './Register'
 
 
-const Login = () => {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Student');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+  }
+
+  function handlePasswordChange(event) {
+    setPassword(event.target.value);
+  }
+
+  function handleRoleChange(event) {
+    setRole(event.target.value);
+  }
+
+  function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) {
       setMessage('Please fill in all fields.');
       return;
     }
     setMessage(`Logged in successfully as ${role} !`);
-  };
+  }
 
-  const handleRegister = (e) => {
+  function handleRegister(e) {
     return(
        <Register/> 
     );
-  };
+  }
 
   return (
     <div className='page'>
       <title>Login</title>
-      <div className="login-content">        
-        <div>        
+      <div className="login-content">  
+        <div>              
           <form onSubmit={handleSubmit}>
           <h1 className='logo' >KSH</h1>
           <h2>Login to your account</h2>
@@ -37,19 +49,19 @@ const Login = () => {
               placeholder="Email"
               className="login-input"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailChange}
             />
             <input
               type="password"
               placeholder="Password"
               className="login-input"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
             />
             <select
               className="login-select"
               value={role}
-              onChange={(e) => setRole(e.target.value)}
+              onChange={handleRoleChange}
             >
               <option value="Company">Company</option>
               <option value="Student">Student</option>
@@ -60,8 +72,8 @@ const Login = () => {
             <button type="submit">
               Login
             </button>
-            {message && <div className='message'> {message}</div>}
           </form>
+          {message && <div className='message'> {message}</div>}
         </div>
       </div>
       <div className="side-panel">
