@@ -10,13 +10,13 @@ function Register(){
   const [logo, setLogo] = useState(null);
   const [email, setEmail] = useState('');
   const [file, setFile] = useState(null);
+  const [showLogin, setShowLogin] = useState(false);
 
   function handleLogoChange(event) {
     const file = event.target.files[0];
     if (file) {
       setLogo(file);
 
-      // Preview logo if you want
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewUrl(reader.result);
@@ -31,17 +31,17 @@ function Register(){
       setMessage('Please fill in all fields.');
       return;
     }
-    return(<Login/>);
+    setShowLogin(true);
   }
 
-  return(
+  return( (showLogin)? <Login /> : (
     <div className='page'>
         <form onSubmit={handleSubmit}>
 
         </form>
     </div>
 
-  );
+  ));
 }
 
 export default Register

@@ -8,6 +8,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Student');
   const [message, setMessage] = useState('');
+  const [showRegister, setShowRegister] = useState(false);
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -31,12 +32,11 @@ function Login() {
   }
 
   function handleRegister(e) {
-    return(
-       <Register/> 
-    );
+    e.preventDefault();
+    setShowRegister(true);
   }
 
-  return (
+  return ( (showRegister)? (<Register />) :(
     <div className='page'>
       <title>Login</title>
       <div className="login-content">  
@@ -79,11 +79,11 @@ function Login() {
       <div className="side-panel">
         <form onSubmit={handleRegister}>
             <h2 className='side-text'>Register Your Company</h2>
-            <button>Register</button>
+            <button type='submit'>Register</button>
         </form>
       </div>
     </div>
-  );
+  ));
 };
 
 export default Login;
