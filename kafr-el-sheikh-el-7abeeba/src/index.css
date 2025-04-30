@@ -21,7 +21,7 @@
   width: 100%;
   min-height: 100vh;
   background: white;
-  background: radial-gradient(125% 125% at 10% 50%, #050a30 40%, #7EC8E3 60%);
+  background: radial-gradient(125% 125% at 10% 50%, #050a30 40%, #7EC8E3 80%);
   z-index: -10;
 }
 
@@ -91,7 +91,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.login-content {
+.content {
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -113,13 +113,41 @@ button:focus-visible {
   font-weight: bold;
 }
 
-.login-input,
-.login-select {
+.input,
+.select {
   padding: 0.8rem;
   border-radius: 10px;
   border: 1px solid #0000ff;
   background-color: #050a30;
   color: #7ec8e3;
+}
+
+.custom-file-label {
+  display: inline-block;
+  background-color: white;
+  color: #050a30;
+  font-weight: bold;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.custom-file-label:hover{
+  background-color: #535bf2;
+}
+
+.custom-file-label input[type="file"] {
+  display: none;
+}
+
+.upload-indicator {
+  margin-top: 0.5rem;
+  color: #050a30;
+  font-weight: bold;
+  font-size: 0.95rem;
 }
 
 @media (prefers-color-scheme: light) {

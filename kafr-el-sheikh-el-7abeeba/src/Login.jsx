@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import './index.css';
-import Register from './Register'
 
-
-function Login() {
+function Login({ onRegisterClick }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Student');
   const [message, setMessage] = useState('');
-  const [showRegister, setShowRegister] = useState(false);
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -31,15 +28,10 @@ function Login() {
     setMessage(`Logged in successfully as ${role} !`);
   }
 
-  function handleRegister(e) {
-    e.preventDefault();
-    setShowRegister(true);
-  }
-
-  return ( (showRegister)? (<Register />) :(
+  return (
     <div className='page'>
       <title>Login</title>
-      <div className="login-content">  
+      <div className="content">  
         <div>              
           <form onSubmit={handleSubmit}>
           <h1 className='logo' >KSH</h1>
@@ -47,19 +39,19 @@ function Login() {
             <input
               type="email"
               placeholder="Email"
-              className="login-input"
+              className="input"
               value={email}
               onChange={handleEmailChange}
             />
             <input
               type="password"
               placeholder="Password"
-              className="login-input"
+              className="input"
               value={password}
               onChange={handlePasswordChange}
             />
             <select
-              className="login-select"
+              className="select"
               value={role}
               onChange={handleRoleChange}
             >
@@ -77,13 +69,11 @@ function Login() {
         </div>
       </div>
       <div className="side-panel">
-        <form onSubmit={handleRegister}>
             <h2 className='side-text'>Register Your Company</h2>
-            <button type='submit'>Register</button>
-        </form>
+            <button onClick={onRegisterClick}>Register</button>
       </div>
     </div>
-  ));
+  );
 };
 
 export default Login;
