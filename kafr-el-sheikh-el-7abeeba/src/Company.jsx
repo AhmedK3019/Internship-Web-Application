@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './index.css';
 
 function Company({email}){
-    const [view, setView] = useState('internships');
+    const [view, setView] = useState('');
     const [internships, setInternships] = useState([]);
     const [newTitle, setNewTitle] = useState('');
     const [newDuration, setNewDuration] = useState('Not Specified');
@@ -69,67 +69,71 @@ function Company({email}){
     }
 
     return (
-        <div className="page">
+        <div className="pageAlt">
           <div className="sidebar">
             <h2>Company Menu</h2>
             <button onClick={() => setView('internships')}>View Internships</button>
           </div>
-      <div className="content">
-        {view === 'internships' && (
-          <>
-            <h2>Your Internships</h2>
-            <input
-              type="text"
-              placeholder="Internship Title"
-              className="input"
-              value={newTitle}
-              onChange={handleTitleChange}
-            />
-            <br />
-            <select
-              className="select"
-              value={newDuration}
-              onChange={handleDurationChange}
-            >
-              <option value="Not Specified">Not Specified</option>
-              <option value="1 Month">1 Month</option>
-              <option value="3 Months">3 Months</option>
-              <option value="6 Months">6 Months</option>
-            </select>
-            <br />
-            <select
-              className="select"
-              value={newPay}
-              onChange={handlePayChange}
-            >
-              <option value="Unpaid">Unpaid</option>
-              <option value="Paid">Paid</option>
-            </select>
-            <br />
-            {newPay === "Paid" && (
+          <div className='side-panel'>
+            {view === 'internships' && (
+            <>
               <input
-              type="number"
-              placeholder="Expected Salary"
-              className="input"
-              value={newSalary}
-              onChange={handleSalaryChange}
+                type="text"
+                placeholder="Internship Title"
+                className="input"
+                value={newTitle}
+                onChange={handleTitleChange}
               />
+              <br />
+              <select
+                className="select"
+                value={newDuration}
+                onChange={handleDurationChange}
+              >
+                <option value="Not Specified">Not Specified</option>
+                <option value="1 Month">1 Month</option>
+                <option value="3 Months">3 Months</option>
+                <option value="6 Months">6 Months</option>
+              </select>
+              <br />
+              <select
+                className="select"
+                value={newPay}
+                onChange={handlePayChange}
+              >
+                <option value="Unpaid">Unpaid</option>
+                <option value="Paid">Paid</option>
+              </select>
+              <br />
+              {newPay === "Paid" && (
+                <input
+                type="number"
+                placeholder="Expected Salary"
+                className="input"
+                value={newSalary}
+                onChange={handleSalaryChange}
+                />
+              )}
+              <br />
+              <textarea
+                placeholder="Skills Required"
+                className="input"
+                value={skills}
+                onChange={handleSkillsChange}
+                />
+              <br />
+              <textarea
+                placeholder="Internship Description"
+                className="input"
+                value={newDesc}
+                onChange={handleDescChange}
+              />
+            </>
             )}
-            <br />
-            <textarea
-              placeholder="Skills Required"
-              className="input"
-              value={skills}
-              onChange={handleSkillsChange}
-              />
-            <br />
-            <textarea
-              placeholder="Internship Description"
-              className="input"
-              value={newDesc}
-              onChange={handleDescChange}
-            />
-            <br />
+          </div>
+          {view === 'internships' && (
+          <div className="content">
+            <h2>Your Internships</h2>
             <button onClick={addInternship}>Add Internship</button>
             <ul>
               {internships.map((intern) => (
@@ -140,12 +144,10 @@ function Company({email}){
                 </li>
               ))}
             </ul>
-          </>
-        )}
-      </div>
-    </div>
-    );
-
+          </div>
+          )}
+        </div>
+        );
 }
 
 export default Company;

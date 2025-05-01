@@ -25,6 +25,16 @@
   z-index: -10;
 }
 
+.pageAlt {
+  display: flex;
+  inset: 0;
+  width: 100%;
+  min-height: 100vh;
+  background: white;
+  background: radial-gradient(125% 125% at 10% 50%, #050a30 70%, #7EC8E3 80%);
+  z-index: -10;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -163,6 +173,7 @@ button:focus-visible {
 }
 
 .hyperText{
+  font-style: italic;
   cursor: pointer;
   text-decoration: none;
 }
