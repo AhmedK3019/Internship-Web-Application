@@ -65,13 +65,15 @@ function Login({ onRegisterClick , onLoginClick }) {
             <button type="submit">
               Login
             </button>
+            <h3>
+              Want to register your Company? Click{' '}
+              <span onClick={onRegisterClick} className='hyperText'>
+              here
+              </span>.
+            </h3>
           </form>
           {message && <div className='message'> {message}</div>}
         </div>
-      </div>
-      <div className="side-panel">
-            <h2 className='side-text'>Register Your Company</h2>
-            <button onClick={onRegisterClick}>Register</button>
       </div>
     </div>
   );
