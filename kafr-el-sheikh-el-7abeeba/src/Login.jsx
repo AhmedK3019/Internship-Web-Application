@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './index.css';
 
-function Login({ onRegisterClick }) {
+function Login({ onRegisterClick , onLoginClick }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Student');
@@ -26,6 +26,7 @@ function Login({ onRegisterClick }) {
       return;
     }
     setMessage(`Logged in successfully as ${role} !`);
+    onLoginClick({email, role});
   }
 
   return (
