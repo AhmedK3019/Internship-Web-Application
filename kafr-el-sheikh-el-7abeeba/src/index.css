@@ -136,6 +136,7 @@ button:focus-visible {
   border: 1px solid #0000ff;
   background-color: #050a30;
   color: #7ec8e3;
+  max-width: 100%;
   font-family: Arial, Helvetica, sans-serif;
 }
 
