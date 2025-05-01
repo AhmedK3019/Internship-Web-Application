@@ -120,6 +120,7 @@ button:focus-visible {
   border: 1px solid #0000ff;
   background-color: #050a30;
   color: #7ec8e3;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .custom-file-label {
@@ -148,6 +149,11 @@ button:focus-visible {
   color: #050a30;
   font-weight: bold;
   font-size: 0.95rem;
+}
+
+.sidebar{
+  width: '200px';
+  padding: '20px';
 }
 
 @media (prefers-color-scheme: light) {

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import './index.css';
 
 function Company({email}){
@@ -7,7 +8,7 @@ function Company({email}){
     const [newDuration, setNewDuration] = useState('Not Specified');
     const [newPay, setNewPay] = useState('Unpaid');
     const [newSalary, setNewSalary] = useState('');
-    const [skills, setSkills] = useState([]);
+    const [skills, setSkills] = useState('');
     const [newDesc, setNewDesc] = useState('');
     const [message, setMessage] = useState('');
 
@@ -28,7 +29,7 @@ function Company({email}){
         setNewDuration('Not Specified');
         setNewPay('Unpaid');
         setNewSalary('');
-        setSkills([]);
+        setSkills('');
         setNewDesc('');
     }
 
@@ -43,46 +44,99 @@ function Company({email}){
         setInternships(updated);
     }
 
+    function handleTitleChange(event){
+      setNewTitle(event.target.value);
+    }
+
+    function handleDurationChange(event){
+      setNewDuration(event.target.value);
+    }
+
+    function handlePayChange(event){
+      setNewPay(event.target.value);
+    }
+
+    function handleSalaryChange(event){
+      setNewSalary(event.target.value);
+    }
+
+    function handleSkillsChange(event){
+      setSkills(event.target.value);
+    }
+
+    function handleDescChange(event){
+      setNewDesc(event.target.value);
+    }
+
     return (
-        <div className="page" style={{ display: 'flex' }}>
-      {/* Sidebar */}
-      <div className="sidebar" style={{ width: '200px', backgroundColor: '#f4f4f4', padding: '20px' }}>
-        <h3>Company Menu</h3>
-        <button onClick={() => setView('internships')}>View Internships</button>
-      </div>
-
-      {/* Main Content */}
-      <div className="main-content" style={{ flex: 1, padding: '20px' }}>
-        <h2>Welcome, {email}</h2>
-
+        <div className="page">
+          <div className="sidebar">
+            <h2>Company Menu</h2>
+            <button onClick={() => setView('internships')}>View Internships</button>
+          </div>
+      <div className="content">
         {view === 'internships' && (
           <>
-            <h3>Your Internships</h3>
-
-            {/* Add Internship Form */}
+            <h2>Your Internships</h2>
             <input
               type="text"
               placeholder="Internship Title"
+              className="input"
               value={newTitle}
-              onChange={(e) => setNewTitle(e.target.value)}
+              onChange={handleTitleChange}
             />
+            <br />
+            <select
+              className="select"
+              value={newDuration}
+              onChange={handleDurationChange}
+            >
+              <option value="Not Specified">Not Specified</option>
+              <option value="1 Month">1 Month</option>
+              <option value="3 Months">3 Months</option>
+              <option value="6 Months">6 Months</option>
+            </select>
+            <br />
+            <select
+              className="select"
+              value={newPay}
+              onChange={handlePayChange}
+            >
+              <option value="Unpaid">Unpaid</option>
+              <option value="Paid">Paid</option>
+            </select>
+            <br />
+            {newPay === "Paid" && (
+              <input
+              type="number"
+              placeholder="Expected Salary"
+              className="input"
+              value={newSalary}
+              onChange={handleSalaryChange}
+              />
+            )}
+            <br />
+            <textarea
+              placeholder="Skills Required"
+              className="input"
+              value={skills}
+              onChange={handleSkillsChange}
+              />
             <br />
             <textarea
               placeholder="Internship Description"
+              className="input"
               value={newDesc}
-              onChange={(e) => setNewDesc(e.target.value)}
+              onChange={handleDescChange}
             />
             <br />
             <button onClick={addInternship}>Add Internship</button>
-
-            {/* List */}
             <ul>
               {internships.map((intern) => (
                 <li key={intern.id} style={{ marginTop: '10px' }}>
                   <strong>{intern.title}</strong>
                   <p>{intern.desc.slice(0, 100)}...</p>
                   <button onClick={() => deleteInternship(intern.id)}>Delete</button>
-                  {/* For update, you can add an edit form or popup later */}
                 </li>
               ))}
             </ul>
