@@ -77,6 +77,14 @@ h3 {
   color: #7EC8E3;
 }
 
+p {
+  color: #7EC8E3;
+}
+
+strong {
+  color: #7EC8E3;
+}
+
 .side-text {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -87,6 +95,17 @@ h3 {
   font-size: 4.0em;
   font-family: 'Lakki Reddy';
   color: #7EC8E3;
+}
+
+div button{
+  padding: 0.8rem;
+  border-radius: 10px;
+  background-color: transparent;
+  color: #7EC8E3;
+  font-weight: bold;
+  border: 1px solid blue;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 form button {

@@ -77,6 +77,7 @@ function Company({email}){
           <div className='side-panel'>
             {view === 'internships' && (
             <>
+              <h2>Internship details</h2>
               <input
                 type="text"
                 placeholder="Internship Title"
@@ -128,16 +129,17 @@ function Company({email}){
                 value={newDesc}
                 onChange={handleDescChange}
               />
+              <br />
+              <button onClick={addInternship}>Add Internship</button>
             </>
             )}
           </div>
           {view === 'internships' && (
           <div className="content">
             <h2>Your Internships</h2>
-            <button onClick={addInternship}>Add Internship</button>
             <ul>
               {internships.map((intern) => (
-                <li key={intern.id} style={{ marginTop: '10px' }}>
+                <li key={intern.id} style={{ marginTop: '10px', color: '#7EC8E3'}}>
                   <strong>{intern.title}</strong>
                   <p>{intern.desc.slice(0, 100)}...</p>
                   <button onClick={() => deleteInternship(intern.id)}>Delete</button>
@@ -147,7 +149,7 @@ function Company({email}){
           </div>
           )}
         </div>
-        );
+      );
 }
 
 export default Company;
