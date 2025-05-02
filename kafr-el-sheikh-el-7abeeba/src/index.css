@@ -412,4 +412,55 @@ button:focus-visible {
   font-size: 1.2rem;
 }
 
+.filters-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
 
+.filter-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.filter-group {
+  background: rgba(246, 246, 255, 0.9);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #050a30;
+  font-weight: 600;
+}
+
+.filter-combo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-select {
+  flex: 1;
+  padding: 0.5rem;
+  border: 2px solid #7EC8E3;
+  border-radius: 6px;
+}
+
+.filter-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 2px solid #7EC8E3;
+  border-radius: 6px;
+}
+
+.filter-or {
+  color: #050a30;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
