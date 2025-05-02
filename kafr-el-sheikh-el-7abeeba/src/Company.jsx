@@ -71,8 +71,15 @@ function Company({email}){
     return (
         <div className="pageAlt">
           <div className="sidebar">
-            <h2 className='user-name'>Company Menu</h2>
-            <button onClick={() => setView('internships')}>View Internships</button>
+            <div className='sidebar-header'>
+              <div className="menu-wrapper">
+                <span className="menu-icon">☰</span>
+                <span className="menu-label">Company Menu</span>
+              </div>
+            </div>
+            <div className="sidebar-buttons">
+              <button onClick={() => setView('internships')}>View Internships</button>
+            </div>
           </div>
           <div className='main-content'>
             {view === 'internships' && (
