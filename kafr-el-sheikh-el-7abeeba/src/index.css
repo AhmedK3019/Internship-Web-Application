@@ -133,12 +133,12 @@ button:focus-visible {
 }
 
 .side-panel {
-  width: 300px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  gap: 1rem;
+  max-width: 400px;
   padding: 2rem;
+  margin: auto;
 }
 
 .message {
@@ -149,7 +149,8 @@ button:focus-visible {
 }
 
 .input,
-.select {
+.select,
+textarea {
   padding: 0.8rem;
   border-radius: 10px;
   border: 1px solid #0000ff;
@@ -157,7 +158,14 @@ button:focus-visible {
   color: #7ec8e3;
   min-width: 50%;
   max-width: 100%;
+  min-height: fit-content;
+  max-height: max-content;
+  resize: none;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.side-panel p {
+  margin: 0;
 }
 
 .custom-file-label {
@@ -231,10 +239,13 @@ button:focus-visible {
   font-size: 24px;
   color: #7ec8e3;
   min-width: 24px;
+  margin-left: 18px;
   text-align: center;
-  align-content: center;
-  justify-content: center;
-  transition: margin-right 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.sidebar:hover .menu-icon{
+  margin-left: 0px;
 }
 
 .menu-label {
@@ -262,6 +273,7 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-content: center;
   width: 100%;
 }
 
@@ -273,7 +285,6 @@ button:focus-visible {
   padding: 15px;
   text-align: center;
   font-size: 14px;
-  display: flex;
   align-items: center;
   cursor: pointer;
   opacity: 0;

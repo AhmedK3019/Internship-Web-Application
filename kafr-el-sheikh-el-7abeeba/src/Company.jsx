@@ -84,7 +84,7 @@ function Company({email}){
           <div className='main-content'>
             {view === 'internships' && (
             <>
-            <div className='form'>
+            <div className='side-panel'>
               <h2>Internship details</h2>
               <input
                 type="text"
@@ -93,8 +93,7 @@ function Company({email}){
                 value={newTitle}
                 onChange={handleTitleChange}
               />
-              <br />
-              <p>Duration </p>
+              <p>Duration</p>
               <select
                 className="select"
                 value={newDuration}
@@ -105,8 +104,7 @@ function Company({email}){
                 <option value="3 Months">3 Months</option>
                 <option value="6 Months">6 Months</option>
               </select>
-              <br />
-              <p>Payment </p>
+              <p>Payment</p>
               <select
                 className="select"
                 value={newPay}
@@ -115,10 +113,9 @@ function Company({email}){
                 <option value="Unpaid">Unpaid</option>
                 <option value="Paid">Paid</option>
               </select>
-              <br />
               {newPay === "Paid" && (
                 <>
-                <p>Payment </p>
+                <p>Expected Salary</p>
                 <input
                 type="number"
                 placeholder="Expected Salary"
@@ -128,21 +125,16 @@ function Company({email}){
                 />
                 </>
               )}
-              <br />
               <textarea
                 placeholder="Skills Required"
-                className="input"
                 value={skills}
                 onChange={handleSkillsChange}
                 />
-              <br />
               <textarea
                 placeholder="Internship Description"
-                className="input"
                 value={newDesc}
                 onChange={handleDescChange}
               />
-              <br />
               <button onClick={addInternship}>Add Internship</button>
               {message && <p className="message">{message}</p>}
             </div>
