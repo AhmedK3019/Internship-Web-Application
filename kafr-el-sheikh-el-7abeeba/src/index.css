@@ -197,7 +197,7 @@ button:focus-visible {
   }
 }
 
-/* Internship Listings Specific Styles */
+/* Internship Listings test maybe */
 .listings-container {
   max-width: auto;
   margin: 2rem auto;
@@ -265,34 +265,36 @@ button:focus-visible {
   font-weight: 300;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .internship-list {
-    grid-template-columns: 1fr;
-  }
-  
-  .listings-container {
-    padding: 0 1rem;
-  }
-  
-  .internship-card {
-    margin-bottom: 1rem;
-  }
+.search-wrapper {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
 }
 
-@media (prefers-color-scheme: light) {
-  .internship-card {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: #050a30;
-  }
-  
-  .internship-card h2,
-  .detail-value {
-    color: #050a30;
-  }
-  
-  .internship-card h3,
-  .detail-label {
-    color: #0000ff;
-  }
+.search-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  border: 2px solid #7EC8E3;
+  background: rgba(255, 255, 255, 0.9);
+  color: #050a30;
+  transition: all 0.3s ease;
 }
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(126, 200, 227, 0.5);
+}
+
+
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  background: none;
+  margin: 2rem auto;
+  color: #fdfdfd; 
+  font-size: 1.2rem;
+}
+
+
