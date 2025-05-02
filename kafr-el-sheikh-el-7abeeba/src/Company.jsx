@@ -71,12 +71,13 @@ function Company({email}){
     return (
         <div className="pageAlt">
           <div className="sidebar">
-            <h2>Company Menu</h2>
+            <h2 className='user-name'>Company Menu</h2>
             <button onClick={() => setView('internships')}>View Internships</button>
           </div>
-          <div className='side-panel'>
+          <div className='main-content'>
             {view === 'internships' && (
             <>
+            <div className='form'>
               <h2>Internship details</h2>
               <input
                 type="text"
@@ -86,6 +87,7 @@ function Company({email}){
                 onChange={handleTitleChange}
               />
               <br />
+              <p>Duration </p>
               <select
                 className="select"
                 value={newDuration}
@@ -97,6 +99,7 @@ function Company({email}){
                 <option value="6 Months">6 Months</option>
               </select>
               <br />
+              <p>Payment </p>
               <select
                 className="select"
                 value={newPay}
@@ -107,6 +110,8 @@ function Company({email}){
               </select>
               <br />
               {newPay === "Paid" && (
+                <>
+                <p>Payment </p>
                 <input
                 type="number"
                 placeholder="Expected Salary"
@@ -114,6 +119,7 @@ function Company({email}){
                 value={newSalary}
                 onChange={handleSalaryChange}
                 />
+                </>
               )}
               <br />
               <textarea
@@ -131,23 +137,23 @@ function Company({email}){
               />
               <br />
               <button onClick={addInternship}>Add Internship</button>
+              {message && <p className="message">{message}</p>}
+            </div>
+            <div className="content">
+              <h2>Your Internships</h2>
+              <ul>
+                {internships.map((intern) => (
+                   <li key={intern.id} style={{ marginTop: '10px', color: '#7EC8E3'}}>
+                   <strong>{intern.title}</strong>
+                    <p>{intern.desc.slice(0, 100)}...</p>
+                    <button onClick={() => deleteInternship(intern.id)}>Delete</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
             </>
             )}
           </div>
-          {view === 'internships' && (
-          <div className="content">
-            <h2>Your Internships</h2>
-            <ul>
-              {internships.map((intern) => (
-                <li key={intern.id} style={{ marginTop: '10px', color: '#7EC8E3'}}>
-                  <strong>{intern.title}</strong>
-                  <p>{intern.desc.slice(0, 100)}...</p>
-                  <button onClick={() => deleteInternship(intern.id)}>Delete</button>
-                </li>
-              ))}
-            </ul>
-          </div>
-          )}
         </div>
       );
 }

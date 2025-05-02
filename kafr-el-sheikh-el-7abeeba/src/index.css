@@ -189,9 +189,104 @@ button:focus-visible {
   font-size: 0.95rem;
 }
 
-.sidebar{
-  width: '200px';
-  padding: '20px';
+.sidebar {
+  width: 60px;
+  height: 100vh;
+  background-color: transparent;
+  position: fixed;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid blue;
+  left: 0;
+  top: 0;
+  transition: width 0.3s ease;
+  align-items: center;
+  overflow: hidden;
+}
+
+.sidebar:hover {
+  width: 220px;
+}
+
+.sidebar .user-profile {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.sidebar .user-profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.sidebar .user-name {
+  font-size: 16px;
+  color: #7ec8e3;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar:hover .user-name {
+  opacity: 1;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #a9abbf;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  width: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar ul li i.icon {
+  font-size: 24px;
+  width: 60px;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.text {
+  font-size: 16px;
+  margin-left: 10px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar:hover .text {
+  opacity: 1;
+}
+
+.sidebar ul li a:hover {
+  background-color: #4071f4;
+  color: #ffffff;
+}
+
+.main-content {
+  margin-left: 60px;
+  padding: 20px;
+  width: 100%;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar:hover ~ .main-content {
+  margin-left: 220px;
 }
 
 .hyperText{
@@ -218,7 +313,6 @@ button:focus-visible {
   }
 }
 
-/* Internship Listings test maybe */
 .listings-container {
   max-width: auto;
   margin: 2rem auto;
