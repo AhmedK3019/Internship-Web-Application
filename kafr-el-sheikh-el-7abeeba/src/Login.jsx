@@ -1,11 +1,37 @@
 import React, { useState } from 'react';
 import './index.css';
 
-function Login({ onRegisterClick , onLoginClick }) {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Student');
   const [message, setMessage] = useState('');
+  const [showRegister, setShowRegister] = useState(false);
+  const [showCompany, setShowCompany] = useState(false);
+  const [showStudent, setShowStudent] = useState(false);
+  const [showProStudent, setShowProStudent] = useState(false);
+  const [showSCAD, setShowSCAD] = useState(false);
+  const [showFaculty, setShowFaculty] = useState(false);
+
+  
+  function goToRegister() {
+    setShowRegister(true);
+    setShowCompany(false);
+  }
+  
+  function goToLogin() {
+    setShowRegister(false);
+    setShowCompany(false);
+  }
+  
+  function goToUserPage({email,role}) {
+    setEmail(email);
+    setRole(role);
+    switch(role){
+      case "Company" : setShowCompany(true); break;
+      default : break;
+    }
+  }
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -30,6 +56,20 @@ function Login({ onRegisterClick , onLoginClick }) {
   }
 
   return (
+    <>
+      {showRegister ? (
+        <Register onBack={goToLogin} />
+      ) : (showCompany ? (
+        <Company email={email} />
+      ) : (showStudent ? (
+        <Student email={email} />
+      ) : (showProStudent ? (
+        <ProStudent email={email} />
+      ) : (showSCAD ? (
+        <SCAD email={email} />
+      ) : (showFaculty ? (
+        <Faculty email={email} />
+      ) : (
     <div className='page'>
       <title>Login</title>
       <div className="content">  
@@ -76,7 +116,9 @@ function Login({ onRegisterClick , onLoginClick }) {
         </div>
       </div>
     </div>
-  );
+      ))))))}
+      </>
+    );
 };
 
 export default Login;
