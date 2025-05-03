@@ -384,12 +384,24 @@ textarea {
   min-width: 850px;
   border: 1px solid #7EC8E3;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
 }
 
 .internship-card:hover {
-  transform: translateY(-5px);
   box-shadow: 0 4px 15px rgba(126, 200, 227, 0.3);
 }
+.internship-card.selected {
+  max-height: 600px;
+  border: 2px solid #7EC8E3;
+}
+
+
+.expand-indicator {
+  color: #7EC8E3;
+  font-size: 1.2rem;
+  margin-top: -10px;
+}
+
 
 .internship-card h3 {
   color: #7EC8E3;
@@ -547,4 +559,3 @@ textarea {
 .dropdown-item:last-child {
   border-bottom: none;
 }
-

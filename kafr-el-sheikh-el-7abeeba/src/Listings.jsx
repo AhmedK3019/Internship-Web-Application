@@ -10,6 +10,7 @@ function Listings() {
     const [customDuration, setCustomDuration] = useState('');
     const [selectedPaid, setSelectedPaid] = useState('');
     const [customPaid, setCustomPaid] = useState('');
+    const [selectedInternship, setSelectedInternship] = useState(null);
 
     
     const dummyData = [
@@ -71,52 +72,52 @@ function Listings() {
     
     function handleIndustryChange(event) {
         setSelectedIndustry(event.target.value);
-        setCustomIndustry(''); // Clear custom input when selecting from dropdown
+        setCustomIndustry('');
     }
 
     function handleCustomIndustryChange(event) {
         setCustomIndustry(event.target.value);
-        setSelectedIndustry(''); // Clear dropdown selection when typing
+        setSelectedIndustry('');
     }
 
     function handleDurationChange(event) {
         setSelectedDuration(event.target.value);
-        setCustomDuration(''); // Clear custom input when selecting from dropdown
+        setCustomDuration(''); 
     }
 
     function handleCustomDurationChange(event) {
         setCustomDuration(event.target.value);
-        setSelectedDuration(''); // Clear dropdown selection when typing
+        setSelectedDuration(''); 
     }
 
     function handlePaidChange(event) {
         setSelectedPaid(event.target.value);
-        setCustomPaid(''); // Clear custom input when selecting from dropdown
+        setCustomPaid(''); 
     }
 
     function handleCustomPaidChange(event) {
         setCustomPaid(event.target.value);
-        setSelectedPaid(''); // Clear dropdown selection when typing
+        setSelectedPaid(''); 
     }
 
     const filteredData = dummyData.filter(internship => {
         const searchLower = searchQuery.toLowerCase();
         
-        // Search matches
+       
         const searchMatch = internship.title.toLowerCase().includes(searchLower) ||
                           internship.company.toLowerCase().includes(searchLower);
 
-        // Industry filter (dropdown or text)
+        
         const industryFilter = selectedIndustry || customIndustry;
         const industryMatch = industryFilter ?
             internship.industry.toLowerCase().includes(industryFilter.toLowerCase()) : true;
 
-        // Duration filter (dropdown or text)
+        
         const durationFilter = selectedDuration || customDuration;
         const durationMatch = durationFilter ?
             internship.duration.toLowerCase().includes(durationFilter.toLowerCase()) : true;
 
-        // Paid filter (dropdown or text)
+    
         const paidFilter = selectedPaid || customPaid;
         const paidMatch = paidFilter ? 
             internship.salary.toLowerCase().includes(paidFilter.toLowerCase()) ||
@@ -148,15 +149,15 @@ function Listings() {
                             style={{ marginTop: '10px' }}
                             onClick={() => setShowFilters(!showFilters)}
                         >
-                            {showFilters ? 'Filter' : 'Filter'}
+                            {showFilters ? 'Hide Filter' : 'Show Filter'}
                         </button>
                     </div>
 
-                    {/* Filter Row */}
+                    
                     {showFilters && (
 
                     <div className="filter-row">
-                        {/* Industry Filter */}
+                        
                         <div className="filter-group">
                             <label>Industry:</label>
                             <div className="filter-combo">
@@ -182,7 +183,7 @@ function Listings() {
                             </div>
                         </div>
 
-                        {/* Duration Filter */}
+                        
                         <div className="filter-group">
                             <label>Duration:</label>
                             <div className="filter-combo">
@@ -207,7 +208,7 @@ function Listings() {
                             </div>
                         </div>
 
-                        {/* Paid/Unpaid Filter */}
+                        
                         <div className="filter-group">
                             <label>Compensation:</label>
                             <div className="filter-combo">
@@ -244,11 +245,24 @@ function Listings() {
                         </div>
                     ) : (
                         filteredData.map((internship) => (
-                            <div key={internship.id} className="internship-card">
+                            <div 
+                                key={internship.id} 
+                                className={`internship-card ${selectedInternship === internship.id ? 'selected' : ''}`}
+                                onClick={() => {
+                                    if (selectedInternship === internship.id) {
+                                        setSelectedInternship(null); // Collapse if clicked again
+                                    } else {
+                                        setSelectedInternship(internship.id); // Expand if clicked
+                                    }
+                                }}>
                                 <div>
                                     <h2>{internship.title}</h2>
                                     <h3>{internship.company}</h3>
                                 </div>
+                                <div className="expand-indicator">
+                                    {selectedInternship === internship.id ? '▼' : '▶'}
+                                </div>
+                                {selectedInternship === internship.id && (
                                 <div className="details-grid">
                                     <div className="detail-item">
                                         <span className="detail-label">Duration:</span>
@@ -267,11 +281,13 @@ function Listings() {
                                             <span className="detail-label">Skills Required:</span>
                                             <span className="detail-value">{internship.skills?.join(", ") || "No specific skills required"}</span>
                                         </div>
+                                        <div className='detail-item'>
+                                            <span className="detail-label">Description:</span>
+                                        </div>
+                                            <p style={{color: 'white'}}> {internship.description}</p>
                                 </div>
-                                <div className='detail-item'>
-                                    <span className="detail-label">Description:</span>
-                                </div>
-                                    <p>{internship.description}</p>
+                            
+                                )}
                             </div>
                         ))
                     )}
