@@ -128,7 +128,6 @@ function Listings() {
     
     
     return (
-        <div className="page">
             <div className="listings-container">
                 <h1>
                     {searchQuery ? 
@@ -278,7 +277,6 @@ function Listings() {
                     )}
                 </div>
             </div>
-        </div>
     );
 }
 
