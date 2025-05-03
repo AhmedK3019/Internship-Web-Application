@@ -514,3 +514,32 @@ textarea {
   font-size: 0.9rem;
   font-weight: bold;
 }
+
+
+.dropdown {
+  background-color: #050a30;
+  color: #7ec8e3;
+  border: 1px solid #7ec8e3;
+  list-style: none;
+  margin-top: 10px;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 350px; /* limit width */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.dropdown-item {
+  border-bottom: 1px solid #7ec8e3;
+}
+
+.suggestion-button {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
