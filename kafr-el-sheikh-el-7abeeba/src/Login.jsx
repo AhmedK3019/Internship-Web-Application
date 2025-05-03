@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
 import './index.css';
+import Register from './Register';
+import Company from './Company';
+import SCAD from './SCAD';
+import Student from './Student';
+import ProStudent from './ProStudent';
+import Faculty from './Faculty';
+
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -13,24 +20,12 @@ function Login() {
   const [showSCAD, setShowSCAD] = useState(false);
   const [showFaculty, setShowFaculty] = useState(false);
 
-  
-  function goToRegister() {
-    setShowRegister(true);
-    setShowCompany(false);
-  }
-  
-  function goToLogin() {
+  function goToLogin(event){
     setShowRegister(false);
-    setShowCompany(false);
   }
-  
-  function goToUserPage({email,role}) {
-    setEmail(email);
-    setRole(role);
-    switch(role){
-      case "Company" : setShowCompany(true); break;
-      default : break;
-    }
+
+  function onRegisterClick(event){
+    setShowRegister(true);
   }
 
   function handleEmailChange(event) {
@@ -52,7 +47,14 @@ function Login() {
       return;
     }
     setMessage(`Logged in successfully as ${role} !`);
-    onLoginClick({email, role});
+    switch(role){
+      case "Company":setShowCompany(true);break;
+      case "Student":setShowStudent(true);break;
+      case "Pro Student":setShowProStudent(true);break;
+      case "SCAD Office Member":setShowSCAD(true);break;
+      case "Faculty Member":setShowFaculty(true);break;
+      default:break;
+    }
   }
 
   return (
