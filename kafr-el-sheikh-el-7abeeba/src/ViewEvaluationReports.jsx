@@ -8,7 +8,7 @@ function ViewEvaluationReports({ onViewEvaluationReports }) {
       <h2 className="section-subtitle">Evaluation Reports</h2>
       <p className="section-description">
       </p>
-      <button className="evaluations-button" onClick={onViewEvaluationReports}>
+      <button className="evaluationreports-button" onClick={onViewEvaluationReports}>
         View Evaluation Reports
       </button>
     </div>
