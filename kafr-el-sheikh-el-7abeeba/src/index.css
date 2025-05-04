@@ -406,6 +406,11 @@ textarea {
   grid-template-columns: repeat(1, minmax(300px, 1fr));
 }
 
+.internship-background{
+  display: flex;
+  background: radial-gradient(150% 125% at 10% 50%, #050a30 40%, #7EC8E3 80%);
+}
+
 .internship-card {
   background: rgba(5, 10, 48, 0.9);
   backdrop-filter: blur(10px);

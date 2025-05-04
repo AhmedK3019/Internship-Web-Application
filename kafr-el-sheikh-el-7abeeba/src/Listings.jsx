@@ -20,6 +20,7 @@ function Listings() {
       industry: "Technology",
       duration: "3 Months",
       location: "Cairo",
+      pay: "Paid",
       salary: "5000 EGP/month",
       description: "Work on cutting-edge React applications",
     },
@@ -30,6 +31,7 @@ function Listings() {
       industry: "Design",
       duration: "6 Months",
       location: "Remote",
+      pay: "Unpaid",
       salary: "Unpaid",
       skills: ["Figma", "Adobe XD"],
       description: "Design user interfaces for enterprise applications",
@@ -41,6 +43,7 @@ function Listings() {
       industry: "Design",
       duration: "6 Months",
       location: "Remote",
+      pay: "Unpaid",
       salary: "Unpaid",
       skills: ["Figma", "Adobe XD"],
       description: "Design user interfaces for enterprise applications",
@@ -50,8 +53,9 @@ function Listings() {
       company: "Data Analytics Co.",
       title: "Data Analyst Intern",
       industry: "Data Science",
-      duration: "4 Months",
+      duration: "1 Month",
       location: "Alexandria",
+      pay: "Paid",
       salary: "3000 EGP/month",
       skills: ["Python", "SQL"],
       description: "Analyze data and generate reports",
@@ -61,13 +65,19 @@ function Listings() {
       company: "Creative Minds",
       title: "Marketing Intern",
       industry: "Marketing",
-      duration: "2 Months",
+      duration: "3 Months",
       location: "Cairo",
+      pay: "Paid",
       salary: "2000 EGP/month",
       skills: ["Social Media", "Content Creation"],
       description: "Assist in marketing campaigns and social media management",
     },
   ];
+  const normalizedData = dummyData.map(internship => ({...internship,
+    salary: internship.pay.toLowerCase() === "unpaid" ? "Unpaid" : internship.salary
+  }));
+  
+
 
   function handleIndustryChange(event) {
     setSelectedIndustry(event.target.value);
@@ -99,7 +109,7 @@ function Listings() {
     setSelectedPaid("");
   }
 
-  const filteredData = dummyData.filter((internship) => {
+  const filteredData = normalizedData.filter((internship) => {
     const searchLower = searchQuery.toLowerCase();
 
     const searchMatch =
@@ -118,15 +128,14 @@ function Listings() {
 
     const paidFilter = selectedPaid || customPaid;
     const paidMatch = paidFilter
-      ? internship.salary.toLowerCase().includes(paidFilter.toLowerCase()) ||
-        (paidFilter.toLowerCase() === "paid" &&
-          internship.salary !== "Unpaid") ||
-        (paidFilter.toLowerCase() === "unpaid" &&
-          internship.salary === "Unpaid")
+      ? paidFilter.toLowerCase() === "paid" 
+      ? internship.pay.toLowerCase() === "paid"
+      : internship.pay.toLowerCase() === "unpaid"
       : true;
 
     return searchMatch && industryMatch && durationMatch && paidMatch;
   });
+  
 
   return (
     <div className="internship-background">
@@ -189,9 +198,9 @@ function Listings() {
                     onChange={handleDurationChange}
                   >
                     <option value="">Select Duration</option>
+                    <option value="1">1 Month</option>
                     <option value="3">3 Months</option>
                     <option value="6">6 Months</option>
-                    <option value="12">1 Year</option>
                   </select>
                   <span className="filter-or">OR</span>
                   <input
@@ -219,7 +228,7 @@ function Listings() {
                   <span className="filter-or">OR</span>
                   <input
                     type="text"
-                    placeholder="Type compensation..."
+                    placeholder="Type Paid/Unpaid..."
                     className="filter-input"
                     value={customPaid}
                     onChange={handleCustomPaidChange}
