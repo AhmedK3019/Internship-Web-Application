@@ -1,11 +1,32 @@
 import React, { useState } from 'react';
 import './index.css';
+import Register from './Register';
+import Company from './Company';
+import SCAD from './SCAD';
+import Student from './Student';
+import ProStudent from './ProStudent';
+import Faculty from './Faculty';
 
-function Login({ onRegisterClick , onLoginClick }) {
+
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Student');
   const [message, setMessage] = useState('');
+  const [showRegister, setShowRegister] = useState(false);
+  const [showCompany, setShowCompany] = useState(false);
+  const [showStudent, setShowStudent] = useState(false);
+  const [showProStudent, setShowProStudent] = useState(false);
+  const [showSCAD, setShowSCAD] = useState(false);
+  const [showFaculty, setShowFaculty] = useState(false);
+
+  function goToLogin(event){
+    setShowRegister(false);
+  }
+
+  function onRegisterClick(event){
+    setShowRegister(true);
+  }
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -26,10 +47,31 @@ function Login({ onRegisterClick , onLoginClick }) {
       return;
     }
     setMessage(`Logged in successfully as ${role} !`);
-    onLoginClick({email, role});
+    switch(role){
+      case "Company":setShowCompany(true);break;
+      case "Student":setShowStudent(true);break;
+      case "Pro Student":setShowProStudent(true);break;
+      case "SCAD Office Member":setShowSCAD(true);break;
+      case "Faculty Member":setShowFaculty(true);break;
+      default:break;
+    }
   }
 
   return (
+    <>
+      {showRegister ? (
+        <Register onBack={goToLogin} />
+      ) : (showCompany ? (
+        <Company email={email} />
+      ) : (showStudent ? (
+        <Student email={email} />
+      ) : (showProStudent ? (
+        <ProStudent email={email} />
+      ) : (showSCAD ? (
+        <SCAD email={email} />
+      ) : (showFaculty ? (
+        <Faculty email={email} />
+      ) : (
     <div className='page'>
       <title>Login</title>
       <div className="content">  
@@ -76,7 +118,9 @@ function Login({ onRegisterClick , onLoginClick }) {
         </div>
       </div>
     </div>
-  );
+      ))))))}
+      </>
+    );
 };
 
 export default Login;

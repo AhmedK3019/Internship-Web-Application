@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import './index.css';
 import CompanyInternships from './CompanyInternships';
+import Listings from './Listings'
 
 function Company({email}){
     const [view, setView] = useState('');
 
     return (
-        <div className="pageAlt">
+        <div className="page">
           <div className="sidebar">
             <div className='sidebar-header'>
               <div className="menu-wrapper">
@@ -15,12 +16,16 @@ function Company({email}){
               </div>
             </div>
             <div className="sidebar-buttons">
-              <button onClick={() => setView('internships')}>View Internships</button>
+              <button onClick={() => setView('internships')}>View my internships</button>
+              <button onClick={() => setView('listings')}>View all internships</button>
             </div>
           </div>
           <div className='main-content'>
             {view === 'internships' && (
               <CompanyInternships/>
+            )}
+            {view === 'listings' && (
+              <Listings/>
             )}
           </div>
         </div>
