@@ -129,6 +129,7 @@ function Listings() {
     
     
     return (
+        <div className='internship-background'>
             <div className="listings-container">
                 <h1>
                     {searchQuery ? 
@@ -250,9 +251,9 @@ function Listings() {
                                 className={`internship-card ${selectedInternship === internship.id ? 'selected' : ''}`}
                                 onClick={() => {
                                     if (selectedInternship === internship.id) {
-                                        setSelectedInternship(null); // Collapse if clicked again
+                                        setSelectedInternship(null);
                                     } else {
-                                        setSelectedInternship(internship.id); // Expand if clicked
+                                        setSelectedInternship(internship.id);
                                     }
                                 }}>
                                 <div>
@@ -262,12 +263,14 @@ function Listings() {
                                 <div className="expand-indicator">
                                     {selectedInternship === internship.id ? '▼' : '▶'}
                                 </div>
+                                    <div style={{borderBottom : '1px solid rgba(126, 200, 227, 0.2)'}}>
+                                    <h4 style={{ display: 'flex', justifyContent: 'space-between',fontWeight:"normal" }}>
+                                    <span style={{color: '#7EC8E3' }}>Duration:</span>
+                                    <span style={{color: 'white'}}>{internship.duration}</span>
+                                    </h4> 
+                                    </div>
                                 {selectedInternship === internship.id && (
                                 <div className="details-grid">
-                                    <div className="detail-item">
-                                        <span className="detail-label">Duration:</span>
-                                        <span className="detail-value">{internship.duration}</span>
-                                    </div>
                                     <div className="detail-item">
                                         <span className="detail-label">Location:</span>
                                         <span className="detail-value">{internship.location}</span>
@@ -292,6 +295,7 @@ function Listings() {
                         ))
                     )}
                 </div>
+            </div>
             </div>
     );
 }
