@@ -1,7 +1,7 @@
 import React from 'react';
-import GoogleImage from '../public/google.png';
-import SchneiderImage from '../public/schneider.jpg';
-import ElSewedyImage from '../public/elsewedy.png';
+import GoogleImage from '/google.png';
+import SchneiderImage from '/schneider.jpg';
+import ElSewedyImage from '/elsewedy.png';
 
 function Companies({ onBack }) {
   

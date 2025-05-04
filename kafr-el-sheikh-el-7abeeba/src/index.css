@@ -563,3 +563,380 @@ textarea {
 .dropdown-item:last-child {
   border-bottom: none;
 }
+.section-description{
+
+
+
+  font-size: 25px;
+
+
+  color: #000;
+
+
+}
+
+
+
+
+.SuggCompaniesButton{
+
+
+  font-size: 35px;
+
+
+}
+
+
+.content-container{
+
+
+  display: inline-block;
+
+
+}
+
+
+
+
+
+.student-container {
+
+
+  display: flex;
+
+
+  flex-direction: column;
+
+
+  width: 100%;
+
+
+  min-height: 100vh;
+
+
+  padding: 2rem;
+
+
+}
+
+
+
+
+
+.student-header {
+
+
+  text-align: center;
+
+
+  margin-bottom: 2rem;
+
+  width: 100%;
+
+
+
+}
+
+
+
+
+/* Companies Wrapper */
+
+
+.companies-wrapper {
+
+
+  width: 100%;
+
+
+  display: flex;
+
+
+  justify-content: center;
+
+
+}
+
+
+.section-subtitle{
+
+
+  font-size: 40px;
+
+
+}
+
+
+
+
+
+/* Companies Section */
+
+
+.companies-section {
+
+
+  display: flex;
+
+
+  flex-direction: column;
+
+
+  align-items: center;
+
+
+  max-width: 1400px;
+
+
+  width: 100%;
+
+
+  padding: 2rem;
+
+
+  background: #ffffff;
+
+
+  border-radius: 45px;
+
+
+  border: 8px solid #7EC8E3;
+
+
+}
+
+
+
+
+
+.companies-image {
+
+
+  max-width: 200px;
+
+
+  height: auto;
+
+
+  border-radius: 8px;
+
+
+  margin-bottom: 1.5rem;
+
+}
+
+
+
+.suggestion-button {
+
+
+  padding: 0.8rem 1.5rem;
+
+
+  background-color: #050a30;
+
+
+  color: #7EC8E3  ;
+
+
+  border: 2px solid #7EC8E3;
+
+
+  border-radius: 45px;
+
+
+  font-weight: bold;
+
+
+  cursor: pointer;
+
+
+  transition: all 0.3s ease;
+
+
+  margin: 1rem 0;
+
+
+  font-size: 20px;
+
+
+}
+
+
+
+
+
+.suggestion-button:hover {
+
+
+  background-color: #7EC8E3;
+
+
+  color: #ffffff;
+
+
+}
+
+
+
+
+
+.companies-description {
+
+
+  color: #7EC8E3;
+
+
+  text-align: center;
+
+
+  line-height: 1.6;
+
+
+}
+
+
+
+
+
+.companies-page{
+
+
+  display: inline-block;
+
+
+  width: 100%;
+
+
+}
+
+
+
+
+
+.box1{
+
+
+  float: left;
+
+
+}
+
+
+.box2{
+
+
+  float: right;
+
+
+  margin-right: 20px;
+
+
+}
+
+
+.CompanyText{
+
+
+  color: #ffffff;
+
+
+  font-size: 20px;
+
+
+  padding-top: 60px;
+
+
+  
+
+
+}
+
+
+
+
+
+.GoogleText{
+
+
+  margin-top: 30px;
+
+
+}
+
+
+
+
+
+.SchneiderText{
+
+
+  margin-left: 50px;
+
+
+}
+
+
+
+
+
+.ElSewedyText{
+
+
+  
+
+
+}
+
+
+.GoogleImage{
+
+
+  width: 400px;
+
+
+  float: left;
+
+}
+
+
+
+
+.SchneiderImage{
+
+
+  width: 200px;
+
+
+  float: right;
+
+
+  margin-left: 5px;
+
+}
+
+
+
+
+.ElSewedyImage{
+
+
+  width: 200px;
+
+
+  float: left;
+
+
+  margin-right: 20px;
+
+
+}
+
+
+
+
+.ElSewedyImage{
+  width: 200px;
+  float: left;
+  margin-right: 20px;
+}

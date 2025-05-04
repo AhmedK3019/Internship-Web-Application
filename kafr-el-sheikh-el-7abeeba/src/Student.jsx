@@ -1,10 +1,23 @@
 import React, { useState } from "react";
 import ViewSuggestedCompanies from "./ViewSuggestedCompanies";
+import Companies from "./Companies";
 import "./index.css";
 
 function Student({ email }) {
   const username = email.split("@")[0];
-  const [showSuggested, setSuggested] = useState(false);
+  const [showCompanies, setShowCompanies] = useState(false);
+  
+  const handleViewCompanies = () => {
+    setShowCompanies(true);
+  };
+  
+  const handleBack = () => {
+    setShowCompanies(false);
+  };
+
+  if (showCompanies) {
+    return <Companies onBack={handleBack} />;
+  }
 
   return (
     <div className="page">
@@ -12,15 +25,9 @@ function Student({ email }) {
         <header className="student-header">
           <h1>Welcome {username}</h1>
         </header>
-
-        <div className="companies-wrapper">
-          <button
-            className="suggestion-button"
-            onClick={() => setSuggested(!showSuggested)}
-          >
-            View Suggested Companies
-          </button>
-          {showSuggested && <ViewSuggestedCompanies />}
+        
+        <div>
+          <ViewSuggestedCompanies onViewCompanies={handleViewCompanies} />
         </div>
       </div>
     </div>
