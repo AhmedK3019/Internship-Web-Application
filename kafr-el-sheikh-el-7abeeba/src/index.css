@@ -738,3 +738,28 @@ textarea {
   float: left;
   margin-right: 20px;
 }
+
+.internshipreports-button {
+  padding: 0.8rem 1.5rem;
+  background-color: #050a30;
+  color: #7EC8E3;
+  border: 2px solid #7EC8E3;
+  border-radius: 45px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 1rem 0;
+  font-size: 20px;
+}
+.evaluationreports-button {
+  padding: 0.8rem 1.5rem;
+  background-color: #050a30;
+  color: #7EC8E3;
+  border: 2px solid #7EC8E3;
+  border-radius: 45px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 1rem 0;
+  font-size: 20px;
+}
