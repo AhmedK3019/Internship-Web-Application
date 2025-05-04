@@ -219,6 +219,27 @@ function CompanyInternships({ internships, setInternships }) {
                         <span className="detail-label">Description:</span>
                       </div>
                       <p style={{ color: "white" }}> {internship.desc}</p>
+                      <div className="detail-actions">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation(); // prevents collapsing
+                            deleteInternship(internship.id);
+                          }}
+                          className="delete-btn"
+                        >
+                          Delete
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation(); // prevents collapsing
+                            setShowAdd(true);
+                            setSelectedInternship(null);
+                          }}
+                          className="update-btn"
+                        >
+                          Update
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
