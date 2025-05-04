@@ -363,7 +363,10 @@ textarea {
     background-color: #f9f9f9;
   }
 }
-
+.internship-background{
+  display: flex;
+  background: radial-gradient(150% 125% at 10% 50%, #050a30 40%, #7EC8E3 80%);
+}
 .listings-container {
   align-items: center;
   max-width: fit-content;
