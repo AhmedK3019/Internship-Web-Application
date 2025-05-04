@@ -104,7 +104,7 @@ div button{
   background-color: transparent;
   color: #7EC8E3;
   font-weight: bold;
-  border: 1px solid blue;
+  border: 2px solid #535bf2;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -115,7 +115,7 @@ form button {
   background-color: transparent;
   color: #7EC8E3;
   font-weight: bold;
-  border: 1px solid blue;
+  border: 2px solid #535bf2;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -154,7 +154,7 @@ button:focus-visible {
 textarea {
   padding: 0.8rem;
   border-radius: 10px;
-  border: 1px solid #0000ff;
+  border: 2px solid #535bf2;
   background-color: #050a30;
   color: #7ec8e3;
   min-width: 50%;
@@ -175,7 +175,7 @@ textarea {
   color: #7ec8e3;
   font-weight: bold;
   padding: 0.6rem 1rem;
-  border: 1px solid blue;
+  border: 2px solid #535bf2;
   border-radius: 10px;
   cursor: pointer;
   margin-bottom: 1rem;
@@ -205,7 +205,7 @@ textarea {
   position: fixed;
   top: 0;
   left: 0;
-  border: 1px solid blue;
+  border: 2px solid #535bf2;
   border-radius: 10px;
   transition: width 0.3s ease;
   overflow: hidden;
@@ -365,6 +365,7 @@ textarea {
 }
 
 .listings-container {
+  align-items: center;
   max-width: fit-content;
   margin: 2rem auto;
   padding: 0 1rem;
@@ -400,6 +401,7 @@ textarea {
   color: #7EC8E3;
   font-size: 1.2rem;
   margin-top: -10px;
+  cursor: pointer;
 }
 
 
@@ -453,7 +455,7 @@ textarea {
   width: 100%;
   padding: 1rem;
   font-size: 1.1rem;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 2px solid #535bf2;
   background: transparent;
   color: #7EC8E3;
@@ -471,7 +473,7 @@ textarea {
   padding: 2rem;
   background: none;
   margin: 2rem auto;
-  color: #fdfdfd; 
+  color: #7EC8E3; 
   font-size: 1.2rem;
 }
 
@@ -491,7 +493,7 @@ textarea {
 .filter-group {
   background: transparent;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
   border-color: 2px solid #535bf2;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -520,9 +522,11 @@ textarea {
 }
 
 .filter-input {
-  flex: 1;
+  flex: 1;  
   padding: 0.5rem;
   border: 2px solid #535bf2;
+  background-color: transparent;
+  color: #7EC8E3;
   border-radius: 6px;
 }
 

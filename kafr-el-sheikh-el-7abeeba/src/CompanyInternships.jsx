@@ -1,140 +1,236 @@
-import React, { useState } from 'react';
-import './index.css';
+import React, { useState } from "react";
+import "./index.css";
+import CompanyAddInternship from "./CompanyAddInternship";
 
-function CompanyInternships(){
-        const [internships, setInternships] = useState([]);
-        const [newTitle, setNewTitle] = useState('');
-        const [newDuration, setNewDuration] = useState('Not Specified');
-        const [newPay, setNewPay] = useState('Unpaid');
-        const [newSalary, setNewSalary] = useState('');
-        const [skills, setSkills] = useState('');
-        const [newDesc, setNewDesc] = useState('');
-        const [message, setMessage] = useState('');
-    
-        function addInternship() {
-            if (!newTitle || !newDesc || !newDuration || !newPay || !skills || (newPay === 'Paid' && !newSalary)){
-                setMessage('Please fill in all fields.');
-                return;
-            } 
-            setInternships([...internships, {
-                id: Date.now(),
-                title: newTitle,
-                duration: newDuration,
-                pay: newPay,
-                salary: newSalary,
-                skills: skills, 
-                desc: newDesc}]);
-            setNewTitle('');
-            setNewDuration('Not Specified');
-            setNewPay('Unpaid');
-            setNewSalary('');
-            setSkills('');
-            setNewDesc('');
-        }
-    
-        function deleteInternship(id) {
-            setInternships(internships.filter(intern => intern.id !== id));
-        }
-    
-        function updateInternship(id, title, duration, pay, salary, skills, desc) {
-            const updated = internships.map(intern =>
-              intern.id === id ? { ...intern, title, duration, pay, salary, skills, desc } : intern
-            );
-            setInternships(updated);
-        }
-    
-        function handleTitleChange(event){
-          setNewTitle(event.target.value);
-        }
-    
-        function handleDurationChange(event){
-          setNewDuration(event.target.value);
-        }
-    
-        function handlePayChange(event){
-          setNewPay(event.target.value);
-        }
-    
-        function handleSalaryChange(event){
-          setNewSalary(event.target.value);
-        }
-    
-        function handleSkillsChange(event){
-          setSkills(event.target.value);
-        }
-    
-        function handleDescChange(event){
-          setNewDesc(event.target.value);
-        }
+function CompanyInternships({ internships, setInternships }) {
+  const [showAdd, setShowAdd] = useState(false);
+  const [message, setMessage] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedDuration, setSelectedDuration] = useState("");
+  const [customDuration, setCustomDuration] = useState("");
+  const [selectedPaid, setSelectedPaid] = useState("");
+  const [customPaid, setCustomPaid] = useState("");
+  const [selectedInternship, setSelectedInternship] = useState(null);
 
-    return(
-        <div className='side-panel'>
-              <h2>Internship details</h2>
+  function handleDurationChange(event) {
+    setSelectedDuration(event.target.value);
+    setCustomDuration("");
+  }
+
+  function handleCustomDurationChange(event) {
+    setCustomDuration(event.target.value);
+    setSelectedDuration("");
+  }
+
+  function handlePaidChange(event) {
+    setSelectedPaid(event.target.value);
+    setCustomPaid("");
+  }
+
+  function handleCustomPaidChange(event) {
+    setCustomPaid(event.target.value);
+    setSelectedPaid("");
+  }
+
+  function unShowAdd() {
+    setShowAdd(false);
+  }
+
+  function addInternship() {
+    setShowAdd(true);
+  }
+
+  function deleteInternship(id) {
+    setInternships(internships.filter((intern) => intern.id !== id));
+  }
+
+  function updateInternship(id, title, duration, pay, salary, skills, desc) {
+    const updated = internships.map((intern) =>
+      intern.id === id
+        ? { ...intern, title, duration, pay, salary, skills, desc }
+        : intern
+    );
+    setInternships(updated);
+  }
+
+  const filteredData = internships.filter((internship) => {
+    const searchLower = searchQuery.toLowerCase();
+
+    const searchMatch = internship.title.toLowerCase().includes(searchLower);
+
+    const durationFilter = selectedDuration || customDuration;
+    const durationMatch = durationFilter
+      ? internship.duration.toLowerCase().includes(durationFilter.toLowerCase())
+      : true;
+
+    const paidFilter = selectedPaid || customPaid;
+    const paidMatch = paidFilter
+      ? internship.salary.toLowerCase().includes(paidFilter.toLowerCase()) ||
+        (paidFilter.toLowerCase() === "paid" &&
+          internship.salary !== "Unpaid") ||
+        (paidFilter.toLowerCase() === "unpaid" &&
+          internship.salary === "Unpaid")
+      : true;
+
+    return searchMatch && durationMatch && paidMatch;
+  });
+
+  return (
+    <>
+      {showAdd ? (
+        <CompanyAddInternship
+          internships={internships}
+          unShowAdd={unShowAdd}
+          setInternships={setInternships}
+        />
+      ) : (
+        <div className="listings-container">
+          <h1>
+            {searchQuery
+              ? `Search Results for "${searchQuery}"`
+              : "Company Internship Opportunities"}
+          </h1>
+          <div className="filters-container">
+            <div className="search-filter-row">
               <input
                 type="text"
-                placeholder="Internship Title"
-                className="input"
-                value={newTitle}
-                onChange={handleTitleChange}
+                placeholder="Search by title..."
+                className="search-input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <p>Duration</p>
-              <select
-                className="select"
-                value={newDuration}
-                onChange={handleDurationChange}
+              <button
+                style={{ marginTop: "10px" }}
+                onClick={() => setShowFilters(!showFilters)}
               >
-                <option value="Not Specified">Not Specified</option>
-                <option value="1 Month">1 Month</option>
-                <option value="3 Months">3 Months</option>
-                <option value="6 Months">6 Months</option>
-              </select>
-              <p>Payment</p>
-              <select
-                className="select"
-                value={newPay}
-                onChange={handlePayChange}
+                {showFilters ? "Hide Filter" : "Show Filter"}
+              </button>
+              <button
+                style={{ marginTop: "10px", marginLeft: "10px" }}
+                onClick={addInternship}
               >
-                <option value="Unpaid">Unpaid</option>
-                <option value="Paid">Paid</option>
-              </select>
-              {newPay === "Paid" && (
-                <>
-                <p>Expected Salary</p>
-                <input
-                type="number"
-                placeholder="Expected Salary"
-                className="input"
-                value={newSalary}
-                onChange={handleSalaryChange}
-                />
-                </>
-              )}
-              <textarea
-                placeholder="Skills Required"
-                value={skills}
-                onChange={handleSkillsChange}
-                />
-              <textarea
-                placeholder="Internship Description"
-                value={newDesc}
-                onChange={handleDescChange}
-              />
-              <button onClick={addInternship}>Add Internship</button>
-              {message && <p className="message">{message}</p>}
-            <div className="content">
-              <h2>Your Internships</h2>
-              <ul>
-                {internships.map((intern) => (
-                   <li key={intern.id} style={{ marginTop: '10px', color: '#7EC8E3'}}>
-                   <strong>{intern.title}</strong>
-                    <p>{intern.desc.slice(0, 100)}...</p>
-                    <button onClick={() => deleteInternship(intern.id)}>Delete</button>
-                  </li>
-                ))}
-              </ul>
+                Add Internship
+              </button>
             </div>
+
+            {showFilters && (
+              <div className="filter-row">
+                <div className="filter-group">
+                  <label>Duration:</label>
+                  <div className="filter-combo">
+                    <select
+                      className="filter-select"
+                      value={selectedDuration}
+                      onChange={handleDurationChange}
+                    >
+                      <option value="">Select Duration</option>
+                      <option value="1">1 Month</option>
+                      <option value="3">3 Months</option>
+                      <option value="6">6 Months</option>
+                    </select>
+                    <span className="filter-or">OR</span>
+                    <input
+                      type="text"
+                      placeholder="Type duration..."
+                      className="filter-input"
+                      value={customDuration}
+                      onChange={handleCustomDurationChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="filter-group">
+                  <label>Compensation:</label>
+                  <div className="filter-combo">
+                    <select
+                      className="filter-select"
+                      value={selectedPaid}
+                      onChange={handlePaidChange}
+                    >
+                      <option value="">All Types</option>
+                      <option value="paid">Paid</option>
+                      <option value="unpaid">Unpaid</option>
+                    </select>
+                    <span className="filter-or">OR</span>
+                    <input
+                      type="text"
+                      placeholder="Type compensation..."
+                      className="filter-input"
+                      value={customPaid}
+                      onChange={handleCustomPaidChange}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="internship-list">
+            {filteredData.length === 0 ? (
+              <div className="no-results">
+                {searchQuery
+                  ? `No internships found for "${searchQuery}"`
+                  : "No internships currently available"}
+              </div>
+            ) : (
+              filteredData.map((internship) => (
+                <div
+                  key={internship.id}
+                  className={`internship-card ${
+                    selectedInternship === internship.id ? "selected" : ""
+                  }`}
+                  onClick={() => {
+                    if (selectedInternship === internship.id) {
+                      setSelectedInternship(null); // Collapse if clicked again
+                    } else {
+                      setSelectedInternship(internship.id); // Expand if clicked
+                    }
+                  }}
+                >
+                  <div>
+                    <h2>{internship.title}</h2>
+                  </div>
+                  <div className="expand-indicator">
+                    {selectedInternship === internship.id ? "▼" : "▶"}
+                  </div>
+                  {selectedInternship === internship.id && (
+                    <div className="details-grid">
+                      <div className="detail-item">
+                        <span className="detail-label">Duration:</span>
+                        <span className="detail-value">
+                          {internship.duration}
+                        </span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="detail-label">Compensation:</span>
+                        <span className="detail-value">
+                          {internship.salary
+                            ? internship.salary + " EGP/month"
+                            : internship.pay}
+                        </span>
+                      </div>
+
+                      <div className="detail-item">
+                        <span className="detail-label">Skills Required:</span>
+                        <span className="detail-value">
+                          {internship.skills || "No specific skills required"}
+                        </span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="detail-label">Description:</span>
+                      </div>
+                      <p style={{ color: "white" }}> {internship.desc}</p>
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
         </div>
-    );
+      )}
+    </>
+  );
 }
 
 export default CompanyInternships;
