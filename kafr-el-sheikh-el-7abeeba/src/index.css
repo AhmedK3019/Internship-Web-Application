@@ -137,7 +137,7 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 400px;
+  width: 30%;
   padding: 2rem;
   margin: auto;
 }
@@ -363,10 +363,7 @@ textarea {
     background-color: #f9f9f9;
   }
 }
-.internship-background{
-  display: flex;
-  background: radial-gradient(150% 125% at 10% 50%, #050a30 40%, #7EC8E3 80%);
-}
+
 .listings-container {
   align-items: center;
   max-width: fit-content;

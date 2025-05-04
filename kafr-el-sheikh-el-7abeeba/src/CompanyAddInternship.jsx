@@ -40,7 +40,7 @@ function CompanyAddInternship({ internships, unShowAdd, setInternships }) {
     setNewSalary("");
     setSkills("");
     setNewDesc("");
-    unShowAdd();
+    setMessage("Internship post added successfully.");
   }
 
   function handleTitleChange(event) {
@@ -116,6 +116,7 @@ function CompanyAddInternship({ internships, unShowAdd, setInternships }) {
         onChange={handleDescChange}
       />
       <button onClick={addInternship}>Add Internship</button>
+      <button onClick={unShowAdd}>Back to Dashboard</button>
       {message && <p className="message">{message}</p>}
     </div>
   );

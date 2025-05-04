@@ -67,17 +67,15 @@ function CompanyInternships({ internships, setInternships }) {
     const paidFilter = selectedPaid || customPaid;
     const paidMatch = paidFilter
       ? internship.salary.toLowerCase().includes(paidFilter.toLowerCase()) ||
-        (paidFilter.toLowerCase() === "paid" &&
-          internship.salary !== "Unpaid") ||
-        (paidFilter.toLowerCase() === "unpaid" &&
-          internship.salary === "Unpaid")
+        (paidFilter.toLowerCase() === "paid" && internship.pay === "Paid") ||
+        (paidFilter.toLowerCase() === "unpaid" && internship.pay === "Unpaid")
       : true;
 
     return searchMatch && durationMatch && paidMatch;
   });
 
   return (
-    <>
+    <div className="internship-background">
       {showAdd ? (
         <CompanyAddInternship
           internships={internships}
@@ -229,7 +227,7 @@ function CompanyInternships({ internships, setInternships }) {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
