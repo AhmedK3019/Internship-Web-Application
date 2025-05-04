@@ -263,11 +263,11 @@ function Listings() {
                                 <div className="expand-indicator">
                                     {selectedInternship === internship.id ? '▼' : '▶'}
                                 </div>
-                                    <div style={{borderBottom : '1px solid rgba(126, 200, 227, 0.2)'}}>
-                                    <h4 style={{ display: 'flex', justifyContent: 'space-between',fontWeight:"normal" }}>
-                                    <span style={{color: '#7EC8E3' }}>Duration:</span>
-                                    <span style={{color: 'white'}}>{internship.duration}</span>
-                                    </h4> 
+                                    <div style={{borderBottom : '1px solid rgba(126, 200, 227, 0.2)', padding:'0.5rem 0'}}>
+                                    <span style={{ display: 'flex', justifyContent: 'space-between',fontWeight:"normal" }}>
+                                    <span className="detail-label">Duration:</span>
+                                    <span className="detail-value">{internship.duration}</span>
+                                    </span> 
                                     </div>
                                 {selectedInternship === internship.id && (
                                 <div className="details-grid">
