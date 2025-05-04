@@ -39,7 +39,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 400px; 
+  max-width: 400px;
   padding: 2rem;
   margin: auto;
 }
@@ -49,6 +49,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
@@ -92,13 +93,13 @@ strong {
   color: #050a30;
 }
 
-.logo{
+.logo {
   font-size: 4.0em;
   font-family: 'Lakki Reddy';
   color: #7EC8E3;
 }
 
-div button{
+div button {
   padding: 0.8rem;
   border-radius: 10px;
   background-color: transparent;
@@ -119,9 +120,11 @@ form button {
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
 button:hover {
   background-color: #535bf2;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -183,7 +186,7 @@ textarea {
   transition: background-color 0.3s;
 }
 
-.custom-file-label:hover{
+.custom-file-label:hover {
   background-color: #535bf2;
 }
 
@@ -245,7 +248,7 @@ textarea {
   transition: all 0.3s ease;
 }
 
-.sidebar:hover .menu-icon{
+.sidebar:hover .menu-icon {
   margin-left: 0px;
 }
 
@@ -296,7 +299,7 @@ textarea {
   background-color: #535bf2;
 }
 
-.sidebar:hover .sidebar-buttons button{
+.sidebar:hover .sidebar-buttons button {
   opacity: 1;
 }
 
@@ -336,17 +339,17 @@ textarea {
   transition: margin-left 0.3s ease;
 }
 
-.sidebar:hover ~ .main-content {
+.sidebar:hover~.main-content {
   margin-left: 220px;
 }
 
-.hyperText{
+.hyperText {
   font-style: italic;
   cursor: pointer;
   text-decoration: none;
 }
 
-.hyperText:hover{
+.hyperText:hover {
   color: blue;
   text-decoration: underline;
 }
@@ -380,9 +383,11 @@ textarea {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
@@ -408,13 +413,14 @@ textarea {
   padding: 1.5rem;
   min-width: 850px;
   border: 1px solid #7EC8E3;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, -shadow 0.3s ease;
   overflow: hidden;
 }
 
 .internship-card:hover {
   box-shadow: 0 4px 15px rgba(126, 200, 227, 0.3);
 }
+
 .internship-card.selected {
   max-height: 600px;
   border: 2px solid #7EC8E3;
@@ -497,7 +503,7 @@ textarea {
   padding: 2rem;
   background: none;
   margin: 2rem auto;
-  color: #7EC8E3; 
+  color: #7EC8E3;
   font-size: 1.2rem;
 }
 
@@ -519,7 +525,7 @@ textarea {
   padding: 1rem;
   border-radius: 10px;
   border-color: 2px solid #535bf2;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .filter-group label {
@@ -546,7 +552,7 @@ textarea {
 }
 
 .filter-input {
-  flex: 1;  
+  flex: 1;
   padding: 0.5rem;
   border: 2px solid #535bf2;
   background-color: transparent;
@@ -571,8 +577,8 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 8px;
   width: 100%;
-  max-width: 350px; 
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  max-width: 350px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown-item {
@@ -587,379 +593,142 @@ textarea {
 .dropdown-item:last-child {
   border-bottom: none;
 }
-.section-description{
 
-
-
+.section-description {
   font-size: 25px;
-
-
   color: #000;
-
-
 }
 
-
-
-
-.SuggCompaniesButton{
-
-
+.SuggCompaniesButton {
   font-size: 35px;
-
-
 }
 
-
-.content-container{
-
-
+.content-container {
   display: inline-block;
-
-
 }
-
-
-
-
 
 .student-container {
-
-
   display: flex;
-
-
   flex-direction: column;
-
-
   width: 100%;
-
-
   min-height: 100vh;
-
-
   padding: 2rem;
-
-
 }
-
-
-
-
 
 .student-header {
-
-
   text-align: center;
-
-
   margin-bottom: 2rem;
-
   width: 100%;
-
-
-
 }
-
-
-
-
-/* Companies Wrapper */
-
 
 .companies-wrapper {
-
-
   width: 100%;
-
-
   display: flex;
-
-
   justify-content: center;
-
-
 }
 
-
-.section-subtitle{
-
-
+.section-subtitle {
   font-size: 40px;
-
-
 }
-
-
-
-
-
-/* Companies Section */
-
 
 .companies-section {
-
-
   display: flex;
-
-
   flex-direction: column;
-
-
   align-items: center;
-
-
   max-width: 1400px;
-
-
   width: 100%;
-
-
   padding: 2rem;
-
-
   background: #ffffff;
-
-
   border-radius: 45px;
-
-
   border: 8px solid #7EC8E3;
-
-
 }
-
-
-
-
 
 .companies-image {
-
-
   max-width: 200px;
-
-
   height: auto;
-
-
   border-radius: 8px;
-
-
   margin-bottom: 1.5rem;
-
 }
-
-
 
 .suggestion-button {
-
-
   padding: 0.8rem 1.5rem;
-
-
   background-color: #050a30;
-
-
-  color: #7EC8E3  ;
-
-
+  color: #7EC8E3;
   border: 2px solid #7EC8E3;
-
-
   border-radius: 45px;
-
-
   font-weight: bold;
-
-
   cursor: pointer;
-
-
   transition: all 0.3s ease;
-
-
   margin: 1rem 0;
-
-
   font-size: 20px;
-
-
 }
-
-
-
-
 
 .suggestion-button:hover {
-
-
   background-color: #7EC8E3;
-
-
   color: #ffffff;
-
-
 }
-
-
-
-
 
 .companies-description {
-
-
   color: #7EC8E3;
-
-
   text-align: center;
-
-
   line-height: 1.6;
-
-
 }
 
-
-
-
-
-.companies-page{
-
-
+.companies-page {
   display: inline-block;
-
-
   width: 100%;
-
-
 }
 
-
-
-
-
-.box1{
-
-
+.box1 {
   float: left;
-
-
 }
 
-
-.box2{
-
-
+.box2 {
   float: right;
-
-
   margin-right: 20px;
-
-
 }
 
+.box3{
+  float: left;
+  margin-left: 30px;
+  margin-bottom: 20px;
+}
 
-.CompanyText{
-
-
+.CompanyText {
   color: #ffffff;
-
-
   font-size: 20px;
-
-
   padding-top: 60px;
-
-
-  
-
-
 }
-
-
-
-
-
-.GoogleText{
-
-
+.GoogleText {
   margin-top: 30px;
-
-
 }
 
-
-
-
-
-.SchneiderText{
-
-
+.SchneiderText {
   margin-left: 50px;
-
-
 }
 
-
-
-
-
-.ElSewedyText{
-
-
-  
-
-
+.ElSewedyText {
+  margin-left: 20px;
 }
 
-
-.GoogleImage{
-
-
+.GoogleImage {
   width: 400px;
-
-
   float: left;
-
 }
 
-
-
-
-.SchneiderImage{
-
-
+.SchneiderImage {
   width: 200px;
-
-
   float: right;
-
-
   margin-left: 5px;
-
 }
 
-
-
-
-.ElSewedyImage{
-
-
+.ElSewedyImage {
   width: 200px;
-
-
   float: left;
-
-
   margin-right: 20px;
-
-
 }
 
-
-
-
-.ElSewedyImage{
+.ElSewedyImage {
   width: 200px;
   float: left;
   margin-right: 20px;
