@@ -1,9 +1,10 @@
-import React from 'react';
-import ViewSuggestedCompanies from './ViewSuggestedCompanies';
-import './index.css';
+import React, { useState } from "react";
+import ViewSuggestedCompanies from "./ViewSuggestedCompanies";
+import "./index.css";
 
-function Student({ email, onViewCompanies }) {
-  const username = email.split('@')[0];
+function Student({ email }) {
+  const username = email.split("@")[0];
+  const [showSuggested, setSuggested] = useState(false);
 
   return (
     <div className="page">
@@ -13,11 +14,17 @@ function Student({ email, onViewCompanies }) {
         </header>
 
         <div className="companies-wrapper">
-          <ViewSuggestedCompanies onViewCompanies={onViewCompanies} />
+          <button
+            className="suggestion-button"
+            onClick={() => setSuggested(!showSuggested)}
+          >
+            View Suggested Companies
+          </button>
+          {showSuggested && <ViewSuggestedCompanies />}
         </div>
       </div>
     </div>
   );
 }
 
-export default Student; 
+export default Student;
