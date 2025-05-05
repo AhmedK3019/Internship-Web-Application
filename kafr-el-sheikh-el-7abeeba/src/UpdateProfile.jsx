@@ -19,10 +19,9 @@ function UpdateProfile({ onBackUpdate }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send data to backend
     console.log('Form submitted:', formData);
     setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000); // Hide after 3 seconds
+    setTimeout(() => setShowSuccess(false), 3000);
   };
 
   return (
