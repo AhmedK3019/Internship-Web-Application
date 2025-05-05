@@ -3,6 +3,7 @@ import "./index.css";
 import CompanyInternships from "./CompanyInternships";
 import Listings from "./Listings";
 import CompanyAllApplications from "./CompanyAllApplications";
+import CompanyInterns from "./CompanyInterns";
 
 function Company({ email }) {
   const [view, setView] = useState("");
@@ -16,6 +17,10 @@ function Company({ email }) {
       internship: "Software Engineer Intern",
       status: "Pending",
       internProgress: "Not Started",
+      supervisor: "",
+      startDate: "",
+      endDate: "",
+      evaluation: "",
     },
     {
       id: 2,
@@ -25,6 +30,10 @@ function Company({ email }) {
       internship: "Data Analyst Intern",
       status: "Pending",
       internProgress: "Not Started",
+      supervisor: "",
+      startDate: "",
+      endDate: "",
+      evaluation: "",
     },
     {
       id: 3,
@@ -34,6 +43,10 @@ function Company({ email }) {
       internship: "Web Developer Intern",
       status: "Pending",
       internProgress: "Not Started",
+      supervisor: "",
+      startDate: "",
+      endDate: "",
+      evaluation: "",
     },
     {
       id: 4,
@@ -43,6 +56,10 @@ function Company({ email }) {
       internship: "UX/UI Designer Intern",
       status: "Pending",
       internProgress: "Not Started",
+      supervisor: "",
+      startDate: "",
+      endDate: "",
+      evaluation: "",
     },
     {
       id: 5,
@@ -52,8 +69,56 @@ function Company({ email }) {
       internship: "Software Engineer Intern",
       status: "Pending",
       internProgress: "Not Started",
+      supervisor: "",
+      startDate: "",
+      endDate: "",
+      evaluation: "",
     },
   ]);
+
+  function handleSupervisorChange(appId, newSupervisor) {
+    setApplications(
+      applications.map((app) => {
+        if (app.id === appId) {
+          return { ...app, supervisor: newSupervisor };
+        }
+        return app;
+      })
+    );
+  }
+
+  function handleStartDateChange(appId, newStartDate) {
+    setApplications(
+      applications.map((app) => {
+        if (app.id === appId) {
+          return { ...app, startDate: newStartDate };
+        }
+        return app;
+      })
+    );
+  }
+
+  function handleEndDateChange(appId, newEndDate) {
+    setApplications(
+      applications.map((app) => {
+        if (app.id === appId) {
+          return { ...app, endDate: newEndDate };
+        }
+        return app;
+      })
+    );
+  }
+
+  function handleEvaluationChange(appId, newEvaluation) {
+    setApplications(
+      applications.map((app) => {
+        if (app.id === appId) {
+          return { ...app, evaluation: newEvaluation };
+        }
+        return app;
+      })
+    );
+  }
 
   function handleStatusChange(appId, newStatus) {
     setApplications(
@@ -96,6 +161,7 @@ function Company({ email }) {
           <button onClick={() => setView("applications")}>
             View all applications
           </button>
+          <button onClick={() => setView("interns")}>View all interns</button>
         </div>
       </div>
       <div className="main-content">
@@ -111,6 +177,15 @@ function Company({ email }) {
             applications={applications}
             handleStatusChange={handleStatusChange}
             handleInternProgressChange={handleInternProgressChange}
+          />
+        )}
+        {view === "interns" && (
+          <CompanyInterns
+            applications={applications}
+            handleSupervisorChange={handleSupervisorChange}
+            handelStartDateChange={handleStartDateChange}
+            handleEndDateChange={handleEndDateChange}
+            handleEvaluationChange={handleEvaluationChange}
           />
         )}
       </div>

@@ -123,37 +123,50 @@ function CompanyAllApplications({
                       <span className="detail-value">{app.status}</span>
                     </div>
                     <div className="detail-actions">
-                      <select
-                        value={app.status}
-                        className="select"
-                        onClick={(e) => e.stopPropagation()}
-                        onChange={(e) => {
-                          e.stopPropagation();
-                          handleStatusChange(app.id, e.target.value);
-                        }}
-                      >
-                        <option value="Pending">Pending</option>
-                        <option value="Finalized">Finalized</option>
-                        <option value="Accepted">Accepted</option>
-                        <option value="Rejected">Rejected</option>
-                      </select>
-
-                      {app.status === "Accepted" && (
+                      <div className="select-container">
+                        <label className="select-label">Status:</label>
                         <select
-                          value={app.internProgress}
-                          className="select"
+                          value={app.status}
+                          className="custom-select"
                           onClick={(e) => e.stopPropagation()}
                           onChange={(e) => {
                             e.stopPropagation();
-                            handleInternProgressChange(app.id, e.target.value);
+                            handleStatusChange(app.id, e.target.value);
                           }}
                         >
-                          <option value="Not Started">Did not start</option>
-                          <option value="Current Intern">Current Intern</option>
-                          <option value="Internship Completed">
-                            Internship Completed
-                          </option>
+                          <option value="Pending">Pending</option>
+                          <option value="Finalized">Finalized</option>
+                          <option value="Accepted">Accepted</option>
+                          <option value="Rejected">Rejected</option>
                         </select>
+                      </div>
+
+                      {app.status === "Accepted" && (
+                        <div className="select-container">
+                          <label className="select-label">
+                            Intern Progress:
+                          </label>
+                          <select
+                            value={app.internProgress}
+                            className="custom-select"
+                            onClick={(e) => e.stopPropagation()}
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              handleInternProgressChange(
+                                app.id,
+                                e.target.value
+                              );
+                            }}
+                          >
+                            <option value="Not Started">Did not start</option>
+                            <option value="Current Intern">
+                              Current Intern
+                            </option>
+                            <option value="Internship Completed">
+                              Internship Completed
+                            </option>
+                          </select>
+                        </div>
                       )}
                     </div>
                   </div>

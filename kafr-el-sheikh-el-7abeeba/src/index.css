@@ -1027,58 +1027,41 @@ textarea {
   margin-bottom: 0.5rem;
 }
 
-.report-item-header h4 {
-  color: white;
-  margin: 0;
-}
-
-.report-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.edit-button, .download-button, .delete-button {
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  border: none;
-  cursor: pointer;
-}
-
-.edit-button {
-  background-color: #535bf2;
-  color: white;
-}
-
-.download-button {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.delete-button {
-  background-color: #f44336;
-  color: white;
-}
-
-.report-courses {
-  color: #7EC8E3;
-  margin: 0;
-  font-size: 0.9rem;
-}
-
 @media (max-width: 768px) {
-  .report-item-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5rem;
+  .report-submission-container {
+      padding: 1rem;
   }
   
-  .report-actions {
-      width: 100%;
-      justify-content: flex-end;
-  }
-  
-  .courses-checkbox-group {
-      grid-template-columns: 1fr;
+  .report-submission-title {
+      font-size: 1.8rem;
   }
 }
+
+.select-label {
+  color: #7EC8E3;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.select-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.custom-select {
+  border-radius: 10px;
+  border: 2px solid #535bf2;
+  background-color: #050a30;
+  color: #7ec8e3;
+  max-width: 100%;
+  min-height: fit-content;
+  max-height: max-content;
+  resize: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  padding: 8px 12px;
+  min-width: 180px;
+  transition: all 0.2s ease;
+}
+
