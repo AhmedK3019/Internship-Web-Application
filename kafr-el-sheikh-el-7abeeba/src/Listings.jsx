@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./index.css";
 
-function Listings({ showApplyButton = false, onApply = () => {} }) {
+function Listings({ showApplyButton = false, onApply = () => { }, appliedInternships = [] }) {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
@@ -74,10 +74,11 @@ function Listings({ showApplyButton = false, onApply = () => {} }) {
       description: "Assist in marketing campaigns and social media management",
     },
   ];
-  const normalizedData = dummyData.map(internship => ({...internship,
+  const normalizedData = dummyData.map(internship => ({
+    ...internship,
     salary: internship.pay.toLowerCase() === "unpaid" ? "Unpaid" : internship.salary
   }));
-  
+
 
 
   function handleIndustryChange(event) {
@@ -129,14 +130,14 @@ function Listings({ showApplyButton = false, onApply = () => {} }) {
 
     const paidFilter = selectedPaid || customPaid;
     const paidMatch = paidFilter
-      ? paidFilter.toLowerCase() === "paid" 
-      ? internship.pay.toLowerCase() === "paid"
-      : internship.pay.toLowerCase() === "unpaid"
+      ? paidFilter.toLowerCase() === "paid"
+        ? internship.pay.toLowerCase() === "paid"
+        : internship.pay.toLowerCase() === "unpaid"
       : true;
 
     return searchMatch && industryMatch && durationMatch && paidMatch;
   });
-  
+
 
   return (
     <div className="internship-background">
@@ -251,9 +252,8 @@ function Listings({ showApplyButton = false, onApply = () => {} }) {
             filteredData.map((internship) => (
               <div
                 key={internship.id}
-                className={`internship-card ${
-                  selectedInternship === internship.id ? "selected" : ""
-                }`}
+                className={`internship-card ${selectedInternship === internship.id ? "selected" : ""
+                  }`}
                 onClick={() => {
                   if (selectedInternship === internship.id) {
                     setSelectedInternship(null);
@@ -311,12 +311,24 @@ function Listings({ showApplyButton = false, onApply = () => {} }) {
                     </div>
                     <p style={{ color: "white" }}> {internship.description}</p>
                     {showApplyButton && (
-                    <button 
-                      className="apply-button"
-                      onClick={() => onApply(internship)}
-                    >
-                      Apply
-                    </button>
+                      appliedInternships.includes(internship.id) ? (
+                        <button
+                          className="apply-button"
+                          style={{ backgroundColor: '#4CAF50', cursor: 'not-allowed' }}
+                          disabled
+                        >
+                          ✓ Applied
+                        </button>
+                      ) : (
+                        <button
+                          className="apply-button"
+                          onClick={(e) => {
+                            onApply(internship);
+                          }}
+                        >
+                          Apply
+                        </button>
+                      )
                     )}
                   </div>
                 )}
