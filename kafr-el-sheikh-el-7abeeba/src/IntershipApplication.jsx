@@ -1,241 +1,212 @@
 import React, { useState } from "react";
 import "./index.css";
 
-function InternshipApplication({ internship, onBack }) {
-  const [files, setFiles] = useState({
-    cv: null,
-    coverLetter: null,
-    certificates: null,
-    otherDocuments: []
-  });
-  
-  const [applicantInfo, setApplicantInfo] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    university: '',
-    major: '',
-    yearOfStudy: ''
-  });
+function InternshipApplication({ internship, onBack, onApplySuccess }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [university, setUniversity] = useState("");
+  const [major, setMajor] = useState("");
+  const [yearOfStudy, setYearOfStudy] = useState("");
+  const [resume, setResume] = useState(null);
+  const [certificates, setCertificates] = useState([]);
+  const [coverLetter, setCoverLetter] = useState(null);
+  const [resumePreview, setResumePreview] = useState(null);
+  const [message, setMessage] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
-  const [submissionStatus, setSubmissionStatus] = useState(null);
+  function handleNameChange(event) {
+    setName(event.target.value);
+  }
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+  }
+  function handlePhoneChange(event) {
+    setPhone(event.target.value);
+  }
+  function handleUniversityChange(event) {
+    setUniversity(event.target.value);
+  }
+  function handleMajorChange(event) {
+    setMajor(event.target.value);
+  }
+  function handleYearOfStudyChange(event) {
+    setYearOfStudy(event.target.value);
+  }
 
-  const handleFileChange = (field) => (e) => {
-    if (field === 'otherDocuments') {
-      setFiles(prev => ({
-        ...prev,
-        otherDocuments: [...e.target.files]
-      }));
-    } else {
-      setFiles(prev => ({
-        ...prev,
-        [field]: e.target.files[0]
-      }));
+  function handleResumeChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      setResume(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setResumePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
-  };
+  }
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setApplicantInfo(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  function handleCertificatesChange(event) {
+    const files = Array.from(event.target.files);
+    setCertificates(files);
+  }
 
-  const handleSubmit = (e) => {
+  function handleCoverLetterChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      setCoverLetter(file);
+    }
+  }
+
+  function handleSubmit(e) {
     e.preventDefault();
-    if (!files.cv || !applicantInfo.name || !applicantInfo.email) {
+    if (!name || !email || !university || !major || !resume) {
+      setMessage("Please fill in all required fields.");
       return;
     }
-    
-    // Prepare application data
-    const applicationData = {
-      internship,
-      applicantInfo,
-      files
-    };
-    
-    console.log("Submitting application:", applicationData);
-    
-    // Simulate API call
+
+    setSubmitted(true);
     setTimeout(() => {
-      setSubmissionStatus("success");
-    }, 1500);
-  };
+      onApplySuccess();
+    }, 2000);
+  }
 
   return (
-    <div className="internship-background">
-      <div className="listings-container">
-        <h1>Apply for {internship?.title || "Internship"}</h1>
-        
-        <div className="report-submission-card">
-          <h2 className="discover-title">
-            {internship?.company} - {internship?.title}
-          </h2>
-          
-          <div className="submission-guidelines">
-            <h3>Application Requirements</h3>
-            <ul>
-              <li>Complete your personal information</li>
-              <li>Upload your CV (required)</li>
-              <li>Cover letter (recommended)</li>
-              <li>Any relevant certificates</li>
-            </ul>
+    <div className="page">
+      <div className="content">
+        {submitted ? (
+          <div className="message">
+            Application submitted successfully! Redirecting...
           </div>
-          
-          <form onSubmit={handleSubmit}>
-            {/* Personal Information Section */}
-            
-              <div className="content">
-              <h3>Personal Information</h3>
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    className="input"
-                    value={applicantInfo.name}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="input"
-                    value={applicantInfo.email}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <input
-                    type="tel"
-                    name="phone"
-                    className="input"
-                    placeholder="Phone Number"
-                    value={applicantInfo.phone}
-                    onChange={handleInputChange}
-                  />
-            </div>
-            <div className="form-section">
-              <h3 className="section-title">Education Information</h3>
-              
-              <div className="form-row">
-                <div className="form-group">
-                  <input
-                    type="text"
-                    placeholder="University"
-                    className="input"
-                    value={applicantInfo.university}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <select
-                    name="yearOfStudy"
-                    value={applicantInfo.yearOfStudy}
-                    onChange={handleInputChange}
-                    className="select"
-                  >
-                    <option value="">Year of Study</option>
-                    <option value="Freshman">Freshman</option>
-                    <option value="Sophomore">Sophomore</option>
-                    <option value="Junior">Junior</option>
-                    <option value="Senior">Senior</option>
-                    <option value="Graduate">Graduate</option>
-                  </select>
-                </div>
+        ) : (
+          <div>
+            <form onSubmit={handleSubmit}>
+              <h2>Apply for {internship?.title || "Internship"}</h2>
+
+              <div className="submission-guidelines" style={{ marginBottom: "2rem" }}>
+                <h3>Application Requirements</h3>
+                <ul>
+                  <li>Complete your personal information</li>
+                  <li>Upload your CV (required)</li>
+                  <li>Cover letter (recommended)</li>
+                  <li>Any relevant certificates</li>
+                </ul>
               </div>
-              
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="major"
-                  placeholder="Major"
-                  value={applicantInfo.major}
-                  onChange={handleInputChange}
-                  className="form-input"
-                />
-              </div>
-            </div>
-            
-            <div className="form-section">
-              <h3 className="section-title">Documents</h3>
-              
-        
-              <div className="form-group">
-                <label className="file-upload-label">
-                  {files.cv ? files.cv.name : "Upload CV (Required)"}
-                  <input 
-                    type="file" 
-                    className="file-input" 
-                    onChange={handleFileChange('cv')}
-                    required
-                  />
-                </label>
-              </div>
-              
-              
-              <div className="form-group">
-                <label className="file-upload-label">
-                  {files.coverLetter ? files.coverLetter.name : "Upload Cover Letter (Optional)"}
-                  <input 
-                    type="file" 
-                    className="file-input" 
-                    onChange={handleFileChange('coverLetter')}
-                  />
-                </label>
-              </div>
-              
-            
-              <div className="form-group">
-                <label className="file-upload-label">
-                  {files.certificates ? files.certificates.name : "Upload Certificates (Optional)"}
-                  <input 
-                    type="file" 
-                    className="file-input" 
-                    onChange={handleFileChange('certificates')}
-                  />
-                </label>
-              </div>
-              
-             
-              <div className="form-group">
-                <label className="file-upload-label">
-                  {files.otherDocuments.length > 0 
-                    ? `${files.otherDocuments.length} additional files selected` 
-                    : "Upload Other Documents (Optional)"}
-                  <input 
-                    type="file" 
-                    className="file-input" 
-                    onChange={handleFileChange('otherDocuments')}
-                    multiple
-                  />
-                </label>
-              </div>
-            </div>
-            
-            <div className="form-actions">
-              <button 
-                type="submit" 
-                className="submit-button"
-                disabled={!files.cv || !applicantInfo.name || !applicantInfo.email}
+
+              {/* Personal Information */}
+              <input
+                type="text"
+                placeholder="Full Name"
+                className="input"
+                value={name}
+                onChange={handleNameChange}
+                required
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                className="input"
+                value={email}
+                onChange={handleEmailChange}
+                required
+              />
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                className="input"
+                value={phone}
+                onChange={handlePhoneChange}
+              />
+
+              {/* Education Information */}
+              <input
+                type="text"
+                placeholder="University"
+                className="input"
+                value={university}
+                onChange={handleUniversityChange}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Major"
+                className="input"
+                value={major}
+                onChange={handleMajorChange}
+                required
+              />
+              <select
+                className="select"
+                value={yearOfStudy}
+                onChange={handleYearOfStudyChange}
               >
-                Submit Application
-              </button>
-            </div>
-            
-            {submissionStatus === "success" && (
-              <div className="success-message">
-                <p>Your application has been submitted successfully!</p>
-                <button 
-                  onClick={onBack}
+                <option value="">Year of Study</option>
+                <option value="Freshman">Freshman</option>
+                <option value="Sophomore">Sophomore</option>
+                <option value="Junior">Junior</option>
+                <option value="Senior">Senior</option>
+                <option value="Graduate">Graduate</option>
+              </select>
+
+              {/* Documents */}
+              <label className="custom-file-label">
+                Upload Resume (Required)
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={handleResumeChange}
+                  required
+                />
+              </label>
+              {resume && (
+                <div className="upload-indicator">
+                  ✅ {resume.name}
+                </div>
+              )}
+
+              <label className="custom-file-label">
+                Upload Cover Letter (Optional)
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={handleCoverLetterChange}
+                />
+              </label>
+              {coverLetter && (
+                <div className="upload-indicator">
+                  ✅ {coverLetter.name}
+                </div>
+              )}
+
+              <label className="custom-file-label">
+                Upload Certificates (Optional)
+                <input
+                  type="file"
+                  accept="application/pdf,image/*"
+                  multiple
+                  onChange={handleCertificatesChange}
+                />
+              </label>
+              {certificates.length > 0 && (
+                <div className="upload-indicator">
+                  ✅ {certificates.length} file(s) selected
+                </div>
+              )}
+
+              <div className="detail-actions">
+                <button
+                  type="submit"
                   className="submit-button"
-                  style={{ marginTop: '1rem' }}
+                  disabled={!name || !email || !university || !major || !resume}
                 >
-                  Back to Internships
+                  Submit Application
                 </button>
               </div>
-            )}
-          </form>
-        </div>
+
+              {message && <div className="message">{message}</div>}
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

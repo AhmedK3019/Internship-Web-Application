@@ -10,8 +10,9 @@ import "./index.css";
 
 function Student({ email }) {
   const username = email.split("@")[0];
-  const [currentView, setCurrentView] = useState(""); // Can be "companies" or "update"
+  const [currentView, setCurrentView] = useState("");
   const [selectedInternship, setSelectedInternship] = useState(null);
+  const [appliedInternships, setAppliedInternships] = useState([]);
 
   const handleBackToDashboard = () => {
     setCurrentView("");
@@ -21,9 +22,13 @@ function Student({ email }) {
     setSelectedInternship(internship);
     setCurrentView("application");
   };
+  const handleApplySuccess = (internshipId) => {
+    setAppliedInternships([...appliedInternships, internshipId]);
+    setCurrentView("listing");
+  };
 
 
-  // Default dashboard view
+
   return (
     <div className="page">
       <div className="sidebar">
@@ -57,15 +62,21 @@ function Student({ email }) {
 
       <div className="main-content">
         {currentView === "" && (
-    <div className="student-container">
-      <header className="student-header">
-        <h1>Welcome {username}</h1>
-        <hr />
-        <Discover onBackUpdate={handleBackToDashboard} />
-      </header>
-    </div>
-  )}
-        {currentView === "listing" && <Listings showApplyButton = {true} onApply={handleApply} />}
+          <div className="student-container">
+            <header className="student-header">
+              <h1>Welcome {username}</h1>
+              <hr />
+              <Discover onBackUpdate={handleBackToDashboard} />
+            </header>
+          </div>
+        )}
+        {currentView === "listing" && (
+          <Listings
+            showApplyButton={true}
+            onApply={handleApply}
+            appliedInternships={appliedInternships}
+          />
+        )}
         {currentView === "majors" && <Majors onBackMajors={handleBackToDashboard} />}
         {currentView === "Reportsubmission" && <Reportsubmission onBackReportsubmission={handleBackToDashboard} />}
         {currentView === "companies" && <SuggestedCompanies onBackSuggestedCompanies={handleBackToDashboard} />}
@@ -73,7 +84,8 @@ function Student({ email }) {
         {currentView === "application" && (
           <InternshipApplication
             internship={selectedInternship}
-            onBackApplication={handleBackToDashboard}
+            onBack={handleBackToDashboard}
+            onApplySuccess={() => handleApplySuccess(selectedInternship.id)}
           />
         )}
       </div>
