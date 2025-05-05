@@ -8,10 +8,10 @@ function Discover({ onBackUpdate }) {
     const discover = [
         {
             id: 1,
-            title: "Discovery 1",
-            description: "Media Engineering and Technology aims at the evolving field of nearly all aspects of information and multimedia processing. The study program in 'Media Engineering and Technology' rests on the same fundamentals as for Information Technology, i.e., mathematics, physics, electronics, computer science, communications, and their related methodologies, with specialization and extension to media technologies such as voice, audio and video, multimedia, media design, information retrieval and representation concepts",
-            image: METImage,
-            alt: "Media Engineering illustration",
+            title: "Which Internships Count for My Major?",
+            description: "Learn valuable tips on selecting the right internship company that aligns with your career goals and provides meaningful experience.",
+            videoId: "GgsbG3WEmHs",
+            alt: "YouTube video about choosing internship companies",
         },
         {
             id: 2,
@@ -33,18 +33,39 @@ function Discover({ onBackUpdate }) {
         <div className="page">
             <div className="discover-page-container">                
                 <div className="discover-content-wrapper">
-                    {discover.map((discover) => (
-                        <div key={discover.id} className="discover-card-layout">
-                            <h2 className="discover-title">{discover.title}</h2>
+                    {discover.map((item) => (
+                        <div key={item.id} className="discover-card-layout">
+                            <h2 className="discover-title">{item.title}</h2>
                             <div className="discover-content-row">
-                                <img 
-                                    src={discover.image} 
-                                    alt={discover.alt} 
-                                    className="discover-image" 
-                                />
-                                <p className="discover-description">
-                                    {discover.description}
-                                </p>
+                                {item.videoId ? (
+                                    <>
+                                        <div className="video-container">
+                                            <iframe
+                                                width="560"
+                                                height="315"
+                                                src={`https://www.youtube.com/embed/${item.videoId}`}
+                                                title="YouTube video player"
+                                                frameBorder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                            ></iframe>
+                                        </div>
+                                        <p className="video-description">
+                                            {item.description}
+                                        </p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <img 
+                                            src={item.image} 
+                                            alt={item.alt} 
+                                            className="discover-image" 
+                                        />
+                                        <p className="discover-description">
+                                            {item.description}
+                                        </p>
+                                    </>
+                                )}
                             </div>
                         </div>
                     ))}

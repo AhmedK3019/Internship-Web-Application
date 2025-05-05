@@ -912,7 +912,13 @@ textarea {
   flex: 1;
   margin: 0;
 }
-
+.video-description {
+  color: #ffffff;
+  line-height: 1.6;
+  flex: 1;
+  font-size: 1.2rem;
+  margin-top: 5rem;
+}
 
 @media (max-width: 768px) {
   .discover-content-row {
@@ -1088,3 +1094,4 @@ textarea {
   background-color: #f44336;
   color: white;
 }
+
