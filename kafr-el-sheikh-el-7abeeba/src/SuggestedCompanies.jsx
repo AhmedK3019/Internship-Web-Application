@@ -9,11 +9,6 @@ function SuggestedCompanies({ onBackSuggestedCompanies }) {
     return (
         <div class ="page">
             <div>
-                <div>
-                    <button onClick={onBackSuggestedCompanies} className="back-button">
-                            Back to Dashboard
-                    </button>
-                </div>
                 <h1>Suggested Companies</h1>
                 <div className="companies-page box1">
                     <img src={GoogleImage} alt = 'Google Image' class = "GoogleImage"/>
@@ -29,13 +24,7 @@ function SuggestedCompanies({ onBackSuggestedCompanies }) {
                     <img src={ElSewedyImage} alt = 'Google Image' class = "ElSewedyImage"/>
                     <p class = "CompanyText ElSewedyText">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat nobis possimus, sunt nemo nisi quae, corrupti amet impedit consequatur facere nulla asperiores laborum optio mollitia, quo ullam. Eos, fugiat sit?</p>
                 </div>
-            
-                
-                
-            
-            </div>
-             
-            
+            </div>     
         </div>
         
     );
