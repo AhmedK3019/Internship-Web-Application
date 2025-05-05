@@ -480,6 +480,23 @@ textarea {
   font-weight: 300;
 }
 
+.apply-button {
+  background-color: #ffffff;
+  color: rgb(8, 18, 85);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s;
+  width: 20%;
+}
+
+.apply-button:hover {
+  color: #ffffff;
+  background-color: rgb(8, 18, 85);
+}
+
 .search-wrapper {
   max-width: 800px;
   margin: 2rem auto;

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./index.css";
 
-function Listings() {
+function Listings({ showApplyButton = false, onApply = () => {} }) {
+
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedIndustry, setSelectedIndustry] = useState("");
@@ -309,6 +310,14 @@ function Listings() {
                       <span className="detail-label">Description:</span>
                     </div>
                     <p style={{ color: "white" }}> {internship.description}</p>
+                    {showApplyButton && (
+                    <button 
+                      className="apply-button"
+                      onClick={() => onApply(internship)}
+                    >
+                      Apply
+                    </button>
+                    )}
                   </div>
                 )}
               </div>
