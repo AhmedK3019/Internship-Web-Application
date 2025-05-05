@@ -42,6 +42,7 @@ function CompanyAddInternship({
       pay: newPay,
       salary: newSalary,
       skills: skills,
+      apps: 0,
       desc: newDesc,
     };
 

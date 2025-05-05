@@ -208,6 +208,12 @@ function CompanyInternships({ internships, setInternships }) {
                         </span>
                       </div>
                       <div className="detail-item">
+                        <span className="detail-label">
+                          Number of applicants:
+                        </span>
+                        <span className="detail-value">{internship.apps}</span>
+                      </div>
+                      <div className="detail-item">
                         <span className="detail-label">Description:</span>
                       </div>
                       <p style={{ color: "white" }}> {internship.desc}</p>
