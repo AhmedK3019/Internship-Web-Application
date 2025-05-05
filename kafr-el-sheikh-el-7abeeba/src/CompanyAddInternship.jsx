@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import "./index.css";
 
-function CompanyAddInternship({ internships, unShowAdd, setInternships }) {
-  const [newTitle, setNewTitle] = useState("");
-  const [newDuration, setNewDuration] = useState("Not Specified");
-  const [newPay, setNewPay] = useState("Unpaid");
-  const [newSalary, setNewSalary] = useState("");
-  const [skills, setSkills] = useState("");
-  const [newDesc, setNewDesc] = useState("");
+function CompanyAddInternship({
+  internships,
+  unShowAdd,
+  setInternships,
+  internshipId,
+}) {
+  const internship =
+    internships.find((intern) => intern.id === internshipId) || null;
+  const [newTitle, setNewTitle] = useState(internship ? internship.title : "");
+  const [newDuration, setNewDuration] = useState(
+    internship ? internship.duration : "Not Specified"
+  );
+  const [newPay, setNewPay] = useState(internship ? internship.pay : "Unpaid");
+  const [newSalary, setNewSalary] = useState(
+    internship ? internship.salary : ""
+  );
+  const [skills, setSkills] = useState(internship ? internship.skills : "");
+  const [newDesc, setNewDesc] = useState(internship ? internship.desc : "");
   const [message, setMessage] = useState("");
+  const buttonLabel = internship ? "Update Internship" : "Add Internship";
 
   function addInternship() {
     if (
@@ -22,25 +34,42 @@ function CompanyAddInternship({ internships, unShowAdd, setInternships }) {
       setMessage("Please fill in all fields.");
       return;
     }
-    setInternships([
-      ...internships,
-      {
-        id: Date.now(),
-        title: newTitle,
-        duration: newDuration,
-        pay: newPay,
-        salary: newSalary,
-        skills: skills,
-        desc: newDesc,
-      },
-    ]);
+
+    const newInternshipData = {
+      id: internship ? internship.id : Date.now(),
+      title: newTitle,
+      duration: newDuration,
+      pay: newPay,
+      salary: newSalary,
+      skills: skills,
+      desc: newDesc,
+    };
+
+    if (internship) {
+      setInternships(
+        internships.map((intern) =>
+          intern.id === internship.id ? newInternshipData : intern
+        )
+      );
+    } else {
+      setInternships([...internships, newInternshipData]);
+    }
+
     setNewTitle("");
     setNewDuration("Not Specified");
     setNewPay("Unpaid");
     setNewSalary("");
     setSkills("");
     setNewDesc("");
-    setMessage("Internship post added successfully.");
+
+    if (internship) {
+      unShowAdd();
+    }
+    setMessage(
+      internship
+        ? "Internship updated successfully."
+        : "Internship post added successfully."
+    );
   }
 
   function handleTitleChange(event) {
@@ -115,7 +144,7 @@ function CompanyAddInternship({ internships, unShowAdd, setInternships }) {
         value={newDesc}
         onChange={handleDescChange}
       />
-      <button onClick={addInternship}>Add Internship</button>
+      <button onClick={addInternship}>{buttonLabel}</button>
       <button onClick={unShowAdd}>Back to Dashboard</button>
       {message && <p className="message">{message}</p>}
     </div>

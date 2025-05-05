@@ -45,15 +45,6 @@ function CompanyInternships({ internships, setInternships }) {
     setInternships(internships.filter((intern) => intern.id !== id));
   }
 
-  function updateInternship(id, title, duration, pay, salary, skills, desc) {
-    const updated = internships.map((intern) =>
-      intern.id === id
-        ? { ...intern, title, duration, pay, salary, skills, desc }
-        : intern
-    );
-    setInternships(updated);
-  }
-
   const filteredData = internships.filter((internship) => {
     const searchLower = searchQuery.toLowerCase();
 
@@ -81,6 +72,7 @@ function CompanyInternships({ internships, setInternships }) {
           internships={internships}
           unShowAdd={unShowAdd}
           setInternships={setInternships}
+          internshipId={selectedInternship}
         />
       ) : (
         <div className="listings-container">
@@ -222,7 +214,7 @@ function CompanyInternships({ internships, setInternships }) {
                       <div className="detail-actions">
                         <button
                           onClick={(e) => {
-                            e.stopPropagation(); // prevents collapsing
+                            e.stopPropagation();
                             deleteInternship(internship.id);
                           }}
                           className="delete-btn"
@@ -231,9 +223,9 @@ function CompanyInternships({ internships, setInternships }) {
                         </button>
                         <button
                           onClick={(e) => {
-                            e.stopPropagation(); // prevents collapsing
+                            e.stopPropagation();
+                            setSelectedInternship(internship.id);
                             setShowAdd(true);
-                            setSelectedInternship(null);
                           }}
                           className="update-btn"
                         >
