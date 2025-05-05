@@ -1065,3 +1065,26 @@ textarea {
   transition: all 0.2s ease;
 }
 
+.edit-button, .download-button, .delete-button {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+}
+.edit-button {
+  background-color: #535bf2;
+  color: white;
+}
+
+.download-button {
+  background-color: #4CAF50;
+  color: white;
+  margin-left: 15px;
+  margin-right: 15px; 
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+}
