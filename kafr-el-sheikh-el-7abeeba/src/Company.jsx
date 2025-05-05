@@ -77,50 +77,41 @@ function Company({ email }) {
   ]);
 
   function handleSupervisorChange(appId, newSupervisor) {
-    setApplications(
-      applications.map((app) => {
-        if (app.id === appId) {
-          return { ...app, supervisor: newSupervisor };
-        }
-        return app;
-      })
+    setApplications((prevApplications) =>
+      prevApplications.map((app) =>
+        app.id === appId ? { ...app, supervisor: newSupervisor } : app
+      )
     );
   }
 
   function handleStartDateChange(appId, newStartDate) {
-    setApplications(
-      applications.map((app) => {
-        if (app.id === appId) {
-          return { ...app, startDate: newStartDate };
-        }
-        return app;
-      })
+    setApplications((prevApplications) =>
+      prevApplications.map((app) =>
+        app.id === appId ? { ...app, startDate: newStartDate } : app
+      )
     );
   }
 
   function handleEndDateChange(appId, newEndDate) {
-    setApplications(
-      applications.map((app) => {
-        if (app.id === appId) {
-          return { ...app, endDate: newEndDate };
-        }
-        return app;
-      })
+    setApplications((prevApplications) =>
+      prevApplications.map((app) =>
+        app.id === appId ? { ...app, endDate: newEndDate } : app
+      )
     );
   }
 
   function handleEvaluationChange(appId, newEvaluation) {
-    setApplications(
-      applications.map((app) => {
-        if (app.id === appId) {
-          return { ...app, evaluation: newEvaluation };
-        }
-        return app;
-      })
+    setApplications((prevApplications) =>
+      prevApplications.map((app) =>
+        app.id === appId ? { ...app, evaluation: newEvaluation } : app
+      )
     );
   }
 
   function handleStatusChange(appId, newStatus) {
+    if (newStatus !== "Accepted") {
+      handleInternProgressChange(appId, "Not Started");
+    }
     setApplications(
       applications.map((app) => {
         if (app.id === appId) {
