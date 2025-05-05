@@ -31,11 +31,7 @@ function Majors({ onBackMajors }) {
 
     return (
         <div className="page">
-            <div>
-                    <button onClick={onBackMajors} className="back-button">
-                            Back to Dashboard
-                    </button>
-                </div>
+            
             <div className="majors-page-container">
             
                 <h1 className="majors-main-title">Majors</h1>

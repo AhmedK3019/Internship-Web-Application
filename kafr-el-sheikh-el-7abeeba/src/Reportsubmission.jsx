@@ -36,11 +36,6 @@ function Reportsubmission({onBackReportsubmission}) {
 
     return (
         <div className="page">
-            <div>
-                <button onClick={onBackReportsubmission} className="back-button">
-                        Back to Dashboard
-                </button>
-            </div>
             <div className="report-submission-container">
                 
                 
