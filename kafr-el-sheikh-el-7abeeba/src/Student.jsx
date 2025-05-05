@@ -5,36 +5,23 @@ import Majors from "./Majors";
 import Listings from "./Listings";
 import Discover from "./Discover";
 import Reportsubmission from "./Reportsubmission";
+import InternshipApplication from "./IntershipApplication";
 import "./index.css";
 
 function Student({ email }) {
   const username = email.split("@")[0];
   const [currentView, setCurrentView] = useState(""); // Can be "companies" or "update"
+  const [selectedInternship, setSelectedInternship] = useState(null);
 
   const handleBackToDashboard = () => {
     setCurrentView("");
   };
 
-  // Render different views based on currentView state
-  if (currentView === "companies") {
-    return <SuggestedCompanies onBackSuggestedCompanies={handleBackToDashboard} />;
-  }
+  const handleApply = (internship) => {
+    setSelectedInternship(internship);
+    setCurrentView("application");
+  };
 
-  if (currentView === "update") {
-    return <UpdateProfile onBackUpdate={handleBackToDashboard} />;
-  }
-
-  if (currentView === "majors") {
-    return <Majors onBackMajors={handleBackToDashboard} />;
-  }
-
-  if (currentView === "listing") {
-    return <Listings />;
-  }
-
-  if (currentView === "Reportsubmission") {
-    return <Reportsubmission onBackReportsubmission={handleBackToDashboard} />;
-  }
 
   // Default dashboard view
   return (
@@ -47,6 +34,9 @@ function Student({ email }) {
           </div>
         </div>
         <div className="sidebar-buttons">
+          <button onClick={() => setCurrentView("")}>
+            Dashboard
+          </button>
           <button onClick={() => setCurrentView("companies")}>
             View Suggested Companies
           </button>
@@ -66,13 +56,26 @@ function Student({ email }) {
       </div>
 
       <div className="main-content">
-        <div className="student-container">
-          <header className="student-header">
-            <h1>Welcome {username}</h1>
-            <hr/>
-            <Discover onBackUpdate={handleBackToDashboard} />
-          </header>
-        </div>
+        {currentView === "" && (
+    <div className="student-container">
+      <header className="student-header">
+        <h1>Welcome {username}</h1>
+        <hr />
+        <Discover onBackUpdate={handleBackToDashboard} />
+      </header>
+    </div>
+  )}
+        {currentView === "listing" && <Listings showApplyButton = {true} onApply={handleApply} />}
+        {currentView === "majors" && <Majors onBackMajors={handleBackToDashboard} />}
+        {currentView === "Reportsubmission" && <Reportsubmission onBackReportsubmission={handleBackToDashboard} />}
+        {currentView === "companies" && <SuggestedCompanies onBackSuggestedCompanies={handleBackToDashboard} />}
+        {currentView === "update" && <UpdateProfile onBackUpdate={handleBackToDashboard} />}
+        {currentView === "application" && (
+          <InternshipApplication
+            internship={selectedInternship}
+            onBackApplication={handleBackToDashboard}
+          />
+        )}
       </div>
     </div>
   );

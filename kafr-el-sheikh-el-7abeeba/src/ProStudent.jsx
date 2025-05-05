@@ -7,7 +7,7 @@ function Student(){
 
         <header>
             <h1>
-                Pro student hahahah
+                Pro student
             </h1>
         </header>
 
