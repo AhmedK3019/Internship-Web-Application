@@ -6,6 +6,7 @@ import Listings from "./Listings";
 import Discover from "./Discover";
 import Reportsubmission from "./Reportsubmission";
 import InternshipApplication from "./IntershipApplication";
+import MyInternships from "./MyInternships";
 import "./index.css";
 
 function Student({ email }) {
@@ -57,6 +58,9 @@ function Student({ email }) {
           <button onClick={() => setCurrentView("Reportsubmission")}>
             Report submission
           </button>
+          <button onClick={() => setCurrentView("my-internships")}>
+            My Internships
+          </button>
         </div>
       </div>
 
@@ -88,6 +92,8 @@ function Student({ email }) {
             onApplySuccess={() => handleApplySuccess(selectedInternship.id)}
           />
         )}
+        
+        {currentView === "my-internships" && <MyInternships />}
       </div>
     </div>
   );
