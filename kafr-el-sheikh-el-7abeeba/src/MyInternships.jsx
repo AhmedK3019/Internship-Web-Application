@@ -31,13 +31,18 @@ function MyInternships() {
     }
   ];
 
+
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [statusFilter, setStatusFilter] = useState("All");
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
   const [dateError, setDateError] = useState("");
   const [selectedInternship, setSelectedInternship] = useState(null);
+  const [showEvaluationModal, setShowEvaluationModal] = useState(false);
+  const [currentEvaluation, setCurrentEvaluation] = useState(null);
+  const [evaluations, setEvaluations] = useState([]);
 
+ 
   const handleDateChange = (type, value) => {
     const newDates = { ...dateRange, [type]: value };
     setDateRange(newDates);
@@ -49,9 +54,22 @@ function MyInternships() {
     }
   };
 
+
   const handleInternshipClick = (id) => {
     setSelectedInternship(selectedInternship === id ? null : id);
   };
+
+  const handleEvaluateClick = (internship, e) => {
+    e.stopPropagation();
+    setCurrentEvaluation(internship);
+    setShowEvaluationModal(true);
+  };
+
+  const handleSubmitEvaluation = (evaluationData) => {
+    setEvaluations([...evaluations, evaluationData]);
+    setShowEvaluationModal(false);
+  };
+
 
   const filteredInternships = internships.filter(internship => {
     const matchesSearch = searchQuery 
@@ -78,6 +96,102 @@ function MyInternships() {
     return matchesSearch && matchesStatus && matchesDate;
   });
 
+
+  const EvaluationModal = ({ internship, onClose, onSubmit }) => {
+    const [rating, setRating] = useState(0);
+    const [feedback, setFeedback] = useState("");
+    const [recommends, setRecommends] = useState(null);
+    const [error, setError] = useState("");
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      
+      if (rating === 0 || recommends === null) {
+        setError("Please provide both a rating and recommendation");
+        return;
+      }
+
+      onSubmit({
+        internshipId: internship.id,
+        company: internship.company,
+        rating,
+        feedback,
+        recommends,
+        date: new Date().toISOString()
+      });
+    };
+
+    return (
+      <div className="modal-overlay">
+        <div className="modal-content">
+            <div className="modal-header">
+              <h2>Evaluate {internship.company}</h2>
+              <button onClick={onClose} className="close-button">&times;</button>
+            </div>
+            
+            <form onSubmit={handleSubmit}>
+   
+              <div className="detail-item">
+                <span className="detail-label">Rating:</span>
+                <div className="rating-stars">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <span 
+                      key={star}
+                      className={`star ${star <= rating ? 'filled' : ''}`}
+                      onClick={() => setRating(star)}
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+    
+              <div className="detail-item">
+                <span className="detail-label">Recommend to others?</span>
+                <div className="recommend-buttons">
+                  <button
+                    type="button"
+                    className={`recommend-btn ${recommends === true ? 'active-yes' : ''}`}
+                    onClick={() => setRecommends(true)}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    className={`recommend-btn ${recommends === false ? 'active-no' : ''}`}
+                    onClick={() => setRecommends(false)}
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+
+ 
+              <div className="detail-item">
+                <span className="detail-label">Feedback (optional):</span>
+                <textarea
+                  className="feedback-input"
+                  value={feedback}
+                  onChange={(e) => setFeedback(e.target.value)}
+                  placeholder="Share your experience..."
+                />
+              </div>
+
+              {error && <div className="error-message">{error}</div>}
+
+              <div className="form-actions">
+                <button type="submit" className="action-button">
+                  Submit Evaluation
+                </button>
+              </div>
+            </form>
+     
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="internship-background">
       <div className="listings-container">
@@ -87,7 +201,7 @@ function MyInternships() {
           <div className="search-filter-row">
             <input
               type="text"
-              placeholder="Search by title or company..."
+              placeholder="Search by job title or company..."
               className="search-input"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -187,27 +301,45 @@ function MyInternships() {
                   </span>
                 </div>
                 {selectedInternship === internship.id && (
-                  <div className="details-grid">
-                    <div className="detail-item">
-                      <span className="detail-label">Location:</span>
-                      <span className="detail-value">{internship.location}</span>
+                  <div className="details-container">
+                    <div className="details-grid">
+                      <div className="detail-item">
+                        <span className="detail-label">Location:</span>
+                        <span className="detail-value">{internship.location}</span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="detail-label">Period:</span>
+                        <span className="detail-value">
+                          {internship.startDate} - {internship.endDate || "Present"}
+                        </span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="detail-label">Skills:</span>
+                        <span className="detail-value">
+                          {internship.skills?.join(", ") || "Not specified"}
+                        </span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="detail-label">Description:</span>
+                        <p className="detail-description">{internship.description}</p>
+                      </div>
                     </div>
-                    <div className="detail-item">
-                      <span className="detail-label">Period:</span>
-                      <span className="detail-value">
-                        {internship.startDate} - {internship.endDate || "Present"}
-                      </span>
-                    </div>
-                    <div className="detail-item">
-                      <span className="detail-label">Skills:</span>
-                      <span className="detail-value">
-                        {internship.skills?.join(", ") || "Not specified"}
-                      </span>
-                    </div>
-                    <div className="detail-item">
-                      <span className="detail-label">Description:</span>
-                    </div>
-                    <p style={{ color: "white" }}>{internship.description}</p>
+
+                    {internship.status === "Completed" && 
+                    !evaluations.some(e => e.internshipId === internship.id) && (
+                      <button
+                        className="evaluation-button"
+                        onClick={(e) => handleEvaluateClick(internship, e)}
+                      >
+                        Share Your Experience
+                      </button>
+                    )}
+
+                    {evaluations.some(e => e.internshipId === internship.id) && (
+                      <div className="evaluation-submitted">
+                        You've already shared your experience about this internship
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -215,6 +347,15 @@ function MyInternships() {
           )}
         </div>
       </div>
+
+
+      {showEvaluationModal && (
+        <EvaluationModal
+          internship={currentEvaluation}
+          onClose={() => setShowEvaluationModal(false)}
+          onSubmit={handleSubmitEvaluation}
+        />
+      )}
     </div>
   );
 }
