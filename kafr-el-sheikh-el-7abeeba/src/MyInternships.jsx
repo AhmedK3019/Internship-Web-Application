@@ -31,7 +31,6 @@ function MyInternships() {
     }
   ];
 
-
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [statusFilter, setStatusFilter] = useState("All");
@@ -39,10 +38,10 @@ function MyInternships() {
   const [dateError, setDateError] = useState("");
   const [selectedInternship, setSelectedInternship] = useState(null);
   const [showEvaluationModal, setShowEvaluationModal] = useState(false);
+  const [showEvaluationViewModal, setShowEvaluationViewModal] = useState(false);
   const [currentEvaluation, setCurrentEvaluation] = useState(null);
   const [evaluations, setEvaluations] = useState([]);
 
- 
   const handleDateChange = (type, value) => {
     const newDates = { ...dateRange, [type]: value };
     setDateRange(newDates);
@@ -53,7 +52,6 @@ function MyInternships() {
       setDateError("");
     }
   };
-
 
   const handleInternshipClick = (id) => {
     setSelectedInternship(selectedInternship === id ? null : id);
@@ -70,6 +68,10 @@ function MyInternships() {
     setShowEvaluationModal(false);
   };
 
+  const handleDeleteEvaluation = (internshipId, e) => {
+    e.stopPropagation();
+    setEvaluations(evaluations.filter(e => e.internshipId !== internshipId));
+  };
 
   const filteredInternships = internships.filter(internship => {
     const matchesSearch = searchQuery 
@@ -95,7 +97,6 @@ function MyInternships() {
 
     return matchesSearch && matchesStatus && matchesDate;
   });
-
 
   const EvaluationModal = ({ internship, onClose, onSubmit }) => {
     const [rating, setRating] = useState(0);
@@ -124,69 +125,132 @@ function MyInternships() {
     return (
       <div className="modal-overlay">
         <div className="modal-content">
-            <div className="modal-header">
-              <h2>Evaluate {internship.company}</h2>
-              <button onClick={onClose} className="close-button">&times;</button>
+          <div className="modal-header">
+            <h2>Evaluate {internship.company}</h2>
+            <button onClick={onClose} className="close-button">&times;</button>
+          </div>
+          
+          <form onSubmit={handleSubmit}>
+            <div className="detail-item">
+              <span className="detail-label">Rating:</span>
+              <div className="rating-stars">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span 
+                    key={star}
+                    className={`star ${star <= rating ? 'filled' : ''}`}
+                    onClick={() => setRating(star)}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
             </div>
-            
-            <form onSubmit={handleSubmit}>
-   
-              <div className="detail-item">
-                <span className="detail-label">Rating:</span>
-                <div className="rating-stars">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <span 
-                      key={star}
-                      className={`star ${star <= rating ? 'filled' : ''}`}
-                      onClick={() => setRating(star)}
-                    >
-                      ★
-                    </span>
-                  ))}
-                </div>
-              </div>
 
-    
-              <div className="detail-item">
-                <span className="detail-label">Recommend to others?</span>
-                <div className="recommend-buttons">
-                  <button
-                    type="button"
-                    className={`recommend-btn ${recommends === true ? 'active-yes' : ''}`}
-                    onClick={() => setRecommends(true)}
-                  >
-                    Yes
-                  </button>
-                  <button
-                    type="button"
-                    className={`recommend-btn ${recommends === false ? 'active-no' : ''}`}
-                    onClick={() => setRecommends(false)}
-                  >
-                    No
-                  </button>
-                </div>
-              </div>
-
- 
-              <div className="detail-item">
-                <span className="detail-label">Feedback (optional):</span>
-                <textarea
-                  className="feedback-input"
-                  value={feedback}
-                  onChange={(e) => setFeedback(e.target.value)}
-                  placeholder="Share your experience..."
-                />
-              </div>
-
-              {error && <div className="error-message">{error}</div>}
-
-              <div className="form-actions">
-                <button type="submit" className="action-button">
-                  Submit Evaluation
+            <div className="detail-item">
+              <span className="detail-label">Recommend to others?</span>
+              <div className="recommend-buttons">
+                <button
+                  type="button"
+                  className={`recommend-btn ${recommends === true ? 'active-yes' : ''}`}
+                  onClick={() => setRecommends(true)}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  className={`recommend-btn ${recommends === false ? 'active-no' : ''}`}
+                  onClick={() => setRecommends(false)}
+                >
+                  No
                 </button>
               </div>
-            </form>
-     
+            </div>
+
+            <div className="detail-item">
+              <span className="detail-label">Feedback (optional):</span>
+              <textarea
+                className="feedback-input"
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+                placeholder="Share your experience..."
+              />
+            </div>
+
+            {error && <div className="error-message">{error}</div>}
+
+            <div className="form-actions">
+              <button type="submit" className="action-button">
+                Submit Evaluation
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  };
+
+  const EvaluationViewModal = ({ evaluation, onClose }) => {
+    return (
+      <div className="modal-overlay">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h2>Your Evaluation</h2>
+            <button onClick={onClose} className="close-button">&times;</button>
+          </div>
+          
+          <div className="evaluation-details">
+            <div className="detail-item">
+              <span className="detail-label">Rating:</span>
+              <div className="rating-stars">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span 
+                    key={star}
+                    className={`star ${star <= evaluation.rating ? 'filled' : ''}`}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="detail-item">
+              <span className="detail-label">Recommend to others?</span>
+              <span className="detail-value">
+                {evaluation.recommends ? "Yes" : "No"}
+              </span>
+            </div>
+
+            {evaluation.feedback && (
+            <div className="detail-item">
+              <span className="detail-label">Feedback:</span>
+              <textarea
+                className="feedback-input"
+                value={evaluation.feedback}
+                readOnly
+                style={{ background: 'rgba(5, 10, 48, 0.7)', color: '#7EC8E3' }}
+              />
+            </div>
+          )}
+
+            <div className="form-actions">
+              <button 
+                onClick={onClose} 
+                className="action-button"
+              >
+                Close
+              </button>
+              <button
+                className="delete-btn"
+                onClick={(e) => {
+                  handleDeleteEvaluation(evaluation.internshipId, e);
+                  onClose();
+                }}
+                style={{ marginLeft: "10px" }}
+              >
+                Delete Evaluation
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -201,7 +265,7 @@ function MyInternships() {
           <div className="search-filter-row">
             <input
               type="text"
-              placeholder="Search by job title or company..."
+              placeholder="Search by title or company..."
               className="search-input"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -321,24 +385,32 @@ function MyInternships() {
                       </div>
                       <div className="detail-item">
                         <span className="detail-label">Description:</span>
-                        <p className="detail-description">{internship.description}</p>
                       </div>
+                        <p style={{color: "white"}}>{internship.description}</p>
                     </div>
 
-                    {internship.status === "Completed" && 
-                    !evaluations.some(e => e.internshipId === internship.id) && (
-                      <button
-                        className="evaluation-button"
-                        onClick={(e) => handleEvaluateClick(internship, e)}
-                      >
-                        Share Your Experience
-                      </button>
-                    )}
-
-                    {evaluations.some(e => e.internshipId === internship.id) && (
-                      <div className="evaluation-submitted">
-                        You've already shared your experience about this internship
-                      </div>
+                    {internship.status === "Completed" && (
+                      <>
+                        {evaluations.some(e => e.internshipId === internship.id) ? (
+                          <button
+                            className="view-evaluation-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCurrentEvaluation(evaluations.find(e => e.internshipId === internship.id));
+                              setShowEvaluationViewModal(true);
+                            }}
+                          >
+                            View Your Evaluation
+                          </button>
+                        ) : (
+                          <button
+                            className="evaluation-button"
+                            onClick={(e) => handleEvaluateClick(internship, e)}
+                          >
+                            Share Your Experience
+                          </button>
+                        )}
+                      </>
                     )}
                   </div>
                 )}
@@ -348,12 +420,18 @@ function MyInternships() {
         </div>
       </div>
 
-
       {showEvaluationModal && (
         <EvaluationModal
           internship={currentEvaluation}
           onClose={() => setShowEvaluationModal(false)}
           onSubmit={handleSubmitEvaluation}
+        />
+      )}
+
+      {showEvaluationViewModal && (
+        <EvaluationViewModal
+          evaluation={currentEvaluation}
+          onClose={() => setShowEvaluationViewModal(false)}
         />
       )}
     </div>
