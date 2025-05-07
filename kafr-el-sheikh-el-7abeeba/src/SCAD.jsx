@@ -14,6 +14,19 @@ function SCAD({ user, companiesRequests, onLogout }) {
 
   return (
     <div className="page">
+      <div className="sidebar">
+        <div className="sidebar-header">
+          <div className="menu-wrapper">
+            <span className="menu-icon">☰</span>
+            <span className="menu-label">SCAD Menu</span>
+          </div>
+        </div>
+        <div className="sidebar-buttons">
+          <button onClick={onLogout} className="logout-btn">
+            Logout
+          </button>
+        </div>
+      </div>
       <div className="listings-container">
         <h1>SCAD Office</h1>
         <h2>Welcome, {user.name}</h2>
@@ -71,7 +84,7 @@ function SCAD({ user, companiesRequests, onLogout }) {
                   </div>
                   <div className="detail-actions">
                     <button
-                      className="delete-btn"
+                      className="accept-btn"
                       onClick={() => handleAccept(request)}
                     >
                       Accept

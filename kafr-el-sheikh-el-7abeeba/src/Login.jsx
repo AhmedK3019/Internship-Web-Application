@@ -33,20 +33,13 @@ function Login() {
     return localStorage.getItem("view") === "faculty";
   });
   const [companiesRequests, setCompaniesRequests] = useState(() => {
-    const saved = localStorage.getItem("companiesRequests");
-    return saved
-      ? JSON.parse(saved)
-      : [
-          {
-            id: 1,
-            name: "Test Company",
-            email: "test@company.com",
-            industry: "Software",
-            size: "Medium",
-            logo: null,
-            files: [{ name: "document1.pdf" }],
-          },
-        ];
+    try {
+      const saved = localStorage.getItem("companiesRequests");
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error("Error loading companiesRequests:", error);
+      return [];
+    }
   });
 
   async function fileToDataURL(file) {
@@ -168,25 +161,42 @@ function Login() {
         }))
       );
 
-      setCompaniesRequests((prevRequests) => {
-        const newRequests = [
-          ...prevRequests,
-          {
-            id: prevRequests.length + 1,
-            name: companyRequest.name,
-            email: companyRequest.email,
-            industry: companyRequest.industry,
-            size: companyRequest.size,
-            logo: logoDataURL,
-            files: filesWithDataURLs,
-          },
-        ];
-        return newRequests;
-      });
+      // Ensure companiesRequests is initialized
+      const currentRequests = companiesRequests || [];
+
+      const newRequest = {
+        id: currentRequests.length + 1,
+        name: companyRequest.name,
+        email: companyRequest.email,
+        industry: companyRequest.industry,
+        size: companyRequest.size,
+        logo: logoDataURL,
+        files: filesWithDataURLs,
+      };
+
+      // Update state using the currentRequests
+      const updatedRequests = [...currentRequests, newRequest];
+      setCompaniesRequests(updatedRequests);
+
+      // Update localStorage immediately
+      localStorage.setItem(
+        "companiesRequests",
+        JSON.stringify(updatedRequests)
+      );
+
+      return true;
     } catch (error) {
       console.error("Error converting files:", error);
+      return false;
     }
   }
+
+  useEffect(() => {
+    const saved = localStorage.getItem("companiesRequests");
+    if (saved) {
+      setCompaniesRequests(JSON.parse(saved));
+    }
+  }, []);
 
   useEffect(() => {
     function handleStorageChange(e) {
