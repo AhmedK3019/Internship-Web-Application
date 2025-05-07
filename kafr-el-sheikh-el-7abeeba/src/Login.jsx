@@ -156,7 +156,7 @@ function Login() {
                   .
                 </h3>
               </form>
-              {message && <div className="message"> {message}</div>}
+              {message && <div className="error-message"> {message}</div>}
             </div>
           </div>
         </div>
