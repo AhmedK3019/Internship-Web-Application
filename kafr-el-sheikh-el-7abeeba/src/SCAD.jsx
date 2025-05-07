@@ -18,7 +18,7 @@ function SCAD({ user, companiesRequests }) {
         <h1>SCAD Office</h1>
         <h2>Welcome, {user.name}</h2>
         <div className="internship-list">
-          <h2>Company Requests</h2>
+          <h2>Companies Requests</h2>
           {companiesRequests.length === 0 ? (
             <div className="no-results">No pending company requests</div>
           ) : (

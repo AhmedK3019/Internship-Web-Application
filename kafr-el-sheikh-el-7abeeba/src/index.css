@@ -359,7 +359,7 @@ textarea {
 }
 
 .delete-btn {
-  background-color: transparent;
+  background-color: red;
   color: #7EC8E3;
   padding: 6px 12px;
   border: 2px solid #535bf2;
@@ -367,9 +367,9 @@ textarea {
   cursor: pointer;
 }
 
-.update-btn {
-  background-color: transparent;
-  color: #7EC8E3;
+.view-btn {
+  background-color: #535bf2;
+  color: #050a30;
   padding: 6px 12px;
   border: 2px solid #535bf2;
   border-radius: 6px;
@@ -1287,4 +1287,160 @@ input[type="file"][disabled] {
 
 .download-link:hover {
   text-decoration: underline;
+}
+
+.dashboard {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.company-dashboard-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.notifications-area {
+  justify-self: end;
+  transition: transform 0.3s ease;
+}
+.notifications-area.shifted {
+  transform: translateX(-300px);
+}
+
+.notification-ring {
+  position: relative;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 15px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 15px rgba(126, 200, 227, 0.3);
+  transition: all 0.1s ease;
+}
+
+.notification-ring:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 20px rgba(126, 200, 227, 0.5);
+  transform: scale(1.05);
+}
+
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4444;
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #1a1a2e;
+  animation: pulse 2s infinite;
+}
+
+.notifications-panel {
+  position: fixed;
+  right: -300px;
+  top: 0;
+  height: 100vh;
+  width: 300px;
+  background: #1a1a2e;
+  border-left: 1px solid #2d2d42;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  transition: right 0.5s ease;
+  z-index: 1000;
+}
+
+.notifications-panel.visible {
+  right: 0;
+}
+
+.notification-item {
+  padding: 15px;
+  border-bottom: 1px solid #2d2d42;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #7EC8E3;
+}
+
+.notification-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.notification-item.unread {
+  background: rgba(126, 200, 227, 0.15); /* Increased opacity */
+  font-weight: bold;
+}
+
+.notification-item.read {
+  opacity: 0.8;
+}
+
+.welcome-text {
+  flex-grow: 1;
+  text-align: center;
+  margin: 0 auto;
+  padding-right: 100px;
+}
+
+.welcome-text h1 {
+  margin: 0;
+  font-size: 2.5em;
+  color: #7EC8E3;
+  text-shadow: 0 0 10px rgba(126, 200, 227, 0.3);
+}
+
+.welcome-text h2 {
+  margin: 5px 0 0 0;
+  font-size: 1.8em;
+  color: #7EC8E3;
+  text-shadow: 0 0
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
+  }
 }

@@ -233,7 +233,7 @@ function CompanyInternships({ internships, setInternships }) {
                             setSelectedInternship(internship.id);
                             setShowAdd(true);
                           }}
-                          className="update-btn"
+                          className="view-btn"
                         >
                           Update
                         </button>

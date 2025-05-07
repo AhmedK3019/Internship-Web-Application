@@ -81,7 +81,7 @@ function Login() {
       role: "Company",
       company: "Sumerge",
       industry: "IT",
-      size: "medium",
+      size: "Medium",
       logo: "sumerge.jpeg",
     },
     {

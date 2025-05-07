@@ -6,7 +6,12 @@ import CompanyAllApplications from "./CompanyAllApplications";
 import CompanyInterns from "./CompanyInterns";
 
 function Company({ user }) {
-  const [view, setView] = useState("");
+  const [view, setView] = useState("dashboard");
+  const [notifications, setNotifications] = useState([
+    { id: 1, message: "New application received from John Doe", isRead: false },
+    { id: 2, message: "Intern evaluation due for Jane Smith", isRead: false },
+  ]);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [internships, setInternships] = useState([]);
   const [applications, setApplications] = useState([
     {
@@ -76,6 +81,16 @@ function Company({ user }) {
     },
   ]);
 
+  function handleNotificationClick(notificationId) {
+    setNotifications((prevNotifications) =>
+      prevNotifications.map((notification) =>
+        notification.id === notificationId
+          ? { ...notification, isRead: true }
+          : notification
+      )
+    );
+  }
+
   function handleSupervisorChange(appId, newSupervisor) {
     setApplications((prevApplications) =>
       prevApplications.map((app) =>
@@ -109,13 +124,19 @@ function Company({ user }) {
   }
 
   function handleStatusChange(appId, newStatus) {
-    if (newStatus !== "Accepted") {
-      handleInternProgressChange(appId, "Not Started");
-    }
-    setApplications(
-      applications.map((app) => {
+    setApplications((prevApplications) =>
+      prevApplications.map((app) => {
         if (app.id === appId) {
-          return { ...app, status: newStatus };
+          return {
+            ...app,
+            status: newStatus,
+            internProgress:
+              newStatus !== "Accepted" ? "Not Started" : app.internProgress,
+            supervisor: newStatus !== "Accepted" ? "" : app.supervisor,
+            startDate: newStatus !== "Accepted" ? "" : app.startDate,
+            endDate: newStatus !== "Accepted" ? "" : app.endDate,
+            evaluation: newStatus !== "Accepted" ? "" : app.evaluation,
+          };
         }
         return app;
       })
@@ -156,6 +177,59 @@ function Company({ user }) {
         </div>
       </div>
       <div className="main-content">
+        {view === "dashboard" && (
+          <div className="dashboard">
+            <div className="dashboard-header">
+              <div className="company-info">
+                <img
+                  src={`/${user.logo}`}
+                  alt="Company Logo"
+                  className="company-dashboard-logo"
+                />
+                <div className="welcome-text">
+                  <h1>Welcome, {user.name}</h1>
+                  <h2>Company Dashboard</h2>
+                </div>
+              </div>
+              <div
+                className={`notifications-area ${
+                  showNotifications ? "shifted" : ""
+                }`}
+              >
+                <div
+                  className="notification-ring"
+                  onClick={() => setShowNotifications(!showNotifications)}
+                >
+                  <span className="notification-count">
+                    {notifications.filter((n) => !n.isRead).length}
+                  </span>
+                  🔔
+                </div>
+              </div>
+            </div>
+
+            {showNotifications && (
+              <div
+                className={`notifications-panel ${
+                  showNotifications ? "visible" : ""
+                }`}
+              >
+                <h3>Notifications</h3>
+                {notifications.map((notification) => (
+                  <div
+                    key={notification.id}
+                    className={`notification-item ${
+                      notification.isRead ? "read" : "unread"
+                    }`}
+                    onClick={() => handleNotificationClick(notification.id)}
+                  >
+                    {notification.message}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {view === "internships" && (
           <CompanyInternships
             internships={internships}

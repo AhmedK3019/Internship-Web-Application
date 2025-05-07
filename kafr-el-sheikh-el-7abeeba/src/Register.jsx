@@ -4,7 +4,7 @@ import "./index.css";
 function Register({ onBack, onRegister }) {
   const [name, setName] = useState("");
   const [industry, setIndustry] = useState("");
-  const [size, setSize] = useState("Small (50 employees or less)");
+  const [size, setSize] = useState("Small");
   const [email, setEmail] = useState("");
   const [files, setFiles] = useState([]);
   const [logoFile, setLogoFile] = useState(null);

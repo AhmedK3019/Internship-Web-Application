@@ -180,7 +180,7 @@ function CompanyInterns({
                                 e.stopPropagation();
                                 handleEvaluationClick(app.id);
                               }}
-                              className="delete-btn"
+                              className="view-btn"
                             >
                               {app.evaluation
                                 ? "View Evaluation"
