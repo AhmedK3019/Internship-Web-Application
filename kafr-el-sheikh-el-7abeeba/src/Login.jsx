@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import Register from "./Register";
 import Company from "./Company";
@@ -18,7 +18,38 @@ function Login() {
   const [showSCAD, setShowSCAD] = useState(false);
   const [showFaculty, setShowFaculty] = useState(false);
   const [user, setUser] = useState(null);
-  const [companiesRequests, setCompaniesRequests] = useState([]);
+  const [companiesRequests, setCompaniesRequests] = useState(() => {
+    const saved = localStorage.getItem("companiesRequests");
+    return saved
+      ? JSON.parse(saved)
+      : [
+          {
+            id: 1,
+            name: "Test Company",
+            email: "test@company.com",
+            industry: "Software",
+            size: "Medium",
+            logo: null,
+            files: [{ name: "document1.pdf" }],
+          },
+        ];
+  });
+
+  async function fileToDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  useEffect(() => {
+    localStorage.setItem(
+      "companiesRequests",
+      JSON.stringify(companiesRequests)
+    );
+  }, [companiesRequests]);
 
   const [users, setUsers] = useState([
     {
@@ -69,20 +100,51 @@ function Login() {
     },
   ]);
 
-  function onRegister(companyRequest) {
-    setCompaniesRequests((prevRequests) => [
-      ...prevRequests,
-      {
-        id: prevRequests.length + 1,
-        name: companyRequest.name,
-        email: companyRequest.email,
-        industry: companyRequest.industry,
-        size: companyRequest.size,
-        logo: companyRequest.logo,
-        files: companyRequest.files,
-      },
-    ]);
+  async function onRegister(companyRequest) {
+    try {
+      // Convert logo to data URL if it exists
+      const logoDataURL = companyRequest.logo
+        ? await fileToDataURL(companyRequest.logo)
+        : null;
+
+      // Convert all files to data URLs
+      const filesWithDataURLs = await Promise.all(
+        companyRequest.files.map(async (file) => ({
+          name: file.name,
+          dataURL: await fileToDataURL(file),
+        }))
+      );
+
+      setCompaniesRequests((prevRequests) => {
+        const newRequests = [
+          ...prevRequests,
+          {
+            id: prevRequests.length + 1,
+            name: companyRequest.name,
+            email: companyRequest.email,
+            industry: companyRequest.industry,
+            size: companyRequest.size,
+            logo: logoDataURL,
+            files: filesWithDataURLs,
+          },
+        ];
+        return newRequests;
+      });
+    } catch (error) {
+      console.error("Error converting files:", error);
+    }
   }
+
+  useEffect(() => {
+    function handleStorageChange(e) {
+      if (e.key === "companiesRequests") {
+        setCompaniesRequests(JSON.parse(e.newValue));
+      }
+    }
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
   function goToLogin(event) {
     setShowRegister(false);

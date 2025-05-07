@@ -45,7 +45,7 @@ function SCAD({ user, companiesRequests }) {
                     <div className="detail-item">
                       <span className="detail-label">Logo:</span>
                       <img
-                        src={URL.createObjectURL(request.logo)}
+                        src={request.logo} // Now using the data URL directly
                         alt="Company Logo"
                         className="company-logo"
                         style={{ width: "100px", height: "auto" }}
@@ -58,6 +58,13 @@ function SCAD({ user, companiesRequests }) {
                       {request.files.map((file, fileIndex) => (
                         <div key={fileIndex} className="file-item">
                           <span>📄 {file.name}</span>
+                          <a
+                            href={file.dataURL}
+                            download={file.name}
+                            className="download-link"
+                          >
+                            Download
+                          </a>
                         </div>
                       ))}
                     </div>
