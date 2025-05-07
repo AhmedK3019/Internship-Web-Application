@@ -1104,3 +1104,130 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: white;
 }
 
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #0a1520;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Evaluation Form Styles */
+.rating-stars {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.star {
+  color: #ccc;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.recommend-buttons {
+  display: flex;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.recommend-btn {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.recommend-btn.active-yes {
+  background: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
+}
+
+.recommend-btn.active-no {
+  background: #f44336;
+  color: white;
+  border-color: #f44336;
+}
+
+.feedback-input {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.form-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.action-button {
+  padding: 10px 20px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.evaluation-button {
+  margin-top: 15px;
+  padding: 10px 15px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.evaluation-submitted {
+  margin-top: 15px;
+  padding: 10px;
+  background: #27ae60;
+  color: white;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.error-message {
+  color: #e74c3c;
+  margin-top: 10px;
+}
