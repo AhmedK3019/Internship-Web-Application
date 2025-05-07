@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 
 function SCAD({ user, companiesRequests, onLogout }) {
@@ -45,7 +45,7 @@ function SCAD({ user, companiesRequests, onLogout }) {
                     <div className="detail-item">
                       <span className="detail-label">Logo:</span>
                       <img
-                        src={request.logo} // Now using the data URL directly
+                        src={request.logo}
                         alt="Company Logo"
                         className="company-logo"
                         style={{ width: "100px", height: "auto" }}

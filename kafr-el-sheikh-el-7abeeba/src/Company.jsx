@@ -174,6 +174,9 @@ function Company({ user, onLogout }) {
             View all applications
           </button>
           <button onClick={() => setView("interns")}>View all interns</button>
+          <button onClick={onLogout} class="logout-btn">
+            Logout
+          </button>
         </div>
       </div>
       <div className="main-content">
