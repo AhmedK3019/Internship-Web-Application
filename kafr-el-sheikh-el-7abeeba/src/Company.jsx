@@ -5,7 +5,7 @@ import Listings from "./Listings";
 import CompanyAllApplications from "./CompanyAllApplications";
 import CompanyInterns from "./CompanyInterns";
 
-function Company({ user }) {
+function Company({ user, onLogout }) {
   const [view, setView] = useState("dashboard");
   const [notifications, setNotifications] = useState([
     { id: 1, message: "New application received from John Doe", isRead: false },

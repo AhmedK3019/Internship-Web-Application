@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./index.css";
 
-function SCAD({ user, companiesRequests }) {
+function SCAD({ user, companiesRequests, onLogout }) {
   function handleAccept(request) {
     // TODO: Implement accept logic
     console.log("Accepted request:", request);

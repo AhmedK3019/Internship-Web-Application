@@ -9,7 +9,7 @@ import InternshipApplication from "./IntershipApplication";
 import MyInternships from "./MyInternships";
 import "./index.css";
 
-function Student({ user }) {
+function Student({ user, onLogout }) {
   const username = user.name;
   const [currentView, setCurrentView] = useState("");
   const [selectedInternship, setSelectedInternship] = useState(null);

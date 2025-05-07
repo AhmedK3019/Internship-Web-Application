@@ -12,12 +12,26 @@ function Login() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [showRegister, setShowRegister] = useState(false);
-  const [showCompany, setShowCompany] = useState(false);
-  const [showStudent, setShowStudent] = useState(false);
-  const [showProStudent, setShowProStudent] = useState(false);
-  const [showSCAD, setShowSCAD] = useState(false);
-  const [showFaculty, setShowFaculty] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  const [showCompany, setShowCompany] = useState(() => {
+    return localStorage.getItem("view") === "company";
+  });
+  const [showStudent, setShowStudent] = useState(() => {
+    return localStorage.getItem("view") === "student";
+  });
+  const [showProStudent, setShowProStudent] = useState(() => {
+    return localStorage.getItem("view") === "proStudent";
+  });
+  const [showSCAD, setShowSCAD] = useState(() => {
+    return localStorage.getItem("view") === "scad";
+  });
+  const [showFaculty, setShowFaculty] = useState(() => {
+    return localStorage.getItem("view") === "faculty";
+  });
   const [companiesRequests, setCompaniesRequests] = useState(() => {
     const saved = localStorage.getItem("companiesRequests");
     return saved
@@ -50,6 +64,45 @@ function Login() {
       JSON.stringify(companiesRequests)
     );
   }, [companiesRequests]);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+      switch (user.role) {
+        case "Company":
+          localStorage.setItem("view", "company");
+          break;
+        case "Student":
+          localStorage.setItem("view", "student");
+          break;
+        case "Pro Student":
+          localStorage.setItem("view", "proStudent");
+          break;
+        case "SCAD Office Member":
+          localStorage.setItem("view", "scad");
+          break;
+        case "Faculty Member":
+          localStorage.setItem("view", "faculty");
+          break;
+        default:
+          localStorage.removeItem("view");
+      }
+    } else {
+      localStorage.removeItem("user");
+      localStorage.removeItem("view");
+    }
+  }, [user]);
+
+  function handleLogout() {
+    setUser(null);
+    setShowCompany(false);
+    setShowStudent(false);
+    setShowProStudent(false);
+    setShowSCAD(false);
+    setShowFaculty(false);
+    localStorage.removeItem("user");
+    localStorage.removeItem("view");
+  }
 
   const [users, setUsers] = useState([
     {
@@ -168,24 +221,24 @@ function Login() {
       setMessage("Please fill in all fields.");
       return;
     }
-    const user = users.find(
-      (user) => user.email === email && user.password === password
+    const foundUser = users.find(
+      (u) => u.email === email && u.password === password
     );
-    if (user) {
+    if (foundUser) {
       setEmail("");
       setPassword("");
-      if (user.role === "Company") {
+      setUser(foundUser);
+      if (foundUser.role === "Company") {
         setShowCompany(true);
-      } else if (user.role === "Student") {
+      } else if (foundUser.role === "Student") {
         setShowStudent(true);
-      } else if (user.role === "Pro Student") {
+      } else if (foundUser.role === "Pro Student") {
         setShowProStudent(true);
-      } else if (user.role === "SCAD Office Member") {
+      } else if (foundUser.role === "SCAD Office Member") {
         setShowSCAD(true);
-      } else if (user.role === "Faculty Member") {
+      } else if (foundUser.role === "Faculty Member") {
         setShowFaculty(true);
       }
-      setUser(user);
     } else {
       setMessage("Invalid email or password.");
     }
@@ -196,15 +249,19 @@ function Login() {
       {showRegister ? (
         <Register onBack={goToLogin} onRegister={onRegister} />
       ) : showCompany ? (
-        <Company user={user} />
+        <Company user={user} onLogout={handleLogout} />
       ) : showStudent ? (
-        <Student user={user} />
+        <Student user={user} onLogout={handleLogout} />
       ) : showProStudent ? (
-        <ProStudent user={user} />
+        <ProStudent user={user} onLogout={handleLogout} />
       ) : showSCAD ? (
-        <SCAD user={user} companiesRequests={companiesRequests} />
+        <SCAD
+          user={user}
+          companiesRequests={companiesRequests}
+          onLogout={handleLogout}
+        />
       ) : showFaculty ? (
-        <Faculty user={user} />
+        <Faculty user={user} onLogout={handleLogout} />
       ) : (
         <div className="page">
           <title>Login</title>

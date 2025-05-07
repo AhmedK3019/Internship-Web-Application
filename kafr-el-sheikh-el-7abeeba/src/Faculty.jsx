@@ -4,7 +4,7 @@ import EvaluationReports from "./EvaluationReports";
 import Statistics from "./Statistics";
 import "./index.css";
 
-function Faculty({ user }) {
+function Faculty({ user, onLogout }) {
   const username = user.name;
   const [currentView, setCurrentView] = useState("");
 
