@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import "./index.css";
 
-function Register({ onBack }) {
+function Register({ onBack, onRegister }) {
   const [name, setName] = useState("");
   const [industry, setIndustry] = useState("");
   const [size, setSize] = useState("Small (50 employees or less)");
   const [email, setEmail] = useState("");
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]);
   const [logoFile, setLogoFile] = useState(null);
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -35,10 +35,16 @@ function Register({ onBack }) {
   }
 
   function handleFileChange(event) {
-    const file = event.target.files[0];
-    if (file) {
-      setFile(file);
+    const newFiles = Array.from(event.target.files);
+    if (files.length + newFiles.length > 3) {
+      setMessage("Maximum 3 files allowed");
+      return;
     }
+    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+  }
+
+  function removeFile(index) {
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   }
 
   function handleSubmit(e) {
@@ -47,6 +53,15 @@ function Register({ onBack }) {
       setMessage("Please fill in all fields.");
       return;
     }
+    const companyRequest = {
+      name: name,
+      industry: industry,
+      size: size,
+      email: email,
+      logo: logoFile,
+      files: files,
+    };
+    onRegister(companyRequest);
     setSubmitted(true);
     setTimeout(() => {
       onBack();
@@ -95,21 +110,44 @@ function Register({ onBack }) {
               Upload Logo
               <input type="file" accept="image/*" onChange={handleLogoChange} />
               {logoFile && (
-                <div className="upload-indicator">
-                  ✅ logo uploaded: {logoFile.name}
+                <div className="file-item">
+                  <span>✅ {logoFile.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => setLogoFile(null)}
+                    className="remove-file"
+                  >
+                    ✕
+                  </button>
                 </div>
               )}
             </label>
             <label className="custom-file-label">
-              Upload proof document (PDF)
+              Upload proof documents (PDF, max 3)
               <input
                 type="file"
                 accept="application/pdf"
                 onChange={handleFileChange}
+                multiple
+                disabled={files.length >= 3}
               />
-              {file && (
-                <div className="upload-indicator">
-                  ✅ PDF uploaded: {file.name}
+              <div className="files-list">
+                {files.map((file, index) => (
+                  <div key={index} className="file-item">
+                    <span>✅ {file.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeFile(index)}
+                      className="remove-file"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+              {files.length > 0 && (
+                <div className="file-count">
+                  {files.length}/3 files uploaded
                 </div>
               )}
             </label>

@@ -18,6 +18,7 @@ function Login() {
   const [showSCAD, setShowSCAD] = useState(false);
   const [showFaculty, setShowFaculty] = useState(false);
   const [user, setUser] = useState(null);
+  const [companiesRequests, setCompaniesRequests] = useState([]);
 
   const [users, setUsers] = useState([
     {
@@ -68,6 +69,21 @@ function Login() {
     },
   ]);
 
+  function onRegister(companyRequest) {
+    setCompaniesRequests((prevRequests) => [
+      ...prevRequests,
+      {
+        id: prevRequests.length + 1,
+        name: companyRequest.name,
+        email: companyRequest.email,
+        industry: companyRequest.industry,
+        size: companyRequest.size,
+        logo: companyRequest.logo,
+        files: companyRequest.files,
+      },
+    ]);
+  }
+
   function goToLogin(event) {
     setShowRegister(false);
   }
@@ -116,7 +132,7 @@ function Login() {
   return (
     <>
       {showRegister ? (
-        <Register onBack={goToLogin} />
+        <Register onBack={goToLogin} onRegister={onRegister} />
       ) : showCompany ? (
         <Company user={user} />
       ) : showStudent ? (
@@ -124,7 +140,7 @@ function Login() {
       ) : showProStudent ? (
         <ProStudent user={user} />
       ) : showSCAD ? (
-        <SCAD user={user} />
+        <SCAD user={user} companiesRequests={companiesRequests} />
       ) : showFaculty ? (
         <Faculty user={user} />
       ) : (

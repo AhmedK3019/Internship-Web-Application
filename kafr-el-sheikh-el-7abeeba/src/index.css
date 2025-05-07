@@ -177,7 +177,7 @@ textarea {
   display: inline-block;
   background-color: #535bf2;
   color: #050a30;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: bold;
   padding: 0.5rem 1rem;
   border: 2px solid #535bf2;
@@ -1238,4 +1238,42 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: green;
   margin-top: 10px;
   text-align: center;
+}
+
+.files-list {
+  margin-top: 10px;
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  margin: 5px 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.remove-file {
+  background: none;
+  border: none;
+  color: #ff4444;
+  cursor: pointer;
+  padding: 0 5px;
+  margin-left: 10px;
+}
+
+.remove-file:hover {
+  color: #ff0000;
+}
+
+.file-count {
+  margin-top: 5px;
+  font-size: 0.9em;
+  color: #8890b5;
+}
+
+input[type="file"][disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

@@ -9,4 +9,4 @@ function ProStudent({ user }) {
   );
 }
 
-export default Student;
+export default ProStudent;
