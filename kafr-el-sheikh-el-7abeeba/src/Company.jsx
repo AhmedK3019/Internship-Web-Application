@@ -5,7 +5,7 @@ import Listings from "./Listings";
 import CompanyAllApplications from "./CompanyAllApplications";
 import CompanyInterns from "./CompanyInterns";
 
-function Company({ email }) {
+function Company({ user }) {
   const [view, setView] = useState("");
   const [internships, setInternships] = useState([]);
   const [applications, setApplications] = useState([

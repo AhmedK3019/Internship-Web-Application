@@ -17,6 +17,7 @@ function Login() {
   const [showProStudent, setShowProStudent] = useState(false);
   const [showSCAD, setShowSCAD] = useState(false);
   const [showFaculty, setShowFaculty] = useState(false);
+  const [user, setUser] = useState(null);
 
   const [users, setUsers] = useState([
     {
@@ -106,6 +107,7 @@ function Login() {
       } else if (user.role === "Faculty Member") {
         setShowFaculty(true);
       }
+      setUser(user);
     } else {
       setMessage("Invalid email or password.");
     }
@@ -116,15 +118,15 @@ function Login() {
       {showRegister ? (
         <Register onBack={goToLogin} />
       ) : showCompany ? (
-        <Company email={email} />
+        <Company user={user} />
       ) : showStudent ? (
-        <Student email={email} />
+        <Student user={user} />
       ) : showProStudent ? (
-        <ProStudent email={email} />
+        <ProStudent user={user} />
       ) : showSCAD ? (
-        <SCAD email={email} />
+        <SCAD user={user} />
       ) : showFaculty ? (
-        <Faculty email={email} />
+        <Faculty user={user} />
       ) : (
         <div className="page">
           <title>Login</title>

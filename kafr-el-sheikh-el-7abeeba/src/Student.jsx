@@ -9,8 +9,8 @@ import InternshipApplication from "./IntershipApplication";
 import MyInternships from "./MyInternships";
 import "./index.css";
 
-function Student({ email }) {
-  const username = email.split("@")[0];
+function Student({ user }) {
+  const username = user.name;
   const [currentView, setCurrentView] = useState("");
   const [selectedInternship, setSelectedInternship] = useState(null);
   const [appliedInternships, setAppliedInternships] = useState([]);
@@ -28,8 +28,6 @@ function Student({ email }) {
     setCurrentView("listing");
   };
 
-
-
   return (
     <div className="page">
       <div className="sidebar">
@@ -40,21 +38,15 @@ function Student({ email }) {
           </div>
         </div>
         <div className="sidebar-buttons">
-          <button onClick={() => setCurrentView("")}>
-            Dashboard
-          </button>
+          <button onClick={() => setCurrentView("")}>Dashboard</button>
           <button onClick={() => setCurrentView("companies")}>
             View Suggested Companies
           </button>
           <button onClick={() => setCurrentView("update")}>
             Update Profile
           </button>
-          <button onClick={() => setCurrentView("majors")}>
-            Majors
-          </button>
-          <button onClick={() => setCurrentView("listing")}>
-            Internships
-          </button>
+          <button onClick={() => setCurrentView("majors")}>Majors</button>
+          <button onClick={() => setCurrentView("listing")}>Internships</button>
           <button onClick={() => setCurrentView("Reportsubmission")}>
             Report submission
           </button>
@@ -81,10 +73,20 @@ function Student({ email }) {
             appliedInternships={appliedInternships}
           />
         )}
-        {currentView === "majors" && <Majors onBackMajors={handleBackToDashboard} />}
-        {currentView === "Reportsubmission" && <Reportsubmission onBackReportsubmission={handleBackToDashboard} />}
-        {currentView === "companies" && <SuggestedCompanies onBackSuggestedCompanies={handleBackToDashboard} />}
-        {currentView === "update" && <UpdateProfile onBackUpdate={handleBackToDashboard} />}
+        {currentView === "majors" && (
+          <Majors onBackMajors={handleBackToDashboard} />
+        )}
+        {currentView === "Reportsubmission" && (
+          <Reportsubmission onBackReportsubmission={handleBackToDashboard} />
+        )}
+        {currentView === "companies" && (
+          <SuggestedCompanies
+            onBackSuggestedCompanies={handleBackToDashboard}
+          />
+        )}
+        {currentView === "update" && (
+          <UpdateProfile onBackUpdate={handleBackToDashboard} />
+        )}
         {currentView === "application" && (
           <InternshipApplication
             internship={selectedInternship}
@@ -92,7 +94,7 @@ function Student({ email }) {
             onApplySuccess={() => handleApplySuccess(selectedInternship.id)}
           />
         )}
-        
+
         {currentView === "my-internships" && <MyInternships />}
       </div>
     </div>

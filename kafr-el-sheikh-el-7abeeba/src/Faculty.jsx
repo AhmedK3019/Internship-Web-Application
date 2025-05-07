@@ -1,21 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import InternshipReports from "./InternshipReports";
 import EvaluationReports from "./EvaluationReports";
 import Statistics from "./Statistics";
-import './index.css';
+import "./index.css";
 
-function Faculty({email}){
-     const username = email.split("@")[0];
-      const [currentView, setCurrentView] = useState("");
-     
-    
-      const handleBackToDashboard = () => {
-        setCurrentView("");
-      };
-    
-    
+function Faculty({ user }) {
+  const username = user.name;
+  const [currentView, setCurrentView] = useState("");
 
-  
+  const handleBackToDashboard = () => {
+    setCurrentView("");
+  };
+
   return (
     <div className="page">
       <div className="sidebar">
@@ -26,9 +22,7 @@ function Faculty({email}){
           </div>
         </div>
         <div className="sidebar-buttons">
-          <button onClick={() => setCurrentView("")}>
-            Dashboard
-          </button>
+          <button onClick={() => setCurrentView("")}>Dashboard</button>
           <button onClick={() => setCurrentView("internshipreports")}>
             View Internship Reports
           </button>
@@ -38,7 +32,6 @@ function Faculty({email}){
           <button onClick={() => setCurrentView("statistics")}>
             Statistics
           </button>
-         
         </div>
       </div>
 
@@ -48,21 +41,22 @@ function Faculty({email}){
             <header className="faculty-header">
               <h1>Welcome {username}</h1>
               <hr />
-              
             </header>
           </div>
         )}
-        
-        {currentView === "internshipreports" && <InternshipReports onBackInternshipreports={handleBackToDashboard} />}
-        {currentView === "evaluationreports" && <EvaluationReports onBackEvaluationreports={handleBackToDashboard} />}
-        {currentView === "statistics" && <Statistics onBackStatistics={handleBackToDashboard} />}
-       
-        
-        
+
+        {currentView === "internshipreports" && (
+          <InternshipReports onBackInternshipreports={handleBackToDashboard} />
+        )}
+        {currentView === "evaluationreports" && (
+          <EvaluationReports onBackEvaluationreports={handleBackToDashboard} />
+        )}
+        {currentView === "statistics" && (
+          <Statistics onBackStatistics={handleBackToDashboard} />
+        )}
       </div>
     </div>
   );
-    
 }
 
 export default Faculty;

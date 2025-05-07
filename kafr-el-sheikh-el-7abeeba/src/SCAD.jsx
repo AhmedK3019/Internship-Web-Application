@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
-import './index.css';
+import React, { useState } from "react";
+import "./index.css";
 
-
-function SCAD({email}){
-
-
-}
+function SCAD({ user }) {}
 
 export default SCAD;
