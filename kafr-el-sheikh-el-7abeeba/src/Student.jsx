@@ -7,6 +7,7 @@ import Discover from "./Discover";
 import Reportsubmission from "./Reportsubmission";
 import InternshipApplication from "./IntershipApplication";
 import MyInternships from "./MyInternships";
+import AppliedInternships from "./AppliedInternships";
 import "./index.css";
 
 function Student({ user, onLogout }) {
@@ -53,6 +54,10 @@ function Student({ user, onLogout }) {
           <button onClick={() => setCurrentView("my-internships")}>
             My Internships
           </button>
+          <button onClick={() => setCurrentView("applied")}>Applications</button>
+          <button onClick={onLogout} className="logout-btn">
+            Logout
+          </button>
         </div>
       </div>
 
@@ -72,6 +77,9 @@ function Student({ user, onLogout }) {
             onApply={handleApply}
             appliedInternships={appliedInternships}
           />
+        )}
+        {currentView === "applied" && (
+          <AppliedInternships appliedInternships={appliedInternships} />
         )}
         {currentView === "majors" && (
           <Majors onBackMajors={handleBackToDashboard} />
