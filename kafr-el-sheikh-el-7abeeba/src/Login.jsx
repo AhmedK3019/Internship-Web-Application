@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
-import './index.css';
-import Register from './Register';
-import Company from './Company';
-import SCAD from './SCAD';
-import Student from './Student';
-import ProStudent from './ProStudent';
-import Faculty from './Faculty';
-
+import React, { useState } from "react";
+import "./index.css";
+import Register from "./Register";
+import Company from "./Company";
+import SCAD from "./SCAD";
+import Student from "./Student";
+import ProStudent from "./ProStudent";
+import Faculty from "./Faculty";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('Student');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const [showRegister, setShowRegister] = useState(false);
   const [showCompany, setShowCompany] = useState(false);
   const [showStudent, setShowStudent] = useState(false);
@@ -20,11 +18,60 @@ function Login() {
   const [showSCAD, setShowSCAD] = useState(false);
   const [showFaculty, setShowFaculty] = useState(false);
 
-  function goToLogin(event){
+  const [users, setUsers] = useState([
+    {
+      id: 1,
+      name: "John Doe",
+      email: "JohnDoe@gmail.com",
+      password: "johndoe123",
+      role: "Student",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      email: "JaneSmith@gmail.com",
+      password: "janesmith123",
+      role: "Student",
+    },
+    {
+      id: 3,
+      name: "Alice Johnson",
+      email: "AliceJohnson@gmail.com",
+      password: "alicejohnson123",
+      role: "Pro Student",
+    },
+    {
+      id: 4,
+      name: "Bob Brown",
+      email: "BobBrown@gmail.com",
+      password: "bobbrown123",
+      role: "Company",
+      company: "Sumerge",
+      industry: "IT",
+      size: "medium",
+      logo: "sumerge.jpeg",
+    },
+    {
+      id: 5,
+      name: "Charlie Davis",
+      email: "CharlieDavis@gmail.com",
+      password: "charliedavis123",
+      role: "SCAD Office Member",
+    },
+    {
+      id: 6,
+      name: "David Wilson",
+      email: "DavidWilson@gmail.com",
+      password: "davidwilson123",
+      role: "Faculty Member",
+    },
+  ]);
+
+  function goToLogin(event) {
     setShowRegister(false);
   }
 
-  function onRegisterClick(event){
+  function onRegisterClick(event) {
     setShowRegister(true);
   }
 
@@ -36,24 +83,31 @@ function Login() {
     setPassword(event.target.value);
   }
 
-  function handleRoleChange(event) {
-    setRole(event.target.value);
-  }
-
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) {
-      setMessage('Please fill in all fields.');
+      setMessage("Please fill in all fields.");
       return;
     }
-    setMessage(`Logged in successfully as ${role} !`);
-    switch(role){
-      case "Company":setShowCompany(true);break;
-      case "Student":setShowStudent(true);break;
-      case "Pro Student":setShowProStudent(true);break;
-      case "SCAD Office Member":setShowSCAD(true);break;
-      case "Faculty Member":setShowFaculty(true);break;
-      default:break;
+    const user = users.find(
+      (user) => user.email === email && user.password === password
+    );
+    if (user) {
+      setEmail("");
+      setPassword("");
+      if (user.role === "Company") {
+        setShowCompany(true);
+      } else if (user.role === "Student") {
+        setShowStudent(true);
+      } else if (user.role === "Pro Student") {
+        setShowProStudent(true);
+      } else if (user.role === "SCAD Office Member") {
+        setShowSCAD(true);
+      } else if (user.role === "Faculty Member") {
+        setShowFaculty(true);
+      }
+    } else {
+      setMessage("Invalid email or password.");
     }
   }
 
@@ -61,66 +115,54 @@ function Login() {
     <>
       {showRegister ? (
         <Register onBack={goToLogin} />
-      ) : (showCompany ? (
+      ) : showCompany ? (
         <Company email={email} />
-      ) : (showStudent ? (
+      ) : showStudent ? (
         <Student email={email} />
-      ) : (showProStudent ? (
+      ) : showProStudent ? (
         <ProStudent email={email} />
-      ) : (showSCAD ? (
+      ) : showSCAD ? (
         <SCAD email={email} />
-      ) : (showFaculty ? (
+      ) : showFaculty ? (
         <Faculty email={email} />
       ) : (
-    <div className='page'>
-      <title>Login</title>
-      <div className="content">  
-        <div>              
-          <form onSubmit={handleSubmit}>
-          <h1 className='logo' >KSH</h1>
-          <h2>Login to your account</h2>
-            <input
-              type="email"
-              placeholder="Email"
-              className="input"
-              value={email}
-              onChange={handleEmailChange}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="input"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-            <select
-              className="select"
-              value={role}
-              onChange={handleRoleChange}
-            >
-              <option value="Company">Company</option>
-              <option value="Student">Student</option>
-              <option value="Pro Student">Pro Student</option>
-              <option value="SCAD Office Member">SCAD Office Member</option>
-              <option value="Faculty Member">Faculty Member</option>
-            </select>
-            <button type="submit">
-              Login
-            </button>
-            <h3>
-              Want to register your Company? Click{' '}
-              <span onClick={onRegisterClick} className='hyperText'>
-              here
-              </span>.
-            </h3>
-          </form>
-          {message && <div className='message'> {message}</div>}
+        <div className="page">
+          <title>Login</title>
+          <div className="content">
+            <div>
+              <form onSubmit={handleSubmit}>
+                <h1 className="logo">KSH</h1>
+                <h2>Login</h2>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="input"
+                  value={email}
+                  onChange={handleEmailChange}
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="input"
+                  value={password}
+                  onChange={handlePasswordChange}
+                />
+                <button type="submit">Login</button>
+                <h3>
+                  Want to register your Company? Click{" "}
+                  <span onClick={onRegisterClick} className="hyperText">
+                    here
+                  </span>
+                  .
+                </h3>
+              </form>
+              {message && <div className="message"> {message}</div>}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-      ))))))}
-      </>
-    );
-};
+      )}
+    </>
+  );
+}
 
 export default Login;

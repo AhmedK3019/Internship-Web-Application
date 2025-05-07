@@ -102,8 +102,8 @@ strong {
 div button {
   padding: 0.8rem;
   border-radius: 10px;
-  background-color: transparent;
-  color: #7EC8E3;
+  background-color: #535bf2;
+  color: #050a30;
   font-weight: bold;
   border: 2px solid #535bf2;
   cursor: pointer;
@@ -113,8 +113,8 @@ div button {
 form button {
   padding: 0.8rem;
   border-radius: 10px;
-  background-color: transparent;
-  color: #7EC8E3;
+  background-color: #535bf2;
+  color: #050a30;
   font-weight: bold;
   border: 2px solid #535bf2;
   cursor: pointer;
@@ -122,7 +122,8 @@ form button {
 }
 
 button:hover {
-  background-color: #535bf2;
+  background-color: transparent;
+  color: #7EC8E3;
 }
 
 button:focus,
@@ -346,9 +347,6 @@ textarea {
   font-style: italic;
   cursor: pointer;
   text-decoration: none;
-}
-
-.hyperText:hover {
   color: blue;
   text-decoration: underline;
 }
