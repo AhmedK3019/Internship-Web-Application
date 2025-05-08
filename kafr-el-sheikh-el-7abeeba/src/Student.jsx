@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SuggestedCompanies from "./SuggestedCompanies";
-import UpdateProfile from "./UpdateProfile";
+import Profile from "./Profile";
 import Majors from "./Majors";
 import Listings from "./Listings";
 import Discover from "./Discover";
@@ -16,7 +16,6 @@ function Student({ user, onLogout }) {
   const [selectedInternship, setSelectedInternship] = useState(null);
   const [appliedInternships, setAppliedInternships] = useState([]);
   
-
   const [notifications, setNotifications] = useState([
     { 
       id: 1, 
@@ -39,15 +38,15 @@ function Student({ user, onLogout }) {
   ]);
   const [showNotifications, setShowNotifications] = useState(false);
 
-  function handleNotificationClick(notificationId) {
-    setNotifications((prevNotifications) =>
-      prevNotifications.map((notification) =>
+  const handleNotificationClick = (notificationId) => {
+    setNotifications(prevNotifications =>
+      prevNotifications.map(notification =>
         notification.id === notificationId
           ? { ...notification, isRead: true }
           : notification
       )
     );
-  }
+  };
 
   const handleBackToDashboard = () => {
     setCurrentView("");
@@ -59,15 +58,17 @@ function Student({ user, onLogout }) {
   };
   
   const handleApplySuccess = (internshipId) => {
-    setAppliedInternships([...appliedInternships, internshipId]);
+    setAppliedInternships(prev => [...prev, internshipId]);
 
-    const newNotification = {
-      id: notifications.length + 1,
-      message: `Your application for ${selectedInternship.title} has been submitted successfully!`,
-      isRead: false,
-      date: new Date().toISOString().split('T')[0]
-    };
-    setNotifications([...notifications, newNotification]);
+    setNotifications(prev => [
+      ...prev,
+      {
+        id: Date.now(),
+        message: `Your application for ${selectedInternship.title} has been submitted successfully!`,
+        isRead: false,
+        date: new Date().toISOString().split('T')[0]
+      }
+    ]);
     setCurrentView("listing");
   };
 
@@ -86,7 +87,7 @@ function Student({ user, onLogout }) {
             View Suggested Companies
           </button>
           <button onClick={() => setCurrentView("update")}>
-            Update Profile
+            Profile
           </button>
           <button onClick={() => setCurrentView("majors")}>Majors</button>
           <button onClick={() => setCurrentView("listing")}>Internships</button>
@@ -182,7 +183,10 @@ function Student({ user, onLogout }) {
           />
         )}
         {currentView === "update" && (
-          <UpdateProfile onBackUpdate={handleBackToDashboard} />
+          <Profile 
+            user={user} 
+            onBackUpdate={handleBackToDashboard} 
+          />
         )}
         {currentView === "application" && (
           <InternshipApplication

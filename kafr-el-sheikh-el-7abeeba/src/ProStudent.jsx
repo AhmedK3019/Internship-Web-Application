@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SuggestedCompanies from "./SuggestedCompanies";
-import UpdateProfile from "./UpdateProfile";
+import UpdateProfile from "./Profile";
 import Majors from "./Majors";
 import Listings from "./Listings";
 import Discover from "./Discover";
