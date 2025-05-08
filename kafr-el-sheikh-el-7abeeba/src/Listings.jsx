@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./index.css";
 
-function Listings({showApplyButton = false, onApply = () => {}, appliedInternships = [], onlyShowApplied = false }) {
+function Listings({ showApplyButton = false, onApply = () => { }, appliedInternships = [], onlyShowApplied = false, applicationStatuses = {} }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedIndustry, setSelectedIndustry] = useState("");
@@ -138,90 +138,90 @@ function Listings({showApplyButton = false, onApply = () => {}, appliedInternshi
     ? filteredData.filter(item => appliedInternships.includes(item.id))
     : filteredData;
 
-  
+
   const title = onlyShowApplied
     ? "My Applications"
     : searchQuery
-        ? `Search Results for "${searchQuery}"`
-        : "All Internship Opportunities";
+      ? `Search Results for "${searchQuery}"`
+      : "All Internship Opportunities";
 
   return (
     <div className="internship-background">
       <div className="listings-container">
         <h1>{title}</h1>
-          <div className="filters-container">
-            <div className="search-filter-row">
-              <input
-                type="text"
-                placeholder="Search by title or company..."
-                className="search-input"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                {!onlyShowApplied && (
-            <button onClick={() => setShowFilters(!showFilters)} style={{marginTop:"10px"}}>
+        <div className="filters-container">
+          <div className="search-filter-row">
+            <input
+              type="text"
+              placeholder="Search by title or company..."
+              className="search-input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {!onlyShowApplied && (
+              <button onClick={() => setShowFilters(!showFilters)} style={{ marginTop: "10px" }}>
                 {showFilters ? "Hide Filter" : "Show Filter"}
               </button>
-                )}
-            </div>
-            {showFilters && !onlyShowApplied && (
-              <div className="filter-row">
-                <div className="filter-group">
-                  <label>Industry:</label>
-                  <div className="filter-combo">
-                    <select className="filter-select" value={selectedIndustry} onChange={handleIndustryChange}>
-                      <option value="">Select Industry</option>
-                      <option value="Technology">Technology</option>
-                      <option value="Design">Design</option>
-                      <option value="Data Science">Data Science</option>
-                      <option value="Marketing">Marketing</option>
-                    </select>
-                    <span className="filter-or">OR</span>
-                    <input type="text" placeholder="Type industry..." className="filter-input" value={customIndustry} onChange={handleCustomIndustryChange} />
-                  </div>
-                </div>
-                <div className="filter-group">
-                  <label>Duration:</label>
-                  <div className="filter-combo">
-                    <select className="filter-select" value={selectedDuration} onChange={handleDurationChange}>
-                      <option value="">Select Duration</option>
-                      <option value="1 Month">1 Month</option>
-                      <option value="3 Months">3 Months</option>
-                      <option value="6 Months">6 Months</option>
-                    </select>
-                    <span className="filter-or">OR</span>
-                    <input type="text" placeholder="Type duration..." className="filter-input" value={customDuration} onChange={handleCustomDurationChange} />
-                  </div>
-                </div>
-                <div className="filter-group">
-                  <label>Compensation:</label>
-                  <div className="filter-combo">
-                    <select className="filter-select" value={selectedPaid} onChange={handlePaidChange}>
-                      <option value="">All Types</option>
-                      <option value="paid">Paid</option>
-                      <option value="unpaid">Unpaid</option>
-                    </select>
-                    <span className="filter-or">OR</span>
-                    <input type="text" placeholder="Type Paid/Unpaid..." className="filter-input" value={customPaid} onChange={handleCustomPaidChange} />
-                  </div>
-                </div>
-              </div>
             )}
           </div>
-        
+          {showFilters && !onlyShowApplied && (
+            <div className="filter-row">
+              <div className="filter-group">
+                <label>Industry:</label>
+                <div className="filter-combo">
+                  <select className="filter-select" value={selectedIndustry} onChange={handleIndustryChange}>
+                    <option value="">Select Industry</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Design">Design</option>
+                    <option value="Data Science">Data Science</option>
+                    <option value="Marketing">Marketing</option>
+                  </select>
+                  <span className="filter-or">OR</span>
+                  <input type="text" placeholder="Type industry..." className="filter-input" value={customIndustry} onChange={handleCustomIndustryChange} />
+                </div>
+              </div>
+              <div className="filter-group">
+                <label>Duration:</label>
+                <div className="filter-combo">
+                  <select className="filter-select" value={selectedDuration} onChange={handleDurationChange}>
+                    <option value="">Select Duration</option>
+                    <option value="1 Month">1 Month</option>
+                    <option value="3 Months">3 Months</option>
+                    <option value="6 Months">6 Months</option>
+                  </select>
+                  <span className="filter-or">OR</span>
+                  <input type="text" placeholder="Type duration..." className="filter-input" value={customDuration} onChange={handleCustomDurationChange} />
+                </div>
+              </div>
+              <div className="filter-group">
+                <label>Compensation:</label>
+                <div className="filter-combo">
+                  <select className="filter-select" value={selectedPaid} onChange={handlePaidChange}>
+                    <option value="">All Types</option>
+                    <option value="paid">Paid</option>
+                    <option value="unpaid">Unpaid</option>
+                  </select>
+                  <span className="filter-or">OR</span>
+                  <input type="text" placeholder="Type Paid/Unpaid..." className="filter-input" value={customPaid} onChange={handleCustomPaidChange} />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
 
         <div className="internship-list">
           {finalData.length === 0 ? (
             <div className="no-results">
-            {onlyShowApplied
-              ? searchQuery
-                ? `No applications found for “${searchQuery}”`
-                : `You haven't applied to any internships yet.`
-              : searchQuery
-                ? `No internships found for “${searchQuery}”`
-                : `No internships currently available.`
-            }
-          </div>
+              {onlyShowApplied
+                ? searchQuery
+                  ? `No applications found for “${searchQuery}”`
+                  : `You haven't applied to any internships yet.`
+                : searchQuery
+                  ? `No internships found for “${searchQuery}”`
+                  : `No internships currently available.`
+              }
+            </div>
           ) : (
             finalData.map((internship) => (
               <div
@@ -234,7 +234,32 @@ function Listings({showApplyButton = false, onApply = () => {}, appliedInternshi
                   <h3>{internship.company}</h3>
                 </div>
                 <div className="expand-indicator">{selectedInternship === internship.id ? "▼" : "▶"}</div>
-                <div className="divider" />
+                {!onlyShowApplied && (<div
+                  style={{
+                    borderBottom: "1px solid rgba(126, 200, 227, 0.2)",
+                    padding: "0.5rem 0",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontWeight: "normal",
+                    }}>
+                    <span className="detail-label">Duration:</span>
+                    <span className="detail-value">{internship.duration}</span>
+                  </span>
+
+                </div>
+                )}
+                {onlyShowApplied && (
+                  <div style={{display: "flex", justifyContent: "space-between"}}>
+                    <span className="detail-label">Status:</span>
+                    <span className={`status-value ${applicationStatuses[internship.id]?.toLowerCase()}`}>
+                      {applicationStatuses[internship.id] || "pending"}
+                    </span>
+                  </div>
+                )}
                 {selectedInternship === internship.id && (
                   <div className="details-grid">
                     <div className="detail-item">
@@ -254,7 +279,7 @@ function Listings({showApplyButton = false, onApply = () => {}, appliedInternshi
                     <div className="detail-item">
                       <span className="detail-label">Description:</span>
                     </div>
-                    <p style={{color:"white"}}>{internship.description}</p>
+                    <p style={{ color: "white" }}>{internship.description}</p>
 
                     {showApplyButton && !onlyShowApplied && (
                       appliedInternships.includes(internship.id) ? (
