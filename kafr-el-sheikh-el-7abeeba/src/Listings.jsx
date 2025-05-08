@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./index.css";
 
-function Listings({ showApplyButton = false, onApply = () => { }, appliedInternships = [], onlyShowApplied = false, applicationStatuses = {} }) {
+function Listings({ showApplyButton = false, onApply = () => { }, appliedInternships = [], onlyShowApplied = false}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedIndustry, setSelectedIndustry] = useState("");
