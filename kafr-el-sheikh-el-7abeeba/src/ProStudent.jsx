@@ -9,6 +9,7 @@ import InternshipApplication from "./IntershipApplication";
 import MyInternships from "./MyInternships";
 import AppliedInternships from "./AppliedInternships";
 import MyinternshipsData from "./InternshipsData";
+import VideoCallAppointment from "./VideoCallAppointment";
 import "./index.css";
 
 function ProStudent({ user, onLogout }) {
@@ -114,6 +115,9 @@ function ProStudent({ user, onLogout }) {
             My Internships
           </button>
           <button onClick={() => setCurrentView("applied")}>Applications</button>
+          <button onClick={() => setCurrentView("videocall")}>
+            Schedule Video Call
+          </button>
           <button onClick={onLogout} className="logout-btn">
             Logout
           </button>
@@ -210,6 +214,7 @@ function ProStudent({ user, onLogout }) {
           />
         )}
         {currentView === "my-internships" && <MyInternships />}
+        {currentView === "videocall" && <VideoCallAppointment />}
       </div>
     </div>
   );
