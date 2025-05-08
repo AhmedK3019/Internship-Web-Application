@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SuggestedCompanies from "./SuggestedCompanies";
-import UpdateProfile from "./Profile";
+import Profile from "./Profile";
 import Majors from "./Majors";
 import Listings from "./Listings";
 import Discover from "./Discover";
@@ -104,7 +104,7 @@ function ProStudent({ user, onLogout }) {
             View Suggested Companies
           </button>
           <button onClick={() => setCurrentView("update")}>
-            Update Profile
+            View Profile
           </button>
           <button onClick={() => setCurrentView("majors")}>Majors</button>
           <button onClick={() => setCurrentView("listing")}>Internships</button>
@@ -204,7 +204,9 @@ function ProStudent({ user, onLogout }) {
           />
         )}
         {currentView === "update" && (
-          <UpdateProfile onBackUpdate={handleBackToDashboard} />
+          <Profile 
+          user={user} 
+          onBackUpdate={handleBackToDashboard} />
         )}
         {currentView === "application" && (
           <InternshipApplication

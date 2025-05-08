@@ -6,7 +6,7 @@ function Profile({ user, onBackUpdate }) {
   const [formData, setFormData] = useState({
     username: user.name,
     id: "58-1234",
-    email: `${user.name}@student.uni.edu.eg`,
+    email: `${user.name.replace(/\s/g, '.').toLowerCase()}@student.uni.edu.eg`,
     semester: 6,
     jobInterests: 'Web Development, UI/UX Design',
     internships: [
