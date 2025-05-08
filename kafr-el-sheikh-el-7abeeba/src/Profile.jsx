@@ -63,7 +63,6 @@ function Profile({ user, onBackUpdate }) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     setIsEditing(false);
   };
 
@@ -92,10 +91,7 @@ function Profile({ user, onBackUpdate }) {
               <div className="profile-value">{formData.email}</div>
             </div>
           </div>
-        <div>
-          
-        </div>
-          <form className="profile-section" onSubmit={handleSubmit}>
+          <div className="profile-section" >
             <h2 className="section-title">Personal Information</h2>
             
             <div className="profile-field">
@@ -255,12 +251,16 @@ function Profile({ user, onBackUpdate }) {
 
             {isEditing && (
               <div className="form-actions">
-                <button type="submit" className="btn btn-primary">
+                <button 
+                  type="button" 
+                  className="btn btn-primary"
+                  onClick={handleSubmit}
+                >
                   Save Changes
                 </button>
               </div>
             )}
-          </form>
+          </div>
         </div>
 
         <button onClick={onBackUpdate} className="btn btn-secondary" style={{marginTop: '2rem'}}>
