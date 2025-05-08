@@ -16,7 +16,7 @@ function Student({ user, onLogout }) {
   const [selectedInternship, setSelectedInternship] = useState(null);
   const [appliedInternships, setAppliedInternships] = useState([]);
   
-  // Notification System
+
   const [notifications, setNotifications] = useState([
     { 
       id: 1, 

@@ -22,6 +22,7 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
       location: "Cairo",
       pay: "Paid",
       salary: "5000 EGP/month",
+      status: "Finalized",
       description: "Work on cutting-edge React applications",
     },
     {
@@ -34,6 +35,7 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
       pay: "Unpaid",
       salary: "Unpaid",
       skills: ["Figma", "Adobe XD"],
+      status: "Pending",
       description: "Design user interfaces for enterprise applications",
     },
     {
@@ -46,6 +48,7 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
       pay: "Unpaid",
       salary: "Unpaid",
       skills: ["Figma", "Adobe XD"],
+      status: "Pending",
       description: "Design user interfaces for enterprise applications",
     },
     {
@@ -58,6 +61,7 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
       pay: "Paid",
       salary: "3000 EGP/month",
       skills: ["Python", "SQL"],
+      status: "Accepted",
       description: "Analyze data and generate reports",
     },
     {
@@ -70,6 +74,7 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
       pay: "Paid",
       salary: "2000 EGP/month",
       skills: ["Social Media", "Content Creation"],
+      status: "Rejected",
       description: "Assist in marketing campaigns and social media management",
     },
   ];
@@ -253,10 +258,10 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
                 </div>
                 )}
                 {onlyShowApplied && (
-                  <div style={{display: "flex", justifyContent: "space-between"}}>
+                  <div style={{display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(126, 200, 227, 0.2)", padding: "0.5rem 0"}}>
                     <span className="detail-label">Status:</span>
-                    <span className={`status-value ${applicationStatuses[internship.id]?.toLowerCase()}`}>
-                      {applicationStatuses[internship.id] || "pending"}
+                    <span>
+                      {internship.status || "pending"}
                     </span>
                   </div>
                 )}
@@ -271,6 +276,12 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
                       <span className="detail-label">Compensation:</span>
                       <span className="detail-value">{internship.salary}</span>
                     </div>
+                    {onlyShowApplied && (
+                      <div className="detail-item">
+                        <span className="detail-label">Duration:</span>
+                        <span className="detail-value">{internship.duration}</span>
+                      </div>
+                    )}
                     <div className="detail-item">
                       <span className="detail-label">Skills Required:</span>
                       <span className="detail-value">{internship.skills?.join(", ") || "No specific skills required"}
