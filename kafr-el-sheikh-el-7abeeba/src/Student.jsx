@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SuggestedCompanies from "./SuggestedCompanies";
 import UpdateProfile from "./UpdateProfile";
 import Majors from "./Majors";
@@ -15,17 +15,59 @@ function Student({ user, onLogout }) {
   const [currentView, setCurrentView] = useState("");
   const [selectedInternship, setSelectedInternship] = useState(null);
   const [appliedInternships, setAppliedInternships] = useState([]);
+  
+  // Notification System
+  const [notifications, setNotifications] = useState([
+    { 
+      id: 1, 
+      message: "New internship cycle begins next week! Start preparing your resume.", 
+      isRead: false,
+      date: "2025-05-01"
+    },
+    {
+      id: 2,
+      message: "Reminder: Early application deadline is approaching in 3 days.",
+      isRead: false,
+      date: "2025-05-05"
+    },
+    { 
+      id: 3, 
+      message: "Summer 2025 internship cycle has officially begun! Applications are now open.", 
+      isRead: false,
+      date: "2025-05-08"
+    }
+  ]);
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  function handleNotificationClick(notificationId) {
+    setNotifications((prevNotifications) =>
+      prevNotifications.map((notification) =>
+        notification.id === notificationId
+          ? { ...notification, isRead: true }
+          : notification
+      )
+    );
+  }
 
   const handleBackToDashboard = () => {
     setCurrentView("");
   };
-
+  
   const handleApply = (internship) => {
     setSelectedInternship(internship);
     setCurrentView("application");
   };
+  
   const handleApplySuccess = (internshipId) => {
     setAppliedInternships([...appliedInternships, internshipId]);
+
+    const newNotification = {
+      id: notifications.length + 1,
+      message: `Your application for ${selectedInternship.title} has been submitted successfully!`,
+      isRead: false,
+      date: new Date().toISOString().split('T')[0]
+    };
+    setNotifications([...notifications, newNotification]);
     setCurrentView("listing");
   };
 
@@ -60,12 +102,59 @@ function Student({ user, onLogout }) {
           </button>
         </div>
       </div>
-
       <div className="main-content">
         {currentView === "" && (
           <div className="student-container">
             <header className="student-header">
-              <h1>Welcome {username}</h1>
+              <div className="dashboard-header">
+                <div className="company-info">
+                  <div className="welcome-text">
+                    <h1>Welcome {username}</h1>
+                    <h2>Student Dashboard</h2>
+                  </div>
+                </div>
+                <div className={`notifications-area ${
+                  showNotifications ? "shifted" : ""
+                }`}>
+                  <div
+                    className="notification-ring"
+                    onClick={() => setShowNotifications(!showNotifications)}
+                  >
+                    <span className="notification-count">
+                      {notifications.filter((n) => !n.isRead).length}
+                    </span>
+                    🔔
+                  </div>
+                </div>
+              </div>
+
+              {showNotifications && (
+                <div
+                  className={`notifications-panel ${
+                    showNotifications ? "visible" : ""
+                  }`}
+                >
+                  <h3>Notifications</h3>
+                  {notifications.length === 0 ? (
+                    <div className="notification-item">
+                      No notifications at this time.
+                    </div>
+                  ) : (
+                    notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        className={`notification-item ${
+                          notification.isRead ? "read" : "unread"
+                        }`}
+                        onClick={() => handleNotificationClick(notification.id)}
+                      >
+                        <div className="notification-message">{notification.message}</div>
+                        <div className="notification-date">{notification.date}</div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
               <hr />
               <Discover onBackUpdate={handleBackToDashboard} />
             </header>
@@ -102,7 +191,6 @@ function Student({ user, onLogout }) {
             onApplySuccess={() => handleApplySuccess(selectedInternship.id)}
           />
         )}
-
         {currentView === "my-internships" && <MyInternships />}
       </div>
     </div>
