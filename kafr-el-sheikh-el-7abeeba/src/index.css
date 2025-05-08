@@ -1460,3 +1460,12 @@ input[type="file"][disabled] {
     box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
   }
 }
+.pro-badge {
+  background: #4CAF50;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-left: 8px;
+  display: inline-block;
+}
