@@ -8,8 +8,45 @@ function InternshipReports() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [majorFilter, setMajorFilter] = useState("All");
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [showEvaluationModal, setShowEvaluationModal] = useState(false);
+  const [clarifications, setClarifications] = useState({});
+
+  const handleClarificationSubmit = (id, text) => {
+  setClarifications(prev => ({ ...prev, [id]: text }));
+};
+
  
-  
+  const EvaluationModal = ({ report, onClose }) => (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h2>Evaluation Report</h2>
+        <button onClick={onClose} className="close-button">&times;</button>
+      </div>
+
+      <div className="evaluation-details">
+        <p><strong>Student Name:</strong> {report.studentName}</p>
+        <p><strong>Major:</strong> {report.major}</p>
+        <p><strong>Company:</strong> {report.company}</p>
+        <p><strong>Supervisor:</strong> {report.supervisor}</p>
+        <p><strong>Internship Period:</strong> {report.startDate} to {report.endDate}</p>
+        <p><strong>Status:</strong> {report.status}</p>
+        <p><strong>Description:</strong> {report.description}</p>
+
+        {report.evaluation && (
+          <>
+            <p><strong>Rating:</strong> {report.evaluation.rating} / 5</p>
+            <p><strong>Recommends:</strong> {report.evaluation.recommends ? "Yes" : "No"}</p>
+            <p><strong>Feedback:</strong> {report.evaluation.feedback}</p>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+);
+
+
   const handleStatusChange = (id, newStatus) => {
     setReports(prevReports =>
       prevReports.map(report =>
@@ -135,9 +172,45 @@ function InternshipReports() {
                   >
                  Download PDF
             </button>
+            <button
+              className="action-button"
+              onClick={() => {
+                setSelectedReport(report);
+                setShowEvaluationModal(true);
+               }}
+             >
+              View Evaluation
+            </button>
+            {["Rejected", "Flagged"].includes(report.status) && (
+              <div style={{ marginTop: "10px" }}>
+                <textarea
+                   rows="3"
+                  placeholder="Submit a clarification..."
+                  className="search-input"
+                  style={{ width: "100%", marginBottom: "5px" }}
+                  value={clarifications[report.id] || ""}
+                  onChange={(e) =>
+                    setClarifications(prev => ({ ...prev, [report.id]: e.target.value }))
+                  }
+                />
+                <button
+                   className="action-button"
+                   onClick={() => handleClarificationSubmit(report.id, clarifications[report.id])}
+               >
+                Submit Clarification
+               </button>
+              </div>
+            )}
+
 
             </div>
           ))
+        )}
+         {showEvaluationModal && selectedReport && (
+          <EvaluationModal
+            report={selectedReport}
+            onClose={() => setShowEvaluationModal(false)}
+          />
         )}
       </div>
     </div>
