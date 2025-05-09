@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
+import requestedAppointments from "./requestedAppointments";
 
-function SCADReqeustedAppointments({ requestedAppointments }) {
-  const [appointments, setAppointments] = useState(requestedAppointments);
-
-  useEffect(() => {
-    setAppointments(requestedAppointments);
-  }, [requestedAppointments]);
-
+function SCADReqeustedAppointments() {
   function handleAccept(appointment) {}
   function handleReject(appointment) {}
 
@@ -15,10 +10,10 @@ function SCADReqeustedAppointments({ requestedAppointments }) {
     <div className="listings-container">
       <div className="internship-list">
         <h1>Requested Appointments</h1>
-        {appointments.length === 0 ? (
+        {requestedAppointments.length === 0 ? (
           <div className="no-results">No pending appointments</div>
         ) : (
-          appointments.map((appointment, index) => (
+          requestedAppointments.map((appointment, index) => (
             <div key={index} className="internship-card">
               <div className="details-grid">
                 <div className="detail-item">

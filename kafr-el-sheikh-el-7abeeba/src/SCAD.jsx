@@ -119,11 +119,7 @@ function SCAD({ user, companiesRequests, onLogout }) {
         {view === "callRequest" && (
           <SCADVideoCallAppointment addAppointment={addAppointment} />
         )}
-        {view === "appointments" && (
-          <SCADRequestedAppointments
-            requestedAppointments={requestedAppointments}
-          />
-        )}
+        {view === "appointments" && <SCADRequestedAppointments />}
         {view === "listings" && <Listings />}
       </div>
     </div>
