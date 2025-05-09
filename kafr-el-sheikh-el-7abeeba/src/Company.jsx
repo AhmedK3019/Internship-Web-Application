@@ -186,7 +186,7 @@ function Company({ user, onLogout }) {
             <div className="dashboard-header">
               <div className="company-info">
                 <img
-                  src={`/${user.logo}`}
+                  src={user.logo}
                   alt="Company Logo"
                   className="company-dashboard-logo"
                 />
