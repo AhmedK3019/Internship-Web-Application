@@ -7,13 +7,14 @@ function SCADCompaniesRequests() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedIndustry, setSelectedIndustry] = useState("");
+  const [, forceUpdate] = useState({});
 
   function handleIndustryChange(event) {
     setSelectedIndustry(event.target.value);
   }
 
   function handleAccept(request) {
-    newUser = {
+    const newUser = {
       id: users.length + 1,
       name: request.username,
       email: request.email,
@@ -31,7 +32,14 @@ function SCADCompaniesRequests() {
       companiesRequests.splice(index, 1);
     }
 
-    window.location.href = `mailto:${request.email}?subject=Company Registration Accepted&body=Your company registration has been accepted. Welcome aboard!`;
+    forceUpdate({});
+
+    const subject = encodeURIComponent("Company Registration Accepted");
+    const body = encodeURIComponent(
+      "Your company registration has been accepted. Welcome aboard!"
+    );
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${request.email}&su=${subject}&body=${body}`;
+    window.open(gmailUrl, "_blank");
   }
 
   function handleReject(request) {
