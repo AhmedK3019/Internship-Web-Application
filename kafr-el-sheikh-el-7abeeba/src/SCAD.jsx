@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import SCADCompaniesRequests from "./SCADCompaniesRequests";
+import VideoCallAppointment from "./VideoCallAppointment";
 
 function SCAD({ user, companiesRequests, onLogout }) {
   const [view, setView] = useState("dashboard");
+  const [requestedAppointments, setRequestedAppointments] = useState([]);
+
+  function addAppointment(appointment) {
+    setRequestedAppointments((prevAppointments) => [
+      ...prevAppointments,
+      appointment,
+    ]);
+  }
 
   return (
     <div className="page">
@@ -19,6 +28,9 @@ function SCAD({ user, companiesRequests, onLogout }) {
           <button onClick={() => setView("companiesRequests")}>
             View Companies Requests
           </button>
+          <button onClick={() => setView("callRequest")}>
+            Schedule Video Call
+          </button>
           <button onClick={onLogout} className="logout-btn">
             Logout
           </button>
@@ -33,6 +45,14 @@ function SCAD({ user, companiesRequests, onLogout }) {
         )}
         {view === "companiesRequests" && (
           <SCADCompaniesRequests companiesRequests={companiesRequests} />
+        )}
+        {view === "callRequest" && (
+          <SCADVideoCallAppointment addAppointment={addAppointment} />
+        )}
+        {view === "appointments" && (
+          <SCADRequestedAppointments
+            requestedAppointments={requestedAppointments}
+          />
         )}
       </div>
     </div>
