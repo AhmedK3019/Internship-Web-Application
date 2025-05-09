@@ -6,19 +6,38 @@ import SCADRequestedAppointments from "./SCADRequestedAppointments";
 import SCADFutureAppointments from "./SCADFutureAppointments";
 import requestedAppointments from "./requestedAppointments";
 import Listings from "./Listings";
+import SCADNotifications from "./SCADNotifications";
 
 function SCAD({ user, companiesRequests, onLogout }) {
   const [view, setView] = useState("dashboard");
   const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      message: "Alice Johnson accepted your appointment",
-      isRead: false,
-    },
-  ]);
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const currentIds = new Set(notifications.map((n) => n.id));
+    const newNotifications = SCADNotifications.filter(
+      (n) => !currentIds.has(n.id)
+    );
+
+    if (newNotifications.length > 0) {
+      setNotifications((prevNotifications) => [
+        ...prevNotifications,
+        ...newNotifications,
+      ]);
+    }
+  }, [SCADNotifications]);
+
+  useEffect(() => {
+    setNotifications([...SCADNotifications]);
+  }, [SCADNotifications]);
 
   function handleNotificationClick(notificationId) {
+    SCADNotifications.forEach((notification) => {
+      if (notification.id === notificationId) {
+        notification.isRead = true;
+      }
+    });
+
     setNotifications((prevNotifications) =>
       prevNotifications.map((notification) =>
         notification.id === notificationId
