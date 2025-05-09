@@ -10,6 +10,7 @@ import MyInternships from "./MyInternships";
 import AppliedInternships from "./AppliedInternships";
 import MyinternshipsData from "./InternshipsData";
 import VideoCallAppointment from "./VideoCallAppointment";
+import ProfileViews from "./ProfileViews";
 import "./index.css";
 
 function ProStudent({ user, onLogout }) {
@@ -74,6 +75,9 @@ function ProStudent({ user, onLogout }) {
   const handleApply = (internship) => {
     setSelectedInternship(internship);
     setCurrentView("application");
+  };
+  const handleBackToProfile = () => {
+    setCurrentView("update");
   };
   
   const handleApplySuccess = (internshipId) => {
@@ -206,7 +210,9 @@ function ProStudent({ user, onLogout }) {
         {currentView === "update" && (
           <Profile 
           user={user} 
-          onBackUpdate={handleBackToDashboard} />
+          onBackUpdate={handleBackToDashboard}
+          onNavigate={setCurrentView}
+          isPro= {true}  />
         )}
         {currentView === "application" && (
           <InternshipApplication
@@ -217,6 +223,7 @@ function ProStudent({ user, onLogout }) {
         )}
         {currentView === "my-internships" && <MyInternships />}
         {currentView === "videocall" && <VideoCallAppointment />}
+        {currentView === "profile-views" && <ProfileViews onBack={handleBackToProfile} />}
       </div>
     </div>
   );

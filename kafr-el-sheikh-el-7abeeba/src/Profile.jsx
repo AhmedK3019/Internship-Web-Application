@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import ProfileViews from './ProfileViews';
 import './index.css';
 
-function Profile({ user, onBackUpdate }) {
+function Profile({ user, onBackUpdate, onNavigate, isPro = false }) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     username: user.name,
@@ -259,6 +260,20 @@ function Profile({ user, onBackUpdate }) {
                   Save Changes
                 </button>
               </div>
+            )}
+
+            {isPro && (<div className="profile-section">
+            <h3 className="section-title">Profile Visibility</h3>
+            <div className="profile-views-widget">
+              <p>See who viewed your profile</p>
+              <button 
+                className="btn btn-primary"
+                onClick={() => onNavigate('profile-views')} 
+              >
+                View All
+              </button>
+            </div>
+          </div>
             )}
           </div>
         </div>

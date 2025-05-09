@@ -1605,12 +1605,14 @@ input[type="file"][disabled] {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s;
+  margin-bottom: 10px;
+  border: 2px solid #535bf2;
 }
 
 .btn-primary {
   background-color: #535bf2;
   color: white;
-  border: none;
+
 }
 
 .btn-danger {
@@ -1618,9 +1620,17 @@ input[type="file"][disabled] {
   color: white;
   border: none;
 }
+.btn-danger:hover {
+  color: white;
+  background-color: #460606;
+}
 
 .btn-secondary {
   background: transparent;
   color: #7EC8E3;
   border: 1px solid #7EC8E3;
+}
+.btn-secondary:hover {
+  background:#7EC8E3;
+  color: rgba(5, 10, 48, 0.9);;
 }
