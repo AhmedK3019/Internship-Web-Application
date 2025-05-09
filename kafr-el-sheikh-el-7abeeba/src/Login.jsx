@@ -6,6 +6,7 @@ import SCAD from "./SCAD";
 import Student from "./Student";
 import ProStudent from "./ProStudent";
 import Faculty from "./Faculty";
+import companiesRequests from "./companiesRequests";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -32,15 +33,6 @@ function Login() {
   const [showFaculty, setShowFaculty] = useState(() => {
     return localStorage.getItem("view") === "faculty";
   });
-  const [companiesRequests, setCompaniesRequests] = useState(() => {
-    try {
-      const saved = localStorage.getItem("companiesRequests");
-      return saved ? JSON.parse(saved) : [];
-    } catch (error) {
-      console.error("Error loading companiesRequests:", error);
-      return [];
-    }
-  });
 
   async function fileToDataURL(file) {
     return new Promise((resolve, reject) => {
@@ -50,13 +42,6 @@ function Login() {
       reader.readAsDataURL(file);
     });
   }
-
-  useEffect(() => {
-    localStorage.setItem(
-      "companiesRequests",
-      JSON.stringify(companiesRequests)
-    );
-  }, [companiesRequests]);
 
   useEffect(() => {
     if (user) {
@@ -161,7 +146,6 @@ function Login() {
         }))
       );
 
-      // Ensure companiesRequests is initialized
       const currentRequests = companiesRequests || [];
 
       const newRequest = {
@@ -174,15 +158,7 @@ function Login() {
         files: filesWithDataURLs,
       };
 
-      // Update state using the currentRequests
-      const updatedRequests = [...currentRequests, newRequest];
-      setCompaniesRequests(updatedRequests);
-
-      // Update localStorage immediately
-      localStorage.setItem(
-        "companiesRequests",
-        JSON.stringify(updatedRequests)
-      );
+      companiesRequests.push(newRequest);
 
       return true;
     } catch (error) {
@@ -190,24 +166,6 @@ function Login() {
       return false;
     }
   }
-
-  useEffect(() => {
-    const saved = localStorage.getItem("companiesRequests");
-    if (saved) {
-      setCompaniesRequests(JSON.parse(saved));
-    }
-  }, []);
-
-  useEffect(() => {
-    function handleStorageChange(e) {
-      if (e.key === "companiesRequests") {
-        setCompaniesRequests(JSON.parse(e.newValue));
-      }
-    }
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
 
   function goToLogin(event) {
     setShowRegister(false);
