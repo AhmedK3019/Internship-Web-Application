@@ -31,6 +31,9 @@ function SCAD({ user, companiesRequests, onLogout }) {
           <button onClick={() => setView("callRequest")}>
             Schedule Video Call
           </button>
+          <button onClick={() => setView("appointments")}>
+            View Appointments
+          </button>
           <button onClick={onLogout} className="logout-btn">
             Logout
           </button>
