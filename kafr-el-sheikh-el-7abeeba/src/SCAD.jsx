@@ -5,6 +5,7 @@ import SCADVideoCallAppointment from "./SCADVideoCallAppointment";
 import SCADRequestedAppointments from "./SCADRequestedAppointments";
 import SCADFutureAppointments from "./SCADFutureAppointments";
 import requestedAppointments from "./requestedAppointments";
+import Listings from "./Listings";
 
 function SCAD({ user, companiesRequests, onLogout }) {
   const [view, setView] = useState("dashboard");
@@ -44,6 +45,9 @@ function SCAD({ user, companiesRequests, onLogout }) {
           <button onClick={() => setView("dashboard")}>Dashboard</button>
           <button onClick={() => setView("companiesRequests")}>
             View Companies Requests
+          </button>
+          <button onClick={() => setView("listings")}>
+            View all internships
           </button>
           <button onClick={() => setView("callRequest")}>
             Schedule Video Call
@@ -120,6 +124,7 @@ function SCAD({ user, companiesRequests, onLogout }) {
             requestedAppointments={requestedAppointments}
           />
         )}
+        {view === "listings" && <Listings />}
       </div>
     </div>
   );
