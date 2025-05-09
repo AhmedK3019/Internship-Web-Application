@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import SCADCompaniesRequests from "./SCADCompaniesRequests";
-import VideoCallAppointment from "./VideoCallAppointment";
+import SCADVideoCallAppointment from "./SCADVideoCallAppointment";
+import SCADRequestedAppointments from "./SCADRequestedAppointments";
+import SCADFutureAppointments from "./SCADFutureAppointments";
 
 function SCAD({ user, companiesRequests, onLogout }) {
   const [view, setView] = useState("dashboard");

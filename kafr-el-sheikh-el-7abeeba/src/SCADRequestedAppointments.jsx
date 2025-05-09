@@ -38,18 +38,20 @@ function SCADReqeustedAppointments({ requestedAppointments }) {
                   <span className="detail-value">{appointment.message}</span>
                 </div>
               </div>
-              <button
-                onClick={() => handleAccept(appointment)}
-                className="accept-btn"
-              >
-                Accept
-              </button>
-              <button
-                onClick={() => handleReject(appointment)}
-                className="delete-btn"
-              >
-                Reject
-              </button>
+              <div className="detail-actions">
+                <button
+                  onClick={() => handleAccept(appointment)}
+                  className="accept-btn"
+                >
+                  Accept
+                </button>
+                <button
+                  onClick={() => handleReject(appointment)}
+                  className="delete-btn"
+                >
+                  Reject
+                </button>
+              </div>
             </div>
           ))
         )}
