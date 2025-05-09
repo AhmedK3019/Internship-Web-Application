@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./index.css";
 
 function SCADCompaniesRequests({ companiesRequests }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedIndustry, setSelectedIndustry] = useState("");
+
+  function handleIndustryChange(event) {
+    setSelectedIndustry(event.target.value);
+  }
+
   function handleAccept(request) {
     // TODO: Implement accept logic
     console.log("Accepted request:", request);
@@ -12,14 +20,72 @@ function SCADCompaniesRequests({ companiesRequests }) {
     console.log("Rejected request:", request);
   }
 
+  const filteredData = companiesRequests.filter((req) => {
+    const searchLower = searchQuery.toLowerCase();
+
+    const searchMatch = req.name.toLowerCase().includes(searchLower);
+
+    const industryFilter = selectedIndustry;
+    const industryMatch = industryFilter
+      ? req.industry.toLowerCase().includes(industryFilter.toLowerCase())
+      : true;
+
+    return searchMatch && industryMatch;
+  });
+
   return (
     <div className="listings-container">
+      <h1>
+        {searchQuery
+          ? `Search Results for "${searchQuery}"`
+          : "Companies Requests"}
+      </h1>
+      <div className="filters-container">
+        <div className="search-filter-row">
+          <input
+            type="text"
+            placeholder="Search by intern name or job title..."
+            className="search-input"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button
+            style={{ marginTop: "10px" }}
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            {showFilters ? "Hide Filter" : "Show Filter"}
+          </button>
+        </div>
+
+        {showFilters && (
+          <div className="filter-row">
+            <div className="filter-group">
+              <label>Industry:</label>
+              <div className="filter-combo">
+                <select
+                  className="filter-select"
+                  value={selectedIndustry}
+                  onChange={handleIndustryChange}
+                >
+                  <option value="">Select Industry</option>
+                  {[
+                    ...new Set(companiesRequests.map((req) => req.industry)),
+                  ].map((title) => (
+                    <option key={title} value={title}>
+                      {title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="internship-list">
-        <h1>Companies Requests</h1>
-        {companiesRequests.length === 0 ? (
+        {filteredData.length === 0 ? (
           <div className="no-results">No pending company requests</div>
         ) : (
-          companiesRequests.map((request, index) => (
+          filteredData.map((request, index) => (
             <div key={index} className="internship-card">
               <div className="details-grid">
                 <div className="detail-item">
