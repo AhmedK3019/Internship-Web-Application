@@ -14,40 +14,61 @@ function InternshipReports() {
   const [clarifications, setClarifications] = useState({});
 
   const handleClarificationSubmit = (id, text) => {
-  setClarifications(prev => ({ ...prev, [id]: text }));
-};
+    setClarifications((prev) => ({ ...prev, [id]: text }));
+  };
 
- 
   const EvaluationModal = ({ report, onClose }) => (
-  <div className="modal-overlay">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h2>Evaluation Report</h2>
-        <button onClick={onClose} className="close-button">&times;</button>
-      </div>
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h2>Evaluation Report</h2>
+          <button onClick={onClose} className="close-button">
+            &times;
+          </button>
+        </div>
 
-      <div className="evaluation-details">
-        <p><strong>Student Name:</strong> {report.studentName}</p>
-        <p><strong>Major:</strong> {report.major}</p>
-        <p><strong>Company:</strong> {report.company}</p>
-        <p><strong>Supervisor:</strong> {report.supervisor}</p>
-        <p><strong>Internship Period:</strong> {report.startDate} to {report.endDate}</p>
-        <p><strong>Status:</strong> {report.status}</p>
-        <p><strong>Description:</strong> {report.description}</p>
+        <div className="evaluation-details">
+          <p>
+            <strong>Student Name:</strong> {report.studentName}
+          </p>
+          <p>
+            <strong>Major:</strong> {report.major}
+          </p>
+          <p>
+            <strong>Company:</strong> {report.company}
+          </p>
+          <p>
+            <strong>Supervisor:</strong> {report.supervisor}
+          </p>
+          <p>
+            <strong>Internship Period:</strong> {report.startDate} to{" "}
+            {report.endDate}
+          </p>
+          <p>
+            <strong>Status:</strong> {report.status}
+          </p>
+          <p>
+            <strong>Description:</strong> {report.description}
+          </p>
 
-        {report.evaluation && (
-          <>
-            <p><strong>Rating:</strong> {report.evaluation.rating} / 5</p>
-            <p><strong>Recommends:</strong> {report.evaluation.recommends ? "Yes" : "No"}</p>
-            <p><strong>Feedback:</strong> {report.evaluation.feedback}</p>
-          </>
-        )}
+          {report.evaluation && (
+            <>
+              <p>
+                <strong>Rating:</strong> {report.evaluation.rating} / 5
+              </p>
+              <p>
+                <strong>Recommends:</strong>{" "}
+                {report.evaluation.recommends ? "Yes" : "No"}
+              </p>
+              <p>
+                <strong>Feedback:</strong> {report.evaluation.feedback}
+              </p>
+            </>
+          )}
+        </div>
       </div>
     </div>
-  </div>
-);
-
-
+  );
 
   const handleStatusChange = (id, newStatus) => {
     setReports((prevReports) =>
@@ -92,7 +113,6 @@ function InternshipReports() {
     doc.setFontSize(11);
 
     const splitSummary = doc.splitTextToSize(report.summary, 180);
-    doc.text(splitSummary, 14, 90);
 
     doc.save(`${report.studentName.replace(" ", "_")}_Report.pdf`);
   };
@@ -192,51 +212,60 @@ function InternshipReports() {
                 {report.description}
               </p>
               <p>
-                <span className="detail-label">Skills:</span> {report.skills}
+                <span className="detail-label">Skills:</span>{" "}
+                {report.skills.join(", ")}
               </p>
-              <button
-                onClick={() => generatePDF(report)}
-                className="action-button"
-                style={{ marginTop: "10px" }}
-
-                  >
-                 Download PDF
-            </button>
-            <button
-              className="action-button"
-              onClick={() => {
-                setSelectedReport(report);
-                setShowEvaluationModal(true);
-               }}
-             >
-              View Evaluation
-            </button>
-            {["Rejected", "Flagged"].includes(report.status) && (
-              <div style={{ marginTop: "10px" }}>
-                <textarea
-                   rows="3"
-                  placeholder="Submit a clarification..."
-                  className="search-input"
-                  style={{ width: "100%", marginBottom: "5px" }}
-                  value={clarifications[report.id] || ""}
-                  onChange={(e) =>
-                    setClarifications(prev => ({ ...prev, [report.id]: e.target.value }))
-                  }
-                />
+              <div className="detail-actions">
                 <button
-                   className="action-button"
-                   onClick={() => handleClarificationSubmit(report.id, clarifications[report.id])}
-               >
-                Submit Clarification
-               </button>
+                  onClick={() => generatePDF(report)}
+                  className="action-button"
+                  style={{ marginTop: "10px" }}
+                >
+                  Download PDF
+                </button>
+                <button
+                  className="action-button"
+                  onClick={() => {
+                    setSelectedReport(report);
+                    setShowEvaluationModal(true);
+                  }}
+                  style={{ marginTop: "10px" }}
+                >
+                  View Evaluation
+                </button>
               </div>
-            )}
-
-
+              {["Rejected", "Flagged"].includes(report.status) && (
+                <div style={{ marginTop: "10px" }}>
+                  <textarea
+                    rows="3"
+                    placeholder="Submit a clarification..."
+                    className="search-input"
+                    style={{ width: "100%", marginBottom: "5px" }}
+                    value={clarifications[report.id] || ""}
+                    onChange={(e) =>
+                      setClarifications((prev) => ({
+                        ...prev,
+                        [report.id]: e.target.value,
+                      }))
+                    }
+                  />
+                  <button
+                    className="action-button"
+                    onClick={() =>
+                      handleClarificationSubmit(
+                        report.id,
+                        clarifications[report.id]
+                      )
+                    }
+                  >
+                    Submit Clarification
+                  </button>
+                </div>
+              )}
             </div>
           ))
         )}
-         {showEvaluationModal && selectedReport && (
+        {showEvaluationModal && selectedReport && (
           <EvaluationModal
             report={selectedReport}
             onClose={() => setShowEvaluationModal(false)}
