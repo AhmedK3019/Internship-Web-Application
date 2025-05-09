@@ -90,29 +90,15 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
     setCustomIndustry("");
   }
 
-  function handleCustomIndustryChange(event) {
-    setCustomIndustry(event.target.value);
-    setSelectedIndustry("");
-  }
 
   function handleDurationChange(event) {
     setSelectedDuration(event.target.value);
     setCustomDuration("");
   }
 
-  function handleCustomDurationChange(event) {
-    setCustomDuration(event.target.value);
-    setSelectedDuration("");
-  }
-
   function handlePaidChange(event) {
     setSelectedPaid(event.target.value);
     setCustomPaid("");
-  }
-
-  function handleCustomPaidChange(event) {
-    setCustomPaid(event.target.value);
-    setSelectedPaid("");
   }
 
   const filteredData = normalizedData.filter((internship) => {
@@ -181,8 +167,6 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
                     <option value="Data Science">Data Science</option>
                     <option value="Marketing">Marketing</option>
                   </select>
-                  <span className="filter-or">OR</span>
-                  <input type="text" placeholder="Type industry..." className="filter-input" value={customIndustry} onChange={handleCustomIndustryChange} />
                 </div>
               </div>
               <div className="filter-group">
@@ -194,8 +178,6 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
                     <option value="3 Months">3 Months</option>
                     <option value="6 Months">6 Months</option>
                   </select>
-                  <span className="filter-or">OR</span>
-                  <input type="text" placeholder="Type duration..." className="filter-input" value={customDuration} onChange={handleCustomDurationChange} />
                 </div>
               </div>
               <div className="filter-group">
@@ -206,8 +188,6 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
                     <option value="paid">Paid</option>
                     <option value="unpaid">Unpaid</option>
                   </select>
-                  <span className="filter-or">OR</span>
-                  <input type="text" placeholder="Type Paid/Unpaid..." className="filter-input" value={customPaid} onChange={handleCustomPaidChange} />
                 </div>
               </div>
             </div>
