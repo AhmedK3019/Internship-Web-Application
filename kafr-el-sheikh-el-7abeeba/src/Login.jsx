@@ -102,6 +102,8 @@ function Login() {
 
       const newRequest = {
         id: currentRequests.length + 1,
+        username: companyRequest.username,
+        password: companyRequest.password,
         name: companyRequest.name,
         email: companyRequest.email,
         industry: companyRequest.industry,

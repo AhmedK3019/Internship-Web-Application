@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
+import users from "./users";
+import companiesRequests from "./companiesRequests";
 
-function SCADCompaniesRequests({ companiesRequests }) {
+function SCADCompaniesRequests() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedIndustry, setSelectedIndustry] = useState("");
@@ -11,8 +13,25 @@ function SCADCompaniesRequests({ companiesRequests }) {
   }
 
   function handleAccept(request) {
-    // TODO: Implement accept logic
-    console.log("Accepted request:", request);
+    newUser = {
+      id: users.length + 1,
+      name: request.username,
+      email: request.email,
+      password: request.password,
+      role: "Company",
+      company: request.name,
+      industry: request.industry,
+      size: request.size,
+      logo: request.logo,
+    };
+    users.push(newUser);
+
+    const index = companiesRequests.indexOf(request);
+    if (index > -1) {
+      companiesRequests.splice(index, 1);
+    }
+
+    window.location.href = `mailto:${request.email}?subject=Company Registration Accepted&body=Your company registration has been accepted. Welcome aboard!`;
   }
 
   function handleReject(request) {
