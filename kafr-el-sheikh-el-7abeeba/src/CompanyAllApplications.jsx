@@ -8,21 +8,14 @@ function CompanyAllApplications({
 }) {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedPost, setSelectedPost] = useState("");
-  const [customPost, setCustomPost] = useState("");
   const [selectedApplication, setSelectedApplication] = useState(null);
 
   function handlePostChange(event) {
     setSelectedPost(event.target.value);
-    setCustomPost("");
-  }
-
-  function handleCustomPostChange(event) {
-    setCustomPost(event.target.value);
-    setSelectedPost("");
   }
 
   const filteredData = applications.filter((app) => {
-    const postFilter = selectedPost || customPost;
+    const postFilter = selectedPost;
     const postMatch = postFilter
       ? app.internship.toLowerCase().includes(postFilter.toLowerCase())
       : true;
@@ -63,14 +56,6 @@ function CompanyAllApplications({
                       </option>
                     ))}
                   </select>
-                  <span className="filter-or">OR</span>
-                  <input
-                    type="text"
-                    placeholder="Type internship post..."
-                    className="filter-input"
-                    value={customPost}
-                    onChange={handleCustomPostChange}
-                  />
                 </div>
               </div>
             </div>

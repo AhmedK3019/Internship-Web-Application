@@ -12,7 +12,6 @@ function CompanyInterns({
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedProgress, setSelectedProgress] = useState("");
-  const [customProgress, setCustomProgress] = useState("");
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [showEvaluation, setShowEvaluation] = useState(false);
 
@@ -34,12 +33,6 @@ function CompanyInterns({
 
   function handleProgressChange(event) {
     setSelectedProgress(event.target.value);
-    setCustomProgress("");
-  }
-
-  function handleCustomProgressChange(event) {
-    setCustomProgress(event.target.value);
-    setSelectedProgress("");
   }
 
   const filteredData = applications.filter((app) => {
@@ -53,7 +46,7 @@ function CompanyInterns({
       app.internProgress === "Current Intern" ||
       app.internProgress === "Internship Completed";
 
-    const progressFilter = selectedProgress || customProgress;
+    const progressFilter = selectedProgress;
     const progressMatch = progressFilter
       ? app.internProgress.toLowerCase().includes(progressFilter.toLowerCase())
       : true;
@@ -113,14 +106,6 @@ function CompanyInterns({
                         Internship Completed
                       </option>
                     </select>
-                    <span className="filter-or">OR</span>
-                    <input
-                      type="text"
-                      placeholder="Type intern progress..."
-                      className="filter-input"
-                      value={customProgress}
-                      onChange={handleCustomProgressChange}
-                    />
                   </div>
                 </div>
               </div>

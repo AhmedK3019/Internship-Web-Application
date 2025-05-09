@@ -44,29 +44,29 @@ function MyInternships() {
 
   const handleDeleteEvaluation = (internshipId, e) => {
     e.stopPropagation();
-    setEvaluations(evaluations.filter(e => e.internshipId !== internshipId));
+    setEvaluations(evaluations.filter((e) => e.internshipId !== internshipId));
   };
 
-  const filteredInternships = internships.filter(internship => {
-    const matchesSearch = searchQuery 
-      ? internship.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+  const filteredInternships = internships.filter((internship) => {
+    const matchesSearch = searchQuery
+      ? internship.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         internship.company.toLowerCase().includes(searchQuery.toLowerCase())
       : true;
-    
-    const matchesStatus = statusFilter === "All" 
-      ? true 
-      : internship.status === statusFilter;
-    
+
+    const matchesStatus =
+      statusFilter === "All" ? true : internship.status === statusFilter;
+
     if (dateError) return false;
-    
+
     let matchesDate = true;
     if (dateRange.start) {
       matchesDate = internship.startDate >= dateRange.start;
     }
     if (matchesDate && dateRange.end) {
-      matchesDate = internship.status === "Completed" 
-        ? (internship.endDate <= dateRange.end)
-        : (internship.startDate <= dateRange.end);
+      matchesDate =
+        internship.status === "Completed"
+          ? internship.endDate <= dateRange.end
+          : internship.startDate <= dateRange.end;
     }
 
     return matchesSearch && matchesStatus && matchesDate;
@@ -80,7 +80,7 @@ function MyInternships() {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      
+
       if (rating === 0 || recommends === null) {
         setError("Please provide both a rating and recommendation");
         return;
@@ -92,7 +92,7 @@ function MyInternships() {
         rating,
         feedback,
         recommends,
-        date: new Date().toISOString()
+        date: new Date().toISOString(),
       });
     };
 
@@ -101,17 +101,19 @@ function MyInternships() {
         <div className="modal-content">
           <div className="modal-header">
             <h2>Evaluate {internship.company}</h2>
-            <button onClick={onClose} className="close-button">&times;</button>
+            <button onClick={onClose} className="close-button">
+              &times;
+            </button>
           </div>
-          
+
           <form onSubmit={handleSubmit}>
             <div className="detail-item">
               <span className="detail-label">Rating:</span>
               <div className="rating-stars">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <span 
+                  <span
                     key={star}
-                    className={`star ${star <= rating ? 'filled' : ''}`}
+                    className={`star ${star <= rating ? "filled" : ""}`}
                     onClick={() => setRating(star)}
                   >
                     ★
@@ -125,14 +127,18 @@ function MyInternships() {
               <div className="recommend-buttons">
                 <button
                   type="button"
-                  className={`recommend-btn ${recommends === true ? 'active-yes' : ''}`}
+                  className={`recommend-btn ${
+                    recommends === true ? "active-yes" : ""
+                  }`}
                   onClick={() => setRecommends(true)}
                 >
                   Yes
                 </button>
                 <button
                   type="button"
-                  className={`recommend-btn ${recommends === false ? 'active-no' : ''}`}
+                  className={`recommend-btn ${
+                    recommends === false ? "active-no" : ""
+                  }`}
                   onClick={() => setRecommends(false)}
                 >
                   No
@@ -169,17 +175,21 @@ function MyInternships() {
         <div className="modal-content">
           <div className="modal-header">
             <h2>Your Evaluation</h2>
-            <button onClick={onClose} className="close-button">&times;</button>
+            <button onClick={onClose} className="close-button">
+              &times;
+            </button>
           </div>
-          
+
           <div className="evaluation-details">
             <div className="detail-item">
               <span className="detail-label">Rating:</span>
               <div className="rating-stars">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <span 
+                  <span
                     key={star}
-                    className={`star ${star <= evaluation.rating ? 'filled' : ''}`}
+                    className={`star ${
+                      star <= evaluation.rating ? "filled" : ""
+                    }`}
                   >
                     ★
                   </span>
@@ -195,22 +205,22 @@ function MyInternships() {
             </div>
 
             {evaluation.feedback && (
-            <div className="detail-item">
-              <span className="detail-label">Feedback:</span>
-              <textarea
-                className="feedback-input"
-                value={evaluation.feedback}
-                readOnly
-                style={{ background: 'rgba(5, 10, 48, 0.7)', color: '#7EC8E3' }}
-              />
-            </div>
-          )}
+              <div className="detail-item">
+                <span className="detail-label">Feedback:</span>
+                <textarea
+                  className="feedback-input"
+                  value={evaluation.feedback}
+                  readOnly
+                  style={{
+                    background: "rgba(5, 10, 48, 0.7)",
+                    color: "#7EC8E3",
+                  }}
+                />
+              </div>
+            )}
 
             <div className="form-actions">
-              <button 
-                onClick={onClose} 
-                className="action-button"
-              >
+              <button onClick={onClose} className="action-button">
                 Close
               </button>
               <button
@@ -234,7 +244,7 @@ function MyInternships() {
     <div className="internship-background">
       <div className="listings-container">
         <h1>My Internship Experience</h1>
-        
+
         <div className="filters-container">
           <div className="search-filter-row">
             <input
@@ -277,20 +287,8 @@ function MyInternships() {
                     onChange={(e) => handleDateChange("start", e.target.value)}
                     max={dateRange.end || undefined}
                   />
-                  <span className="filter-or">to</span>
-                  <input
-                    type="date"
-                    className="filter-input"
-                    value={dateRange.end}
-                    onChange={(e) => handleDateChange("end", e.target.value)}
-                    min={dateRange.start || undefined}
-                  />
                 </div>
-                {dateError && (
-                  <div className="error-message">
-                    {dateError}
-                  </div>
-                )}
+                {dateError && <div className="error-message">{dateError}</div>}
               </div>
             </div>
           )}
@@ -299,7 +297,10 @@ function MyInternships() {
         <div className="internship-list">
           {filteredInternships.length === 0 ? (
             <div className="no-results">
-              {searchQuery || statusFilter !== "All" || dateRange.start || dateRange.end
+              {searchQuery ||
+              statusFilter !== "All" ||
+              dateRange.start ||
+              dateRange.end
                 ? "No internships match your filters"
                 : "No internship records found"}
             </div>
@@ -333,7 +334,9 @@ function MyInternships() {
                     }}
                   >
                     <span className="detail-label">Status:</span>
-                    <span className={`detail-value ${internship.status.toLowerCase()}`}>
+                    <span
+                      className={`detail-value ${internship.status.toLowerCase()}`}
+                    >
                       {internship.status}
                     </span>
                   </span>
@@ -343,12 +346,15 @@ function MyInternships() {
                     <div className="details-grid">
                       <div className="detail-item">
                         <span className="detail-label">Location:</span>
-                        <span className="detail-value">{internship.location}</span>
+                        <span className="detail-value">
+                          {internship.location}
+                        </span>
                       </div>
                       <div className="detail-item">
                         <span className="detail-label">Period:</span>
                         <span className="detail-value">
-                          {internship.startDate} - {internship.endDate || "Present"}
+                          {internship.startDate} -{" "}
+                          {internship.endDate || "Present"}
                         </span>
                       </div>
                       <div className="detail-item">
@@ -360,17 +366,23 @@ function MyInternships() {
                       <div className="detail-item">
                         <span className="detail-label">Description:</span>
                       </div>
-                        <p style={{color: "white"}}>{internship.description}</p>
+                      <p style={{ color: "white" }}>{internship.description}</p>
                     </div>
 
                     {internship.status === "Completed" && (
                       <>
-                        {evaluations.some(e => e.internshipId === internship.id) ? (
+                        {evaluations.some(
+                          (e) => e.internshipId === internship.id
+                        ) ? (
                           <button
                             className="view-evaluation-btn"
                             onClick={(e) => {
                               e.stopPropagation();
-                              setCurrentEvaluation(evaluations.find(e => e.internshipId === internship.id));
+                              setCurrentEvaluation(
+                                evaluations.find(
+                                  (e) => e.internshipId === internship.id
+                                )
+                              );
                               setShowEvaluationViewModal(true);
                             }}
                           >

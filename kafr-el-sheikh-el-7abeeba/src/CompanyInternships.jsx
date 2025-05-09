@@ -8,29 +8,15 @@ function CompanyInternships({ internships, setInternships }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedDuration, setSelectedDuration] = useState("");
-  const [customDuration, setCustomDuration] = useState("");
   const [selectedPaid, setSelectedPaid] = useState("");
-  const [customPaid, setCustomPaid] = useState("");
   const [selectedInternship, setSelectedInternship] = useState(null);
 
   function handleDurationChange(event) {
     setSelectedDuration(event.target.value);
-    setCustomDuration("");
-  }
-
-  function handleCustomDurationChange(event) {
-    setCustomDuration(event.target.value);
-    setSelectedDuration("");
   }
 
   function handlePaidChange(event) {
     setSelectedPaid(event.target.value);
-    setCustomPaid("");
-  }
-
-  function handleCustomPaidChange(event) {
-    setCustomPaid(event.target.value);
-    setSelectedPaid("");
   }
 
   function unShowAdd() {
@@ -50,12 +36,12 @@ function CompanyInternships({ internships, setInternships }) {
 
     const searchMatch = internship.title.toLowerCase().includes(searchLower);
 
-    const durationFilter = selectedDuration || customDuration;
+    const durationFilter = selectedDuration;
     const durationMatch = durationFilter
       ? internship.duration.toLowerCase().includes(durationFilter.toLowerCase())
       : true;
 
-    const paidFilter = selectedPaid || customPaid;
+    const paidFilter = selectedPaid;
     const paidMatch = paidFilter
       ? internship.salary.toLowerCase().includes(paidFilter.toLowerCase()) ||
         (paidFilter.toLowerCase() === "paid" && internship.pay === "Paid") ||
@@ -119,14 +105,6 @@ function CompanyInternships({ internships, setInternships }) {
                       <option value="3">3 Months</option>
                       <option value="6">6 Months</option>
                     </select>
-                    <span className="filter-or">OR</span>
-                    <input
-                      type="text"
-                      placeholder="Type duration..."
-                      className="filter-input"
-                      value={customDuration}
-                      onChange={handleCustomDurationChange}
-                    />
                   </div>
                 </div>
 
@@ -142,14 +120,6 @@ function CompanyInternships({ internships, setInternships }) {
                       <option value="paid">Paid</option>
                       <option value="unpaid">Unpaid</option>
                     </select>
-                    <span className="filter-or">OR</span>
-                    <input
-                      type="text"
-                      placeholder="Type compensation..."
-                      className="filter-input"
-                      value={customPaid}
-                      onChange={handleCustomPaidChange}
-                    />
                   </div>
                 </div>
               </div>
