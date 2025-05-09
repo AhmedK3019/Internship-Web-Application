@@ -8,6 +8,24 @@ import SCADFutureAppointments from "./SCADFutureAppointments";
 function SCAD({ user, companiesRequests, onLogout }) {
   const [view, setView] = useState("dashboard");
   const [requestedAppointments, setRequestedAppointments] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      message: "Alice Johnson accepted your appointment",
+      isRead: false,
+    },
+  ]);
+
+  function handleNotificationClick(notificationId) {
+    setNotifications((prevNotifications) =>
+      prevNotifications.map((notification) =>
+        notification.id === notificationId
+          ? { ...notification, isRead: true }
+          : notification
+      )
+    );
+  }
 
   function addAppointment(appointment) {
     setRequestedAppointments((prevAppointments) => [
@@ -44,8 +62,54 @@ function SCAD({ user, companiesRequests, onLogout }) {
       <div className="main-content">
         {view === "dashboard" && (
           <div className="dashboard">
-            <h1>SCAD Office</h1>
-            <h2>Welcome, {user.name}</h2>
+            <div className="dashboard-header">
+              <div className="company-info">
+                <img
+                  src={`/SCAD.jpg`}
+                  alt="SCAD Logo"
+                  className="company-dashboard-logo"
+                />
+                <div className="welcome-text">
+                  <h1>Welcome, {user.name}</h1>
+                  <h2>SCAD Dashboard</h2>
+                </div>
+              </div>
+              <div
+                className={`notifications-area ${
+                  showNotifications ? "shifted" : ""
+                }`}
+              >
+                <div
+                  className="notification-ring"
+                  onClick={() => setShowNotifications(!showNotifications)}
+                >
+                  <span className="notification-count">
+                    {notifications.filter((n) => !n.isRead).length}
+                  </span>
+                  🔔
+                </div>
+              </div>
+            </div>
+            {showNotifications && (
+              <div
+                className={`notifications-panel ${
+                  showNotifications ? "visible" : ""
+                }`}
+              >
+                <h3>Notifications</h3>
+                {notifications.map((notification) => (
+                  <div
+                    key={notification.id}
+                    className={`notification-item ${
+                      notification.isRead ? "read" : "unread"
+                    }`}
+                    onClick={() => handleNotificationClick(notification.id)}
+                  >
+                    {notification.message}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
         {view === "companiesRequests" && (
