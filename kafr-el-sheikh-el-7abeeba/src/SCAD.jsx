@@ -4,7 +4,7 @@ import "./index.css";
 function SCAD({ user, companiesRequests, onLogout }) {
   function handleAccept(request) {
     // TODO: Implement accept logic
-    console.log("Accepted reque", request);
+    console.log("Accepted request:", request);
   }
 
   function handleReject(request) {
