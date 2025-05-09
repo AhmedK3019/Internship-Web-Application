@@ -164,6 +164,7 @@ function Company({ user, onLogout }) {
           </div>
         </div>
         <div className="sidebar-buttons">
+          <button onClick={() => setView("dashboard")}>Dashboard</button>
           <button onClick={() => setView("internships")}>
             View my internships
           </button>

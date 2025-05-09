@@ -1055,6 +1055,10 @@ textarea {
   }
 }
 
+.submission-guidelines{
+  color: #7EC8E3;
+}
+
 label {
   color: #7EC8E3;
   font-size: 1.2em;
