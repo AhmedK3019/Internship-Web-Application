@@ -43,8 +43,19 @@ function SCADCompaniesRequests() {
   }
 
   function handleReject(request) {
-    // TODO: Implement reject logic
-    console.log("Rejected request:", request);
+    const index = companiesRequests.indexOf(request);
+    if (index > -1) {
+      companiesRequests.splice(index, 1);
+    }
+
+    forceUpdate({});
+
+    const subject = encodeURIComponent("Company Registration Rejected");
+    const body = encodeURIComponent(
+      "Your company registration has been rejected. Please contact us for more information."
+    );
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${request.email}&su=${subject}&body=${body}`;
+    window.open(gmailUrl, "_blank");
   }
 
   const filteredData = companiesRequests.filter((req) => {
