@@ -4,10 +4,10 @@ import SCADCompaniesRequests from "./SCADCompaniesRequests";
 import SCADVideoCallAppointment from "./SCADVideoCallAppointment";
 import SCADRequestedAppointments from "./SCADRequestedAppointments";
 import SCADFutureAppointments from "./SCADFutureAppointments";
+import requestedAppointments from "./requestedAppointments";
 
 function SCAD({ user, companiesRequests, onLogout }) {
   const [view, setView] = useState("dashboard");
-  const [requestedAppointments, setRequestedAppointments] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([
     {
@@ -28,10 +28,7 @@ function SCAD({ user, companiesRequests, onLogout }) {
   }
 
   function addAppointment(appointment) {
-    setRequestedAppointments((prevAppointments) => [
-      ...prevAppointments,
-      appointment,
-    ]);
+    requestedAppointments.push(appointment);
   }
 
   return (

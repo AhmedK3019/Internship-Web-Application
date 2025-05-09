@@ -8,7 +8,6 @@ function SCADVideoCallAppointment({ addAppointment }) {
     message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [requestedAppointments, setRequestedAppointments] = useState([]);
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
