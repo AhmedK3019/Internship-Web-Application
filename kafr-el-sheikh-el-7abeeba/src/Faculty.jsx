@@ -32,6 +32,9 @@ function Faculty({ user, onLogout }) {
           <button onClick={() => setCurrentView("statistics")}>
             Statistics
           </button>
+          <button onClick={onLogout} className="logout-btn">
+            Logout
+          </button>
         </div>
       </div>
 
