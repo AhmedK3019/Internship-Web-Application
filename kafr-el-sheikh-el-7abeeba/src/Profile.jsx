@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ProfileViews from './ProfileViews';
 import './index.css';
 
-function Profile({ user, onBackUpdate, onNavigate, isPro = false }) {
+function Profile({ user, onBackUpdate, onNavigate, isPro = false, sharedAssessments = [], setSharedAssessments }) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     username: user.name,
@@ -27,6 +27,12 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false }) {
     duration: '',
     responsibilities: ''
   });
+
+  const handleRemoveAssessment = (assessmentId) => {
+    if (setSharedAssessments) {
+      setSharedAssessments(prev => prev.filter(assessment => assessment.id !== assessmentId));
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,7 +78,7 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false }) {
       <div className="profile-container">
         <div className="profile-header">
           <h1 className="profile-title">My Profile</h1>
-          <button 
+          <button
             className={`btn ${isEditing ? 'btn-danger' : 'btn-primary'}`}
             onClick={() => setIsEditing(!isEditing)}
           >
@@ -94,7 +100,7 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false }) {
           </div>
           <div className="profile-section" >
             <h2 className="section-title">Personal Information</h2>
-            
+
             <div className="profile-field">
               <label>Full Name</label>
               {isEditing ? (
@@ -158,7 +164,7 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false }) {
                       <button
                         type="button"
                         className="btn btn-danger"
-                        style={{float: 'right'}}
+                        style={{ float: 'right' }}
                         onClick={() => removeInternship(internship.id)}
                       >
                         Remove
@@ -180,8 +186,8 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false }) {
               )}
 
               {isEditing && (
-                <div style={{marginTop: '2rem'}}>
-                  <h3 style={{color: '#7EC8E3', marginBottom: '1rem'}}>Add New Internship</h3>
+                <div style={{ marginTop: '2rem' }}>
+                  <h3 style={{ color: '#7EC8E3', marginBottom: '1rem' }}>Add New Internship</h3>
                   <div className="profile-field">
                     <label>Company</label>
                     <input
@@ -250,10 +256,31 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false }) {
               )}
             </div>
 
+
+            {isPro && sharedAssessments && sharedAssessments.length > 0 && (
+              <div className="profile-section" style={{ marginBottom: '2rem' }}>
+                <h2 className="section-title">Assessment Scores</h2>
+                {sharedAssessments.map((a, index) => (
+                  <div>
+                    <strong>{a.title}</strong>: {a.score}%
+
+                    {isEditing && (
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleRemoveAssessment(a.id)}
+                        style={{ marginLeft: '10px', padding: '2px 8px' }}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
             {isEditing && (
               <div className="form-actions">
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="btn btn-primary"
                   onClick={handleSubmit}
                 >
@@ -261,24 +288,23 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false }) {
                 </button>
               </div>
             )}
-
             {isPro && (<div className="profile-section">
-            <h3 className="section-title">Profile Visibility</h3>
-            <div className="profile-views-widget">
-              <p>See who viewed your profile</p>
-              <button 
-                className="btn btn-primary"
-                onClick={() => onNavigate('profile-views')} 
-              >
-                View All
-              </button>
+              <h3 className="section-title">Profile Visibility</h3>
+              <div>
+                <p>See who viewed your profile</p>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => onNavigate('profile-views')}
+                >
+                  View All
+                </button>
+              </div>
             </div>
-          </div>
             )}
           </div>
         </div>
 
-        <button onClick={onBackUpdate} className="btn btn-secondary" style={{marginTop: '2rem'}}>
+        <button onClick={onBackUpdate} className="btn btn-secondary" style={{ marginTop: '2rem' }}>
           Back to Dashboard
         </button>
       </div>

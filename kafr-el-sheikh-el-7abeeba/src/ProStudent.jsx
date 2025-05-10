@@ -21,6 +21,8 @@ function ProStudent({ user, onLogout }) {
   const [appliedInternships, setAppliedInternships] = useState([]);
   const [hasProBadge, setHasProBadge] = useState(false);
   const [internships] = useState(MyinternshipsData);
+  const [sharedAssessments, setSharedAssessments] = useState([]);
+
 
   const checkProBadgeEligibility = () => {
     const completedInternships = internships.filter(i => i.status === "Completed");
@@ -28,19 +30,19 @@ function ProStudent({ user, onLogout }) {
       const months = parseInt(internship.duration) || 0;
       return total + months;
     }, 0);
-  
+
     setHasProBadge(totalMonths >= 3);
   };
 
   useEffect(() => {
     checkProBadgeEligibility();
   }, [internships]);
-  
+
 
   const [notifications, setNotifications] = useState([
-    { 
-      id: 1, 
-      message: "New internship cycle begins next week! Start preparing your resume.", 
+    {
+      id: 1,
+      message: "New internship cycle begins next week! Start preparing your resume.",
       isRead: false,
       date: "2025-05-01"
     },
@@ -50,9 +52,9 @@ function ProStudent({ user, onLogout }) {
       isRead: false,
       date: "2025-05-05"
     },
-    { 
-      id: 3, 
-      message: "Summer 2025 internship cycle has officially begun! Applications are now open.", 
+    {
+      id: 3,
+      message: "Summer 2025 internship cycle has officially begun! Applications are now open.",
       isRead: false,
       date: "2025-05-08"
     }
@@ -72,7 +74,7 @@ function ProStudent({ user, onLogout }) {
   const handleBackToDashboard = () => {
     setCurrentView("");
   };
-  
+
   const handleApply = (internship) => {
     setSelectedInternship(internship);
     setCurrentView("application");
@@ -80,7 +82,7 @@ function ProStudent({ user, onLogout }) {
   const handleBackToProfile = () => {
     setCurrentView("update");
   };
-  
+
   const handleApplySuccess = (internshipId) => {
     setAppliedInternships([...appliedInternships, internshipId]);
 
@@ -140,12 +142,11 @@ function ProStudent({ user, onLogout }) {
                   <div className="welcome-text">
                     <h1>Welcome {username} {hasProBadge && <span className="pro-badge">PRO</span>}</h1>
                     <h2>Pro Student Dashboard</h2>
-                    
+
                   </div>
                 </div>
-                <div className={`notifications-area ${
-                  showNotifications ? "shifted" : ""
-                }`}>
+                <div className={`notifications-area ${showNotifications ? "shifted" : ""
+                  }`}>
                   <div
                     className="notification-ring"
                     onClick={() => setShowNotifications(!showNotifications)}
@@ -160,9 +161,8 @@ function ProStudent({ user, onLogout }) {
 
               {showNotifications && (
                 <div
-                  className={`notifications-panel ${
-                    showNotifications ? "visible" : ""
-                  }`}
+                  className={`notifications-panel ${showNotifications ? "visible" : ""
+                    }`}
                 >
                   <h3>Notifications</h3>
                   {notifications.length === 0 ? (
@@ -173,9 +173,8 @@ function ProStudent({ user, onLogout }) {
                     notifications.map((notification) => (
                       <div
                         key={notification.id}
-                        className={`notification-item ${
-                          notification.isRead ? "read" : "unread"
-                        }`}
+                        className={`notification-item ${notification.isRead ? "read" : "unread"
+                          }`}
                         onClick={() => handleNotificationClick(notification.id)}
                       >
                         <div className="notification-message">{notification.message}</div>
@@ -212,11 +211,13 @@ function ProStudent({ user, onLogout }) {
           />
         )}
         {currentView === "update" && (
-          <Profile 
-          user={user} 
-          onBackUpdate={handleBackToDashboard}
-          onNavigate={setCurrentView}
-          isPro= {true}  />
+          <Profile
+            user={user}
+            onBackUpdate={handleBackToDashboard}
+            onNavigate={setCurrentView}
+            isPro={true}
+            sharedAssessments={sharedAssessments}
+            setSharedAssessments={setSharedAssessments} />
         )}
         {currentView === "application" && (
           <InternshipApplication
@@ -228,8 +229,8 @@ function ProStudent({ user, onLogout }) {
         {currentView === "my-internships" && <MyInternships />}
         {currentView === "videocall" && <VideoCallAppointment />}
         {currentView === "profile-views" && <ProfileViews onBack={handleBackToProfile} />}
-        {currentView === "assessment" && <ViewAssessments/>}
-        
+        {currentView === "assessment" && <ViewAssessments sharedAssessments={sharedAssessments} setSharedAssessments={setSharedAssessments} />}
+
       </div>
     </div>
   );
