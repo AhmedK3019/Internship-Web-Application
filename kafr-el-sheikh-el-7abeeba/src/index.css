@@ -1730,3 +1730,54 @@ input[type="file"][disabled] {
   color: white;
   resize: vertical;
 }
+
+.assessment-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(5, 10, 48, 0.95);
+  border-radius: 15px;
+  border: 1px solid rgba(126, 200, 227, 0.3);
+}
+
+.question-container {
+  margin-bottom: 2rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.question-text {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.option:hover {
+  background: rgba(126, 200, 227, 0.2);
+}
+
+.option.selected {
+  background: rgba(126, 200, 227, 0.3);
+  border-color: #7EC8E3;
+}
+
+.timer {
+  font-weight: bold;
+  color: #7EC8E3;
+  margin-bottom: 1rem;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: #7EC8E3;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
