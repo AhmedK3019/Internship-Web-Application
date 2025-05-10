@@ -132,7 +132,7 @@ function ViewAssessments({ sharedAssessments, setSharedAssessments }) {
                                         <p style={{ color: "white" }}>{assessment.description}</p>
 
                                         <button
-                                            className="btn btn-secondary"
+                                            className="btn btn-primary"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setActiveAssessment(assessment);
