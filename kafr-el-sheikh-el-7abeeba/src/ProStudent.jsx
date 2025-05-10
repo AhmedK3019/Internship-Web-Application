@@ -12,6 +12,7 @@ import MyinternshipsData from "./InternshipsData";
 import VideoCallAppointment from "./VideoCallAppointment";
 import ProfileViews from "./ProfileViews";
 import "./index.css";
+import ViewAssessments from "./ViewAssessments";
 
 function ProStudent({ user, onLogout }) {
   const username = user.name;
@@ -122,6 +123,9 @@ function ProStudent({ user, onLogout }) {
           <button onClick={() => setCurrentView("videocall")}>
             Schedule Video Call
           </button>
+          <button onClick={() => setCurrentView("assessment")}>
+            View Assessments
+          </button>
           <button onClick={onLogout} className="logout-btn">
             Logout
           </button>
@@ -224,6 +228,8 @@ function ProStudent({ user, onLogout }) {
         {currentView === "my-internships" && <MyInternships />}
         {currentView === "videocall" && <VideoCallAppointment />}
         {currentView === "profile-views" && <ProfileViews onBack={handleBackToProfile} />}
+        {currentView === "assessment" && <ViewAssessments/>}
+        
       </div>
     </div>
   );
