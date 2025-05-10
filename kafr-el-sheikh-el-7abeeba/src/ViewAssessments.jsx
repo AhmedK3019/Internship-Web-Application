@@ -146,6 +146,7 @@ function ViewAssessments({ sharedAssessments, setSharedAssessments }) {
                                             <button
                                                 className="btn btn-primary"
                                                 onClick={(e) => {
+                                                    e.stopPropagation();
                                                     handleShare(assessment);
                                                 }}
                                                 style={{

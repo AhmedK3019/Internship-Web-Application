@@ -260,14 +260,14 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false, sharedAssessme
             {isPro && sharedAssessments && sharedAssessments.length > 0 && (
               <div className="profile-section" style={{ marginBottom: '2rem' }}>
                 <h2 className="section-title">Assessment Scores</h2>
-                {sharedAssessments.map((a, index) => (
+                {sharedAssessments.map((assessment) => (
                   <div>
-                    <strong>{a.title}</strong>: {a.score}%
+                    <strong>{assessment.title}</strong>: {assessment.score}%
 
                     {isEditing && (
                       <button
                         className="btn btn-danger btn-sm"
-                        onClick={() => handleRemoveAssessment(a.id)}
+                        onClick={() => handleRemoveAssessment(assessment.id)}
                         style={{ marginLeft: '10px', padding: '2px 8px' }}
                       >
                         Remove
