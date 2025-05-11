@@ -19,16 +19,19 @@ function WorkshopRegistration({ workshop, onBack, onRegisterSuccess }) {
         }
 
         setSubmitted(true);
+        
 
-        onRegisterSuccess(workshop.id, {
-            name,
-            email,
-            university,
-            major,
-            yearOfStudy,
-            workshopId: workshop.id,
-            registrationDate: new Date().toISOString()
-        });
+        setTimeout(() => {
+            onRegisterSuccess(workshop.id, {
+                name,
+                email,
+                university,
+                major,
+                yearOfStudy,
+                workshopId: workshop.id,
+                registrationDate: new Date().toISOString()
+            });
+        }, 1500);
 
     };
 
