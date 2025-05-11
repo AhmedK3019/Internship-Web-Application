@@ -1816,3 +1816,203 @@ input[type="file"][disabled] {
   margin-bottom: 0.5rem;
   color: #64ffda;
 }
+
+.student-search {
+  padding: 20px;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #0a192f;
+  color: #e6f1ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.student-search h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #64ffda;
+  text-align: center;
+}
+
+.filters {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.filters input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #233554;
+  border-radius: 6px;
+  background-color: #112240;
+  color: #e6f1ff;
+  flex: 1;
+  transition: border-color 0.3s ease;
+}
+
+.filters input:focus {
+  border-color: #64ffda;
+  outline: none;
+}
+
+.filters select {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #233554;
+  border-radius: 6px;
+  background-color: #112240;
+  color: #e6f1ff;
+  transition: border-color 0.3s ease;
+}
+
+.filters select:focus {
+  border-color: #64ffda;
+  outline: none;
+}
+
+.student-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.student-item {
+  padding: 15px;
+  border: 1px solid #233554;
+  border-radius: 6px;
+  background-color: #112240;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.student-item:hover {
+  background-color: #1c2d4a;
+  transform: translateY(-2px);
+}
+
+.student-item h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #64ffda;
+}
+
+.student-item p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #a8b2d1;
+}
+
+.student-profile {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #233554;
+  border-radius: 6px;
+  background-color: #112240;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.student-profile h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  color: #64ffda;
+}
+
+.student-profile p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #a8b2d1;
+}
+
+.student-profile button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #0a192f;
+  background-color: #64ffda;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.student-profile button:hover {
+  background-color: #52e0c4;
+  transform: translateY(-2px);
+}
+
+/* Add these styles to your existing index.css file */
+
+/* General form container styling */
+.form-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #112240;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  color: #e6f1ff;
+}
+
+/* Form title styling */
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #64ffda;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Form field styling */
+.form-field {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #a8b2d1;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #233554;
+  border-radius: 6px;
+  background-color: #0a192f;
+  color: #e6f1ff;
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: #64ffda;
+  outline: none;
+}
+
+/* Button styling */
+.btn-primary {
+  background-color: #64ffda;
+  color: #0a192f;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #52e0c4;
+  transform: translateY(-2px);
+}
+
+/* Message styling */
+.form-message {
+  margin-top: 15px;
+  font-size: 14px;
+  text-align: center;
+  color: #64ffda;
+}
