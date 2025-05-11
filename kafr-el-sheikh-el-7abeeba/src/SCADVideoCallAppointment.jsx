@@ -77,11 +77,12 @@ function SCADVideoCallAppointment({ addAppointment }) {
           <label>Student Name:</label>
           <input
             type="text"
+            name="studentName"
             placeholder="Student Name"
             className="input"
             value={formData.studentName}
             onChange={handleChange}
-            // required
+            required
           />
         </div>
 
@@ -89,6 +90,7 @@ function SCADVideoCallAppointment({ addAppointment }) {
           <label>Student Email:</label>
           <input
             type="email"
+            name="studentEmail"
             placeholder="Student Email"
             value={formData.studentEmail}
             onChange={handleChange}
