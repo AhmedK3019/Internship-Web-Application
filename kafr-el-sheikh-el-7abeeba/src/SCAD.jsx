@@ -4,51 +4,27 @@ import SCADCompaniesRequests from "./SCADCompaniesRequests";
 import SCADVideoCallAppointment from "./SCADVideoCallAppointment";
 import SCADRequestedAppointments from "./SCADRequestedAppointments";
 import SCADFutureAppointments from "./SCADFutureAppointments";
-import requestedAppointments from "./requestedAppointments";
+import RequestedAppointmentsManager from "./RequestedAppointmentsManager";
 import Listings from "./Listings";
-import SCADNotifications from "./SCADNotifications";
+import NotificationManager from "./SCADNotifications";
 
-function SCAD({ user, companiesRequests, onLogout }) {
+function SCAD({
+  user,
+  companiesRequests,
+  addUser,
+  rejectCompanyRequest,
+  onLogout,
+}) {
   const [view, setView] = useState("dashboard");
   const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState([]);
-
-  useEffect(() => {
-    const currentIds = new Set(notifications.map((n) => n.id));
-    const newNotifications = SCADNotifications.filter(
-      (n) => !currentIds.has(n.id)
-    );
-
-    if (newNotifications.length > 0) {
-      setNotifications((prevNotifications) => [
-        ...prevNotifications,
-        ...newNotifications,
-      ]);
-    }
-  }, [SCADNotifications]);
-
-  useEffect(() => {
-    setNotifications([...SCADNotifications]);
-  }, [SCADNotifications]);
+  const notifications = NotificationManager.getAll();
 
   function handleNotificationClick(notificationId) {
-    SCADNotifications.forEach((notification) => {
-      if (notification.id === notificationId) {
-        notification.isRead = true;
-      }
-    });
-
-    setNotifications((prevNotifications) =>
-      prevNotifications.map((notification) =>
-        notification.id === notificationId
-          ? { ...notification, isRead: true }
-          : notification
-      )
-    );
+    NotificationManager.markAsRead(notificationId);
   }
 
   function addAppointment(appointment) {
-    requestedAppointments.push(appointment);
+    RequestedAppointmentsManager.addAppointment(appointment);
   }
 
   return (
@@ -133,7 +109,11 @@ function SCAD({ user, companiesRequests, onLogout }) {
           </div>
         )}
         {view === "companiesRequests" && (
-          <SCADCompaniesRequests companiesRequests={companiesRequests} />
+          <SCADCompaniesRequests
+            companiesRequests={companiesRequests}
+            addUser={addUser}
+            rejectCompanyRequest={rejectCompanyRequest}
+          />
         )}
         {view === "callRequest" && (
           <SCADVideoCallAppointment addAppointment={addAppointment} />

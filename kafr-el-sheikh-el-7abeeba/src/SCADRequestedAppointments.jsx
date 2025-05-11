@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import requestedAppointments from "./requestedAppointments";
 
 function SCADReqeustedAppointments() {
   function handleAccept(appointment) {}

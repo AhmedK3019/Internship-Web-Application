@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import users from "./users";
-import companiesRequests from "./companiesRequests";
 
-function SCADCompaniesRequests() {
+function SCADCompaniesRequests({
+  companiesRequests,
+  rejectCompanyRequest,
+  addUser,
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedIndustry, setSelectedIndustry] = useState("");
@@ -15,22 +17,15 @@ function SCADCompaniesRequests() {
 
   function handleAccept(request) {
     const newUser = {
-      id: users.length + 1,
       name: request.username,
       email: request.email,
       password: request.password,
-      role: "Company",
       company: request.name,
       industry: request.industry,
       size: request.size,
       logo: request.logo,
     };
-    users.push(newUser);
-
-    const index = companiesRequests.indexOf(request);
-    if (index > -1) {
-      companiesRequests.splice(index, 1);
-    }
+    addUser(newUser);
 
     forceUpdate({});
 
@@ -43,10 +38,7 @@ function SCADCompaniesRequests() {
   }
 
   function handleReject(request) {
-    const index = companiesRequests.indexOf(request);
-    if (index > -1) {
-      companiesRequests.splice(index, 1);
-    }
+    rejectCompanyRequest(request);
 
     forceUpdate({});
 

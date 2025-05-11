@@ -6,8 +6,6 @@ import SCAD from "./SCAD";
 import Student from "./Student";
 import ProStudent from "./ProStudent";
 import Faculty from "./Faculty";
-import companiesRequests from "./companiesRequests";
-import users from "./users";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -34,6 +32,7 @@ function Login() {
   const [showFaculty, setShowFaculty] = useState(() => {
     return localStorage.getItem("view") === "faculty";
   });
+  const [companiesRequests, setCompaniesRequests] = useState([]);
 
   async function fileToDataURL(file) {
     return new Promise((resolve, reject) => {
@@ -43,6 +42,55 @@ function Login() {
       reader.readAsDataURL(file);
     });
   }
+
+  const [users, setUsers] = useState([
+    {
+      id: 1,
+      name: "John Doe",
+      email: "JohnDoe@gmail.com",
+      password: "johndoe123",
+      role: "Student",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      email: "JaneSmith@gmail.com",
+      password: "janesmith123",
+      role: "Student",
+    },
+    {
+      id: 3,
+      name: "Alice Johnson",
+      email: "AliceJohnson@gmail.com",
+      password: "alicejohnson123",
+      role: "Pro Student",
+    },
+    {
+      id: 4,
+      name: "Bob Brown",
+      email: "BobBrown@gmail.com",
+      password: "bobbrown123",
+      role: "Company",
+      company: "Sumerge",
+      industry: "IT",
+      size: "Medium",
+      logo: "sumerge.jpeg",
+    },
+    {
+      id: 5,
+      name: "Charlie Davis",
+      email: "CharlieDavis@gmail.com",
+      password: "charliedavis123",
+      role: "SCAD Office Member",
+    },
+    {
+      id: 6,
+      name: "David Wilson",
+      email: "DavidWilson@gmail.com",
+      password: "davidwilson123",
+      role: "Faculty Member",
+    },
+  ]);
 
   useEffect(() => {
     if (user) {
@@ -112,7 +160,7 @@ function Login() {
         files: filesWithDataURLs,
       };
 
-      companiesRequests.push(newRequest);
+      setCompaniesRequests((prevRequests) => [...prevRequests, newRequest]);
 
       return true;
     } catch (error) {
@@ -127,6 +175,30 @@ function Login() {
 
   function onRegisterClick(event) {
     setShowRegister(true);
+  }
+
+  function addUser(newUser) {
+    const newUser = {
+      id: users.length + 1,
+      name: newUser.name,
+      email: newUser.email,
+      password: newUser.password,
+      role: "Company",
+      company: newUser.company,
+      industry: newUser.industry,
+      size: newUser.size,
+      logo: newUser.logo,
+    };
+    setUsers((prevUsers) => [...prevUsers, newUser]);
+    setCompaniesRequests((prevRequests) =>
+      prevRequests.filter((request) => request.email !== newUser.email)
+    );
+  }
+
+  function rejectCompanyRequest(request) {
+    setCompaniesRequests((prevRequests) =>
+      prevRequests.filter((req) => req.id !== request.id)
+    );
   }
 
   function handleEmailChange(event) {
@@ -180,6 +252,8 @@ function Login() {
         <SCAD
           user={user}
           companiesRequests={companiesRequests}
+          addUser={addUser}
+          rejectCompanyRequest={rejectCompanyRequest}
           onLogout={handleLogout}
         />
       ) : showFaculty ? (
