@@ -4,27 +4,33 @@ import SCADCompaniesRequests from "./SCADCompaniesRequests";
 import SCADVideoCallAppointment from "./SCADVideoCallAppointment";
 import SCADRequestedAppointments from "./SCADRequestedAppointments";
 import SCADFutureAppointments from "./SCADFutureAppointments";
-import RequestedAppointmentsManager from "./RequestedAppointmentsManager";
 import Listings from "./Listings";
-import NotificationManager from "./SCADNotifications";
 
 function SCAD({
   user,
   companiesRequests,
   addUser,
   rejectCompanyRequest,
+  requestedAppointments,
+  futureAppointments,
+  addAppointment,
+  setFutureAppointments,
+  notifications,
+  setPRONotifications,
+  setNotifications,
   onLogout,
 }) {
   const [view, setView] = useState("dashboard");
   const [showNotifications, setShowNotifications] = useState(false);
-  const notifications = NotificationManager.getAll();
 
   function handleNotificationClick(notificationId) {
-    NotificationManager.markAsRead(notificationId);
-  }
-
-  function addAppointment(appointment) {
-    RequestedAppointmentsManager.addAppointment(appointment);
+    const updatedNotifications = notifications.map((notification) => {
+      if (notification.id === notificationId) {
+        return { ...notification, isRead: true };
+      }
+      return notification;
+    });
+    setNotifications(updatedNotifications);
   }
 
   return (
@@ -118,7 +124,20 @@ function SCAD({
         {view === "callRequest" && (
           <SCADVideoCallAppointment addAppointment={addAppointment} />
         )}
-        {view === "appointments" && <SCADRequestedAppointments />}
+        {view === "appointments" && (
+          <SCADRequestedAppointments
+            requestedAppointments={requestedAppointments}
+            acceptAppointment={setFutureAppointments}
+            rejectAppointment={addAppointment}
+            setPRONotifications={setPRONotifications}
+          />
+        )}
+        {view === "futureAppointments" && (
+          <SCADFutureAppointments
+            futureAppointments={futureAppointments}
+            setFutureAppointments={setFutureAppointments}
+          />
+        )}
         {view === "listings" && <Listings />}
       </div>
     </div>

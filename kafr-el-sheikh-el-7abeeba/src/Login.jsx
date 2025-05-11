@@ -17,6 +17,11 @@ function Login() {
     return savedUser ? JSON.parse(savedUser) : null;
   });
 
+  const [SCADNotifications, setSCADNotifications] = useState([]);
+  const [PROStudentNotifications, setPROStudentNotifications] = useState([]);
+  const [requestedAppointments, setRequestedAppointments] = useState([]);
+  const [futureAppointments, setFutureAppointments] = useState([]);
+
   const [showCompany, setShowCompany] = useState(() => {
     return localStorage.getItem("view") === "company";
   });
@@ -247,13 +252,30 @@ function Login() {
       ) : showStudent ? (
         <Student user={user} onLogout={handleLogout} />
       ) : showProStudent ? (
-        <ProStudent user={user} onLogout={handleLogout} />
+        <ProStudent
+          user={user}
+          requestedAppointments={requestedAppointments}
+          setRequestedAppointments={setRequestedAppointments}
+          futureAppointments={futureAppointments}
+          setFutureAppointments={setFutureAppointments}
+          notifications={PROStudentNotifications}
+          setSCADNotifications={setSCADNotifications}
+          setNotifications={setPROStudentNotifications}
+          onLogout={handleLogout}
+        />
       ) : showSCAD ? (
         <SCAD
           user={user}
           companiesRequests={companiesRequests}
           addUser={addUser}
           rejectCompanyRequest={rejectCompanyRequest}
+          requestedAppointments={requestedAppointments}
+          futureAppointments={futureAppointments}
+          addAppointment={setRequestedAppointments}
+          setFutureAppointments={setFutureAppointments}
+          notifications={SCADNotifications}
+          setPRONotifications={setPROStudentNotifications}
+          setNotifications={setSCADNotifications}
           onLogout={handleLogout}
         />
       ) : showFaculty ? (
