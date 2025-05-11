@@ -1,9 +1,48 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 
-function SCADReqeustedAppointments() {
-  function handleAccept(appointment) {}
-  function handleReject(appointment) {}
+function SCADReqeustedAppointments({
+  requestedAppointments,
+  acceptAppointment,
+  rejectAppointment,
+  setProStudentNotifications,
+}) {
+  function handleAccept(appointment) {
+    const updatedAppointment = {
+      ...appointment,
+      status: "accepted",
+    };
+    acceptAppointment((prevApp) => [...prevApp, updatedAppointment]);
+    rejectAppointment((prevApp) =>
+      prevApp.filter((app) => app.id !== appointment.id)
+    );
+    setProStudentNotifications((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        message: `Your appointment with SCAD Officer has been accepted.`,
+        isRead: false,
+      },
+    ]);
+  }
+
+  function handleReject(appointment) {
+    const updatedAppointment = {
+      ...appointment,
+      status: "rejected",
+    };
+    rejectAppointment((prevApp) =>
+      prevApp.filter((app) => app.id !== appointment.id)
+    );
+    setProStudentNotifications((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        message: `Your appointment with SCAD Officer has been rejected.`,
+        isRead: false,
+      },
+    ]);
+  }
 
   return (
     <div className="listings-container">
@@ -15,6 +54,18 @@ function SCADReqeustedAppointments() {
           requestedAppointments.map((appointment, index) => (
             <div key={index} className="internship-card">
               <div className="details-grid">
+                <div className="detail-item">
+                  <span className="detail-label">Student Name:</span>
+                  <span className="detail-value">
+                    {appointment.studentName}
+                  </span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Stundent Email:</span>
+                  <span className="detail-value">
+                    {appointment.studentEmail}
+                  </span>
+                </div>
                 <div className="detail-item">
                   <span className="detail-label">Purpose:</span>
                   <span className="detail-value">{appointment.purpose}</span>
@@ -32,20 +83,26 @@ function SCADReqeustedAppointments() {
                   <span className="detail-value">{appointment.message}</span>
                 </div>
               </div>
-              <div className="detail-actions">
-                <button
-                  onClick={() => handleAccept(appointment)}
-                  className="accept-btn"
-                >
-                  Accept
-                </button>
-                <button
-                  onClick={() => handleReject(appointment)}
-                  className="delete-btn"
-                >
-                  Reject
-                </button>
+              <div className="detail-item">
+                <span className="detail-label">Status:</span>
+                <span className="detail-value">{appointment.status}</span>
               </div>
+              {appointment.requestedBy === "Student" && (
+                <div className="detail-actions">
+                  <button
+                    onClick={() => handleAccept(appointment)}
+                    className="accept-btn"
+                  >
+                    Accept
+                  </button>
+                  <button
+                    onClick={() => handleReject(appointment)}
+                    className="delete-btn"
+                  >
+                    Reject
+                  </button>
+                </div>
+              )}
             </div>
           ))
         )}

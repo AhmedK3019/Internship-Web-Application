@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 function SCADVideoCallAppointment({ addAppointment }) {
   const [formData, setFormData] = useState({
+    studentName: "",
+    studentEmail: "",
     purpose: "",
     date: "",
     time: "",
@@ -22,6 +24,8 @@ function SCADVideoCallAppointment({ addAppointment }) {
     e.preventDefault();
 
     if (
+      formData.studentName === "" ||
+      formData.studentEmail === "" ||
       formData.purpose === "" ||
       formData.date === "" ||
       formData.time === ""
@@ -33,17 +37,22 @@ function SCADVideoCallAppointment({ addAppointment }) {
     setIsSubmitted(true);
 
     const requestedAppointment = {
+      id: Date.now(),
+      requestedBy: "SCAD",
+      studentName: formData.studentName,
+      studentEmail: formData.studentEmail,
       purpose: formData.purpose,
       date: formData.date,
       time: formData.time,
       message: formData.message,
       status: "pending",
-      id: formData.date + formData.time,
     };
-    addAppointment(requestedAppointment);
+    addAppointment((prevApp) => [...prevApp, requestedAppointment]);
     setMessage("");
 
     setFormData({
+      studentName: "",
+      studentEmail: "",
       purpose: "",
       date: "",
       time: "",
@@ -64,6 +73,30 @@ function SCADVideoCallAppointment({ addAppointment }) {
       )}
 
       <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Student Name:</label>
+          <input
+            type="date"
+            name="date"
+            value={formData.studentName}
+            onChange={handleChange}
+            className="input"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Student Email:</label>
+          <input
+            type="date"
+            name="date"
+            value={formData.studentEmail}
+            onChange={handleChange}
+            className="input"
+            required
+          />
+        </div>
+
         <div className="form-group">
           <label>Purpose of Call:</label>
           <select
