@@ -1802,3 +1802,17 @@ input[type="file"][disabled] {
 .back-button:hover {
   text-decoration: underline;
 }
+
+
+.stats-block {
+  background-color: #112240;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.stats-block h2 {
+  margin-bottom: 0.5rem;
+  color: #64ffda;
+}
