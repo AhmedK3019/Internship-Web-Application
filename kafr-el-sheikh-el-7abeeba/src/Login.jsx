@@ -183,7 +183,7 @@ function Login() {
   }
 
   function addUser(newUser) {
-    const newUser = {
+    const addedUser = {
       id: users.length + 1,
       name: newUser.name,
       email: newUser.email,
@@ -194,7 +194,7 @@ function Login() {
       size: newUser.size,
       logo: newUser.logo,
     };
-    setUsers((prevUsers) => [...prevUsers, newUser]);
+    setUsers((prevUsers) => [...prevUsers, addedUser]);
     setCompaniesRequests((prevRequests) =>
       prevRequests.filter((request) => request.email !== newUser.email)
     );
