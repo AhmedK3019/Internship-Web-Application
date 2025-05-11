@@ -39,14 +39,19 @@ function ProStudent({
   const [internships] = useState(MyinternshipsData);
   const [sharedAssessments, setSharedAssessments] = useState([]);
 
-  const [selectedWorkshopForRegistration, setSelectedWorkshopForRegistration] = useState(null); // ADDED STATE
-  const [registeredWorkshopIds, setRegisteredWorkshopIds] = useState(() => { // ADDED STATE
+  const [selectedWorkshopForRegistration, setSelectedWorkshopForRegistration] =
+    useState(null); // ADDED STATE
+  const [registeredWorkshopIds, setRegisteredWorkshopIds] = useState(() => {
+    // ADDED STATE
     if (!user || !user.id) return [];
     const saved = localStorage.getItem(`registered_workshops_${user.id}`);
     try {
       return saved ? JSON.parse(saved) : [];
     } catch (e) {
-      console.error("Failed to parse registered workshops from localStorage", e);
+      console.error(
+        "Failed to parse registered workshops from localStorage",
+        e
+      );
       return [];
     }
   });
@@ -70,7 +75,10 @@ function ProStudent({
   useEffect(() => {
     if (user && user.id) {
       try {
-        localStorage.setItem(`registered_workshops_${user.id}`, JSON.stringify(registeredWorkshopIds));
+        localStorage.setItem(
+          `registered_workshops_${user.id}`,
+          JSON.stringify(registeredWorkshopIds)
+        );
       } catch (e) {
         console.error("Failed to save registered workshops to localStorage", e);
       }
@@ -103,16 +111,20 @@ function ProStudent({
   };
 
   const handleApplySuccess = (internshipId) => {
-    setAppliedInternships(prev => [...prev, internshipId]);
+    setAppliedInternships((prev) => [...prev, internshipId]);
 
-    const appliedInternshipDetails = internships.find(i => i.id === (selectedInternship?.id || internshipId));
+    const appliedInternshipDetails = internships.find(
+      (i) => i.id === (selectedInternship?.id || internshipId)
+    );
     const newNotification = {
       id: `app-${notifications.length + 1}`,
-      message: `Your application for ${appliedInternshipDetails?.title || 'the internship'} has been submitted successfully!`,
+      message: `Your application for ${
+        appliedInternshipDetails?.title || "the internship"
+      } has been submitted successfully!`,
       isRead: false,
-      date: new Date().toISOString().split('T')[0]
+      date: new Date().toISOString().split("T")[0],
     };
-    setNotifications(prev => [newNotification, ...prev]);
+    setNotifications((prev) => [newNotification, ...prev]);
     setCurrentView("listing");
     setSelectedInternship(null);
   };
@@ -125,7 +137,6 @@ function ProStudent({
     setSelectedWorkshopForRegistration(null);
   };
 
-
   const handleWorkshopRegisterSuccess = (workshopId, registrationDetails) => {
     setRegisteredWorkshopIds((prevIds) => {
       if (!prevIds.includes(workshopId)) {
@@ -134,14 +145,18 @@ function ProStudent({
       return prevIds;
     });
 
-    const registeredWorkshopDetails = workshops.find(w => w.id === workshopId);
+    const registeredWorkshopDetails = workshops.find(
+      (w) => w.id === workshopId
+    );
     const newNotification = {
       id: `reg-${notifications.length + 1}-${Date.now()}`,
-      message: `Successfully registered for workshop: "${registeredWorkshopDetails?.name || 'the workshop'}"!`,
+      message: `Successfully registered for workshop: "${
+        registeredWorkshopDetails?.name || "the workshop"
+      }"!`,
       isRead: false,
-      date: new Date().toISOString().split('T')[0]
+      date: new Date().toISOString().split("T")[0],
     };
-    setNotifications(prev => [newNotification, ...prev]);
+    setNotifications((prev) => [newNotification, ...prev]);
     setSelectedWorkshopForRegistration(null);
     setCurrentView("workshops");
   };
@@ -155,7 +170,6 @@ function ProStudent({
       />
     );
   }
-
 
   return (
     <div className="page">
@@ -199,7 +213,12 @@ function ProStudent({
             View Workshops
           </button>
 
-          <button onClick={() => { setCurrentView("registered-workshops"); setSelectedWorkshopForRegistration(null); }}>
+          <button
+            onClick={() => {
+              setCurrentView("registered-workshops");
+              setSelectedWorkshopForRegistration(null);
+            }}
+          >
             My Workshop Registrations
           </button>
 
@@ -223,8 +242,9 @@ function ProStudent({
                   </div>
                 </div>
                 <div
-                  className={`notifications-area ${showNotifications ? "shifted" : ""
-                    }`}
+                  className={`notifications-area ${
+                    showNotifications ? "shifted" : ""
+                  }`}
                 >
                   <div
                     className="notification-ring"
@@ -240,8 +260,9 @@ function ProStudent({
 
               {showNotifications && (
                 <div
-                  className={`notifications-panel ${showNotifications ? "visible" : ""
-                    }`}
+                  className={`notifications-panel ${
+                    showNotifications ? "visible" : ""
+                  }`}
                 >
                   <h3>Notifications</h3>
                   {notifications.length === 0 ? (
@@ -252,8 +273,9 @@ function ProStudent({
                     notifications.map((notification) => (
                       <div
                         key={notification.id}
-                        className={`notification-item ${notification.isRead ? "read" : "unread"
-                          }`}
+                        className={`notification-item ${
+                          notification.isRead ? "read" : "unread"
+                        }`}
                         onClick={() => handleNotificationClick(notification.id)}
                       >
                         <div className="notification-message">
@@ -267,7 +289,6 @@ function ProStudent({
                   )}
                 </div>
               )}
-              <hr />
               <Discover onBackUpdate={handleBackToDashboard} />
             </header>
           </div>
@@ -297,7 +318,10 @@ function ProStudent({
           <Profile
             user={user}
             onBackUpdate={handleBackToDashboard}
-            onNavigate={(view) => { setCurrentView(view); setSelectedWorkshopForRegistration(null); }}
+            onNavigate={(view) => {
+              setCurrentView(view);
+              setSelectedWorkshopForRegistration(null);
+            }}
             isPro={true}
             sharedAssessments={sharedAssessments}
             setSharedAssessments={setSharedAssessments}

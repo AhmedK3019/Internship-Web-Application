@@ -40,43 +40,58 @@ const SCADStudentSearch = () => {
   });
 
   return (
-    <div className="student-search">
-      <h1>Student Search</h1>
-      <div className="filters">
-        <input
-          type="text"
-          placeholder="Search by name"
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-        <select value={selectedStatus} onChange={handleStatusChange}>
-          <option value="all">All</option>
-          <option value="completed">Completed</option>
-          <option value="in-progress">In Progress</option>
-          <option value="not-started">Not Started</option>
-        </select>
-      </div>
-      <div className="student-list">
-        {filteredStudents.map((student) => (
-          <div
-            key={student.id}
-            className="student-item"
-            onClick={() => setSelectedStudent(student)}
-          >
-            <h3>{student.name}</h3>
-            <p>Status: {student.internshipStatus}</p>
+    <div className="internship-background">
+      <div className="listings-container">
+        <h1>Student Search</h1>
+        <div className="filters-container">
+          <div className="search-filter-row">
+            <input
+              type="text"
+              placeholder="Search by name"
+              value={searchTerm}
+              onChange={handleSearch}
+              className="search-input"
+            />
           </div>
-        ))}
-      </div>
-      {selectedStudent && (
-        <div className="student-profile">
-          <h2>{selectedStudent.name}'s Profile</h2>
-          <p>Email: {selectedStudent.email}</p>
-          <p>Major: {selectedStudent.major}</p>
-          <p>Internship Status: {selectedStudent.internshipStatus}</p>
-          <button onClick={() => setSelectedStudent(null)}>Close</button>
+          <div className="filter-row">
+            <div className="filter-group">
+              <div className="filter-combo">
+                <select
+                  value={selectedStatus}
+                  onChange={handleStatusChange}
+                  className="filter-select"
+                >
+                  <option value="all">Select Internship Status</option>
+                  <option value="completed">Completed</option>
+                  <option value="in-progress">In Progress</option>
+                  <option value="not-started">Not Started</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+        <div className="internship-list">
+          {filteredStudents.map((student) => (
+            <div
+              key={student.id}
+              className="internship-card"
+              onClick={() => setSelectedStudent(student)}
+            >
+              <h3>{student.name}</h3>
+              <p>Status: {student.internshipStatus}</p>
+            </div>
+          ))}
+        </div>
+        {selectedStudent && (
+          <div className="student-profile">
+            <h2>{selectedStudent.name}'s Profile</h2>
+            <p>Email: {selectedStudent.email}</p>
+            <p>Major: {selectedStudent.major}</p>
+            <p>Internship Status: {selectedStudent.internshipStatus}</p>
+            <button onClick={() => setSelectedStudent(null)}>Close</button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

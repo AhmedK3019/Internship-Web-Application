@@ -76,7 +76,6 @@ function SCADVideoCallAppointment({ addAppointment }) {
         <div className="form-group">
           <label>Student Name:</label>
           <input
-            type="text"
             name="studentName"
             placeholder="Student Name"
             className="input"

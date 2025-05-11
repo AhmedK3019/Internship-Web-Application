@@ -203,13 +203,11 @@ function SCADInternshipReports() {
                 <div className="detail-actions">
                   <button
                     onClick={() => generatePDF(report)}
-                    className="action-button"
                     style={{ marginTop: "10px" }}
                   >
                     Download PDF
                   </button>
                   <button
-                    className="action-button"
                     onClick={() => {
                       setSelectedReport(report);
                       setShowEvaluationModal(true);
@@ -235,7 +233,6 @@ function SCADInternshipReports() {
                       }
                     />
                     <button
-                      className="action-button"
                       onClick={() =>
                         handleClarificationSubmit(
                           report.id,
