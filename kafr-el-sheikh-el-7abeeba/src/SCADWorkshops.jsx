@@ -3,24 +3,24 @@ import "./index.css";
 
 
 
-function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [showForm, setShowForm] = useState(false); // Renamed from showFilters
-    const [selectedWorkshop, setSelectedWorkshop] = useState(null);
-    const [editingId, setEditingId] = useState(null);
-    const initialWorkshopFormState = {
-        name: "",
-        startDate: "",
-        endDate: "",
-        startTime: "",
-        endTime: "",
-        description: "",
-        speakerBio: "",
-        agenda: ""
-    };
-    const [newWorkshop, setNewWorkshop] = useState(initialWorkshopFormState);
+function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent = false, onRegister, registeredWorkshops = [] }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const initialWorkshopFormState = {
+    name: "",
+    startDate: "",
+    endDate: "",
+    startTime: "",
+    endTime: "",
+    description: "",
+    speakerBio: "",
+    agenda: ""
+  };
+  const [newWorkshop, setNewWorkshop] = useState(initialWorkshopFormState);
 
-  
+
   useEffect(() => {
     if (!isScad) {
       setShowForm(false);
@@ -30,14 +30,14 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
   }, [isScad]);
 
   const handleInputChange = (e) => {
-  
+
     const { name, value } = e.target;
     setNewWorkshop(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isScad || !setWorkshops) { 
+    if (!isScad || !setWorkshops) {
       return;
     }
 
@@ -52,26 +52,26 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
     }
     setNewWorkshop(initialWorkshopFormState);
     setEditingId(null);
-    setShowForm(false); 
+    setShowForm(false);
   };
 
   const handleEdit = (workshop) => {
-    if (!isScad) return; 
+    if (!isScad) return;
 
     setNewWorkshop(workshop);
     setEditingId(workshop.id);
-    setSelectedWorkshop(null); 
-    setShowForm(true);         
+    setSelectedWorkshop(null);
+    setShowForm(true);
   };
 
   const handleDelete = (id) => {
-    if (!isScad || !setWorkshops) return; 
+    if (!isScad || !setWorkshops) return;
 
     setWorkshops(prev => prev.filter(workshop => workshop.id !== id));
     if (selectedWorkshop === id) {
       setSelectedWorkshop(null);
     }
-    
+
     if (editingId === id) {
       setEditingId(null);
       setNewWorkshop(initialWorkshopFormState);
@@ -80,26 +80,26 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
   };
 
   const handleToggleForm = () => {
-    if (!isScad) return; 
+    if (!isScad) return;
 
-    if (showForm && editingId) { 
-      setEditingId(null);         
+    if (showForm && editingId) {
+      setEditingId(null);
       setNewWorkshop(initialWorkshopFormState);
     }
     setShowForm(!showForm);
   };
 
   const handleCardClick = (workshopId) => {
-    
+
     if (isScad && editingId && editingId !== workshopId && showForm) {
-        setEditingId(null);
-        setNewWorkshop(initialWorkshopFormState);
-        setShowForm(false);
+      setEditingId(null);
+      setNewWorkshop(initialWorkshopFormState);
+      setShowForm(false);
     }
     setSelectedWorkshop(selectedWorkshop === workshopId ? null : workshopId);
   };
 
-  const filteredWorkshops = (workshops || []).filter(workshop => 
+  const filteredWorkshops = (workshops || []).filter(workshop =>
     (workshop.name?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
     (workshop.description?.toLowerCase() || '').includes(searchQuery.toLowerCase())
   );
@@ -107,7 +107,7 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
   return (
     <div className="internship-background">
       <div className="listings-container">
-        
+
         <h1>{isScad ? "Manage Online Workshops" : "Available Online Workshops"}</h1>
 
         <div className="filters-container">
@@ -129,16 +129,16 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
             )}
           </div>
 
-         
+
           {isScad && showForm && (
             <form onSubmit={handleSubmit} className="internship-card" style={{ marginBottom: "20px", marginTop: "20px" }}>
               <h2>{editingId ? "Edit Workshop" : "Add New Workshop"}</h2>
-            
+
               <div className="detail-item">
                 <span className="detail-label">Workshop Name:</span>
                 <input type="text" name="name" className="detail-value" style={{ width: "100%" }} value={newWorkshop.name} onChange={handleInputChange} required />
               </div>
-              
+
               <div className="filter-row">
                 <div className="detail-item">
                   <span className="detail-label">Start Date:</span>
@@ -149,7 +149,7 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
                   <input type="date" name="endDate" className="detail-value" style={{ width: "100%" }} value={newWorkshop.endDate} onChange={handleInputChange} required />
                 </div>
               </div>
-            
+
               <div className="filter-row">
                 <div className="detail-item">
                   <span className="detail-label">Start Time:</span>
@@ -160,17 +160,17 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
                   <input type="time" name="endTime" className="detail-value" style={{ width: "100%" }} value={newWorkshop.endTime} onChange={handleInputChange} required />
                 </div>
               </div>
-             
+
               <div className="detail-item">
                 <span className="detail-label">Description:</span>
                 <textarea name="description" className="detail-value" style={{ width: "100%", minHeight: "80px" }} value={newWorkshop.description} onChange={handleInputChange} required />
               </div>
- 
+
               <div className="detail-item">
                 <span className="detail-label">Speaker Bio:</span>
                 <textarea name="speakerBio" className="detail-value" style={{ width: "100%", minHeight: "80px" }} value={newWorkshop.speakerBio} onChange={handleInputChange} required />
               </div>
-             
+
               <div className="detail-item">
                 <span className="detail-label">Agenda:</span>
                 <textarea name="agenda" className="detail-value" style={{ width: "100%", minHeight: "80px" }} value={newWorkshop.agenda} onChange={handleInputChange} required />
@@ -183,10 +183,10 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={() => { 
+                    onClick={() => {
                       setEditingId(null);
                       setNewWorkshop(initialWorkshopFormState);
-                      setShowForm(false); 
+                      setShowForm(false);
                     }}
                   >
                     Cancel
@@ -230,22 +230,22 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
                   <div className="details-grid">
                     <div className="detail-item">
                       <span className="detail-label">Description:</span>
-                      <span className="detail-value">{workshop.description}</span>
                     </div>
+                    <span className="detail-value">{workshop.description}</span>
                     <div className="detail-item">
                       <span className="detail-label">Speaker Bio:</span>
                       <span className="detail-value">{workshop.speakerBio}</span>
                     </div>
                     <div className="detail-item">
                       <span className="detail-label">Agenda:</span>
-                      <span className="detail-value">{workshop.agenda}</span>
                     </div>
-                    
+                    <span className="detail-value">{workshop.agenda}</span>
+
                     {isScad && (
                       <div className="detail-actions">
                         <button
                           onClick={(e) => {
-                            e.stopPropagation(); 
+                            e.stopPropagation();
                             handleEdit(workshop);
                           }}
                           className="edit-button"
@@ -254,7 +254,7 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
                         </button>
                         <button
                           onClick={(e) => {
-                            e.stopPropagation(); 
+                            e.stopPropagation();
                             handleDelete(workshop.id);
                           }}
                           className="delete-button"
@@ -263,6 +263,21 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
                         </button>
                       </div>
                     )}
+                    <div className="detail-actions">
+
+                      {isStudent && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onRegister(workshop);
+                          }}
+                          className="btn-primary1"
+                          disabled={registeredWorkshops.includes(workshop.id)}
+                        >
+                          {registeredWorkshops.includes(workshop.id) ? "Registered ✓" : "Register"}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
