@@ -1,0 +1,277 @@
+import React, { useState, useEffect } from "react";
+import "./index.css";
+
+
+
+function SCADWorkshops({ workshops = [], setWorkshops, isScad = false }) {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [showForm, setShowForm] = useState(false); // Renamed from showFilters
+    const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+    const [editingId, setEditingId] = useState(null);
+    const initialWorkshopFormState = {
+        name: "",
+        startDate: "",
+        endDate: "",
+        startTime: "",
+        endTime: "",
+        description: "",
+        speakerBio: "",
+        agenda: ""
+    };
+    const [newWorkshop, setNewWorkshop] = useState(initialWorkshopFormState);
+
+  
+  useEffect(() => {
+    if (!isScad) {
+      setShowForm(false);
+      setEditingId(null);
+      setNewWorkshop(initialWorkshopFormState);
+    }
+  }, [isScad]);
+
+  const handleInputChange = (e) => {
+  
+    const { name, value } = e.target;
+    setNewWorkshop(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!isScad || !setWorkshops) { 
+      return;
+    }
+
+    if (editingId) {
+      setWorkshops(prev =>
+        prev.map(workshop =>
+          workshop.id === editingId ? { ...newWorkshop, id: editingId } : workshop
+        )
+      );
+    } else {
+      setWorkshops(prev => [...prev, { ...newWorkshop, id: Date.now() }]);
+    }
+    setNewWorkshop(initialWorkshopFormState);
+    setEditingId(null);
+    setShowForm(false); 
+  };
+
+  const handleEdit = (workshop) => {
+    if (!isScad) return; 
+
+    setNewWorkshop(workshop);
+    setEditingId(workshop.id);
+    setSelectedWorkshop(null); 
+    setShowForm(true);         
+  };
+
+  const handleDelete = (id) => {
+    if (!isScad || !setWorkshops) return; 
+
+    setWorkshops(prev => prev.filter(workshop => workshop.id !== id));
+    if (selectedWorkshop === id) {
+      setSelectedWorkshop(null);
+    }
+    
+    if (editingId === id) {
+      setEditingId(null);
+      setNewWorkshop(initialWorkshopFormState);
+      setShowForm(false);
+    }
+  };
+
+  const handleToggleForm = () => {
+    if (!isScad) return; 
+
+    if (showForm && editingId) { 
+      setEditingId(null);         
+      setNewWorkshop(initialWorkshopFormState);
+    }
+    setShowForm(!showForm);
+  };
+
+  const handleCardClick = (workshopId) => {
+    
+    if (isScad && editingId && editingId !== workshopId && showForm) {
+        setEditingId(null);
+        setNewWorkshop(initialWorkshopFormState);
+        setShowForm(false);
+    }
+    setSelectedWorkshop(selectedWorkshop === workshopId ? null : workshopId);
+  };
+
+  const filteredWorkshops = (workshops || []).filter(workshop => 
+    (workshop.name?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
+    (workshop.description?.toLowerCase() || '').includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div className="internship-background">
+      <div className="listings-container">
+        
+        <h1>{isScad ? "Manage Online Workshops" : "Available Online Workshops"}</h1>
+
+        <div className="filters-container">
+          <div className="search-filter-row">
+            <input
+              type="text"
+              placeholder="Search workshops..."
+              className="search-input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {isScad && (
+              <button
+                onClick={handleToggleForm}
+                style={{ marginTop: "10px" }}
+              >
+                {showForm ? "Hide Form" : "Add New Workshop"}
+              </button>
+            )}
+          </div>
+
+         
+          {isScad && showForm && (
+            <form onSubmit={handleSubmit} className="internship-card" style={{ marginBottom: "20px", marginTop: "20px" }}>
+              <h2>{editingId ? "Edit Workshop" : "Add New Workshop"}</h2>
+            
+              <div className="detail-item">
+                <span className="detail-label">Workshop Name:</span>
+                <input type="text" name="name" className="detail-value" style={{ width: "100%" }} value={newWorkshop.name} onChange={handleInputChange} required />
+              </div>
+              
+              <div className="filter-row">
+                <div className="detail-item">
+                  <span className="detail-label">Start Date:</span>
+                  <input type="date" name="startDate" className="detail-value" style={{ width: "100%" }} value={newWorkshop.startDate} onChange={handleInputChange} required />
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">End Date:</span>
+                  <input type="date" name="endDate" className="detail-value" style={{ width: "100%" }} value={newWorkshop.endDate} onChange={handleInputChange} required />
+                </div>
+              </div>
+            
+              <div className="filter-row">
+                <div className="detail-item">
+                  <span className="detail-label">Start Time:</span>
+                  <input type="time" name="startTime" className="detail-value" style={{ width: "100%" }} value={newWorkshop.startTime} onChange={handleInputChange} required />
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">End Time:</span>
+                  <input type="time" name="endTime" className="detail-value" style={{ width: "100%" }} value={newWorkshop.endTime} onChange={handleInputChange} required />
+                </div>
+              </div>
+             
+              <div className="detail-item">
+                <span className="detail-label">Description:</span>
+                <textarea name="description" className="detail-value" style={{ width: "100%", minHeight: "80px" }} value={newWorkshop.description} onChange={handleInputChange} required />
+              </div>
+ 
+              <div className="detail-item">
+                <span className="detail-label">Speaker Bio:</span>
+                <textarea name="speakerBio" className="detail-value" style={{ width: "100%", minHeight: "80px" }} value={newWorkshop.speakerBio} onChange={handleInputChange} required />
+              </div>
+             
+              <div className="detail-item">
+                <span className="detail-label">Agenda:</span>
+                <textarea name="agenda" className="detail-value" style={{ width: "100%", minHeight: "80px" }} value={newWorkshop.agenda} onChange={handleInputChange} required />
+              </div>
+              <div className="form-actions">
+                <button type="submit" className="btn btn-primary">
+                  {editingId ? "Update Workshop" : "Add Workshop"}
+                </button>
+                {editingId && (
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => { 
+                      setEditingId(null);
+                      setNewWorkshop(initialWorkshopFormState);
+                      setShowForm(false); 
+                    }}
+                  >
+                    Cancel
+                  </button>
+                )}
+              </div>
+            </form>
+          )}
+        </div>
+
+        <div className="internship-list">
+          {filteredWorkshops.length === 0 ? (
+            <div className="no-results">
+              {searchQuery
+                ? `No workshops found for "${searchQuery}"`
+                : "No workshops currently available"}
+            </div>
+          ) : (
+            filteredWorkshops.map((workshop) => (
+              <div
+                key={workshop.id}
+                className={`internship-card ${selectedWorkshop === workshop.id ? "selected" : ""}`}
+                onClick={() => handleCardClick(workshop.id)}
+              >
+                <div>
+                  <h2>{workshop.name}</h2>
+                  <h3>
+                    {new Date(workshop.startDate).toLocaleDateString()} - {new Date(workshop.endDate).toLocaleDateString()}
+                  </h3>
+                </div>
+                <div className="expand-indicator">
+                  {selectedWorkshop === workshop.id ? "▼" : "▶"}
+                </div>
+                <div style={{ borderBottom: "1px solid rgba(126, 200, 227, 0.2)", padding: "0.5rem 0" }}>
+                  <span style={{ display: "flex", justifyContent: "space-between", fontWeight: "normal" }}>
+                    <span className="detail-label">Time:</span>
+                    <span className="detail-value">{workshop.startTime} - {workshop.endTime}</span>
+                  </span>
+                </div>
+                {selectedWorkshop === workshop.id && (
+                  <div className="details-grid">
+                    <div className="detail-item">
+                      <span className="detail-label">Description:</span>
+                      <span className="detail-value">{workshop.description}</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Speaker Bio:</span>
+                      <span className="detail-value">{workshop.speakerBio}</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Agenda:</span>
+                      <span className="detail-value">{workshop.agenda}</span>
+                    </div>
+                    
+                    {isScad && (
+                      <div className="detail-actions">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation(); 
+                            handleEdit(workshop);
+                          }}
+                          className="edit-button"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation(); 
+                            handleDelete(workshop.id);
+                          }}
+                          className="delete-button"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default SCADWorkshops;

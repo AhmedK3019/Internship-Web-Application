@@ -7,6 +7,8 @@ import Student from "./Student";
 import ProStudent from "./ProStudent";
 import Faculty from "./Faculty";
 
+const WORKSHOPS_STORAGE_KEY = 'ksh_shared_workshops';
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,6 +18,10 @@ function Login() {
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
   });
+
+  const initialDummyWorkshops = [];
+
+
 
   const [SCADNotifications, setSCADNotifications] = useState([]);
   const [PROStudentNotifications, setPROStudentNotifications] = useState([]);
@@ -59,6 +65,53 @@ function Login() {
       reader.readAsDataURL(file);
     });
   }
+
+  const [workshops, setWorkshopsState] = useState(() => {
+  const storedWorkshops = localStorage.getItem(WORKSHOPS_STORAGE_KEY);
+  try {
+    return storedWorkshops ? JSON.parse(storedWorkshops) : initialDummyWorkshops;
+  } catch (error) {
+    console.error("Error parsing workshops from localStorage:", error);
+    return initialDummyWorkshops;
+  }
+});
+
+const setWorkshopsAndStorage = (updater) => {
+  setWorkshopsState(prevWorkshops => {
+    const newWorkshops = typeof updater === 'function' ? updater(prevWorkshops) : updater;
+    try {
+      localStorage.setItem(WORKSHOPS_STORAGE_KEY, JSON.stringify(newWorkshops));
+    } catch (error) {
+      console.error("Error saving workshops to localStorage:", error);
+    }
+    return newWorkshops;
+  });
+};
+
+useEffect(() => {
+  const handleStorageChange = (event) => {
+    if (event.key === WORKSHOPS_STORAGE_KEY && event.newValue) {
+      try {
+        const updatedWorkshopsFromStorage = JSON.parse(event.newValue);
+        setWorkshopsState(currentWorkshopsInState => {
+          if (JSON.stringify(currentWorkshopsInState) !== event.newValue) {
+            return updatedWorkshopsFromStorage;
+          }
+          return currentWorkshopsInState;
+        });
+      } catch (error) {
+        console.error("Error parsing workshops from storage event:", error);
+      }
+    }
+  };
+
+  window.addEventListener('storage', handleStorageChange);
+
+  return () => {
+    window.removeEventListener('storage', handleStorageChange);
+  };
+}, []);
+
 
   const [users, setUsers] = useState([
     {
@@ -274,6 +327,7 @@ function Login() {
           setSCADNotifications={setSCADNotifications}
           setNotifications={setPROStudentNotifications}
           onLogout={handleLogout}
+          workshops={workshops}
         />
       ) : showSCAD ? (
         <SCAD
@@ -289,6 +343,8 @@ function Login() {
           setPRONotifications={setPROStudentNotifications}
           setNotifications={setSCADNotifications}
           onLogout={handleLogout}
+          workshops={workshops}
+          setWorkshops={setWorkshopsAndStorage}
         />
       ) : showFaculty ? (
         <Faculty user={user} onLogout={handleLogout} />

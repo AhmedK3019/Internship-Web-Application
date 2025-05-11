@@ -9,6 +9,7 @@ import Listings from "./Listings";
 import SCADStudentSearch from "./SCADStudentSearch";
 import SetInternshipCycle from "./SetInternshipCycle";
 import SCADViewRealTimeStatistics from "./SCADViewRealTimeStatistics";
+import SCADWorkshops from "./SCADWorkshops";
 
 function SCAD({
   user,
@@ -22,6 +23,8 @@ function SCAD({
   notifications,
   setPRONotifications,
   setNotifications,
+  setWorkshops,
+  workshops,
   onLogout,
 }) {
   const [view, setView] = useState("dashboard");
@@ -72,6 +75,9 @@ function SCAD({
           </button>
           <button onClick={() => setView("statistics")}>
             View Real Time Statistics
+          </button>
+          <button onClick={() => setView("workshops")}>
+            View Workshops
           </button>
           <button onClick={onLogout} className="logout-btn">
             Logout
@@ -161,6 +167,8 @@ function SCAD({
         {view === "reports" && <SCADInternshipReports />}
         {view === "students" && <SCADStudentSearch />}
         {view === "statistics" && <SCADViewRealTimeStatistics />}
+        {view === "workshops" &&
+          <SCADWorkshops workshops={workshops} setWorkshops={setWorkshops} isScad={true}/>}
       </div>
     </div>
   );
