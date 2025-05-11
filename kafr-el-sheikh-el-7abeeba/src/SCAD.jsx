@@ -5,6 +5,8 @@ import SCADVideoCallAppointment from "./SCADVideoCallAppointment";
 import SCADRequestedAppointments from "./SCADRequestedAppointments";
 import SCADFutureAppointments from "./SCADFutureAppointments";
 import Listings from "./Listings";
+import SCADStudentSearch from "./SCADStudentSearch";
+import SetInternshipCycle from "./SetInternshipCycle";
 
 function SCAD({
   user,
@@ -138,6 +140,8 @@ function SCAD({
             setFutureAppointments={setFutureAppointments}
           />
         )}
+        {view === "listings" && <Listings />}
+        {view === "cycle" && < />}
         {view === "listings" && <Listings />}
       </div>
     </div>

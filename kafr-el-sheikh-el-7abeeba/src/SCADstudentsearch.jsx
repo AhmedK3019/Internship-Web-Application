@@ -15,8 +15,9 @@ const SCADStudentSearch = ({ students }) => {
   };
 
   const filteredStudents = students.filter((student) => {
-    const matchesSearch =
-      student.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = student.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
     const matchesStatus =
       selectedStatus === "all" || student.internshipStatus === selectedStatus;
     return matchesSearch && matchesStatus;
