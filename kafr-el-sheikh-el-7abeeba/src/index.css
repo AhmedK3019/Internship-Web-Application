@@ -215,6 +215,7 @@ textarea {
   border-radius: 10px;
   transition: width 0.3s ease;
   overflow: hidden;
+  overflow-y: auto;
 
   display: flex;
   flex-direction: column;
@@ -1644,7 +1645,7 @@ input[type="file"][disabled] {
 
 
 .reports-background {
-  background-color: #0a192f;
+  background-color: transparent;
   color: #7EC8E3;
   padding: 2rem;
   min-height: 100vh;

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./index.css";
 
-function SCADFutureAppointments({
+function PROStudentFutureAppointments({
   futureAppointments,
   setFutureAppointments,
-  setPRONotifications,
+  setSCADNotifications,
 }) {
   const [message, setMessage] = useState("");
   const [isCallActive, setIsCallActive] = useState(false);
@@ -51,11 +51,11 @@ function SCADFutureAppointments({
     setFutureAppointments((prevApp) =>
       prevApp.filter((app) => app.id !== appointment.id)
     );
-    setPRONotifications((prev) => [
+    setSCADNotifications((prev) => [
       ...prev,
       {
         id: Date.now(),
-        message: `SCAD Officer has joined the call.`,
+        message: `PRO Student has joined the call.`,
         isRead: false,
       },
     ]);
@@ -112,11 +112,11 @@ function SCADFutureAppointments({
         .getTracks()
         .forEach((track) => track.stop());
     }
-    setPRONotifications((prev) => [
+    setSCADNotifications((prev) => [
       ...prev,
       {
         id: Date.now(),
-        message: `SCAD Officer left the call.`,
+        message: `PRO Student left the call.`,
         isRead: false,
       },
     ]);
@@ -135,12 +135,6 @@ function SCADFutureAppointments({
           futureAppointments.map((appointment, index) => (
             <div key={index} className="internship-card">
               <div className="details-grid">
-                <div className="detail-item">
-                  <span className="detail-label">Student Name:</span>
-                  <span className="detail-value">
-                    {appointment.studentName}
-                  </span>
-                </div>
                 <div className="detail-item">
                   <span className="detail-label">Date:</span>
                   <span className="detail-value">{appointment.date}</span>
@@ -211,4 +205,4 @@ function SCADFutureAppointments({
   );
 }
 
-export default SCADFutureAppointments;
+export default PROStudentFutureAppointments;

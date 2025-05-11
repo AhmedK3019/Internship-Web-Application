@@ -7,7 +7,7 @@ import Student from "./Student";
 import ProStudent from "./ProStudent";
 import Faculty from "./Faculty";
 
-const WORKSHOPS_STORAGE_KEY = 'ksh_shared_workshops';
+const WORKSHOPS_STORAGE_KEY = "ksh_shared_workshops";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -21,10 +21,29 @@ function Login() {
 
   const initialDummyWorkshops = [];
 
-
-
   const [SCADNotifications, setSCADNotifications] = useState([]);
-  const [PROStudentNotifications, setPROStudentNotifications] = useState([]);
+  const [PROStudentNotifications, setPROStudentNotifications] = useState([
+    {
+      id: 1,
+      message:
+        "New internship cycle begins next week! Start preparing your resume.",
+      isRead: false,
+      date: "2025-05-01",
+    },
+    {
+      id: 2,
+      message: "Reminder: Early application deadline is approaching in 3 days.",
+      isRead: false,
+      date: "2025-05-05",
+    },
+    {
+      id: 3,
+      message:
+        "Summer 2025 internship cycle has officially begun! Applications are now open.",
+      isRead: false,
+      date: "2025-05-08",
+    },
+  ]);
   const [requestedAppointments, setRequestedAppointments] = useState([
     {
       id: 1,
@@ -67,51 +86,56 @@ function Login() {
   }
 
   const [workshops, setWorkshopsState] = useState(() => {
-  const storedWorkshops = localStorage.getItem(WORKSHOPS_STORAGE_KEY);
-  try {
-    return storedWorkshops ? JSON.parse(storedWorkshops) : initialDummyWorkshops;
-  } catch (error) {
-    console.error("Error parsing workshops from localStorage:", error);
-    return initialDummyWorkshops;
-  }
-});
-
-const setWorkshopsAndStorage = (updater) => {
-  setWorkshopsState(prevWorkshops => {
-    const newWorkshops = typeof updater === 'function' ? updater(prevWorkshops) : updater;
+    const storedWorkshops = localStorage.getItem(WORKSHOPS_STORAGE_KEY);
     try {
-      localStorage.setItem(WORKSHOPS_STORAGE_KEY, JSON.stringify(newWorkshops));
+      return storedWorkshops
+        ? JSON.parse(storedWorkshops)
+        : initialDummyWorkshops;
     } catch (error) {
-      console.error("Error saving workshops to localStorage:", error);
+      console.error("Error parsing workshops from localStorage:", error);
+      return initialDummyWorkshops;
     }
-    return newWorkshops;
   });
-};
 
-useEffect(() => {
-  const handleStorageChange = (event) => {
-    if (event.key === WORKSHOPS_STORAGE_KEY && event.newValue) {
+  const setWorkshopsAndStorage = (updater) => {
+    setWorkshopsState((prevWorkshops) => {
+      const newWorkshops =
+        typeof updater === "function" ? updater(prevWorkshops) : updater;
       try {
-        const updatedWorkshopsFromStorage = JSON.parse(event.newValue);
-        setWorkshopsState(currentWorkshopsInState => {
-          if (JSON.stringify(currentWorkshopsInState) !== event.newValue) {
-            return updatedWorkshopsFromStorage;
-          }
-          return currentWorkshopsInState;
-        });
+        localStorage.setItem(
+          WORKSHOPS_STORAGE_KEY,
+          JSON.stringify(newWorkshops)
+        );
       } catch (error) {
-        console.error("Error parsing workshops from storage event:", error);
+        console.error("Error saving workshops to localStorage:", error);
       }
-    }
+      return newWorkshops;
+    });
   };
 
-  window.addEventListener('storage', handleStorageChange);
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === WORKSHOPS_STORAGE_KEY && event.newValue) {
+        try {
+          const updatedWorkshopsFromStorage = JSON.parse(event.newValue);
+          setWorkshopsState((currentWorkshopsInState) => {
+            if (JSON.stringify(currentWorkshopsInState) !== event.newValue) {
+              return updatedWorkshopsFromStorage;
+            }
+            return currentWorkshopsInState;
+          });
+        } catch (error) {
+          console.error("Error parsing workshops from storage event:", error);
+        }
+      }
+    };
 
-  return () => {
-    window.removeEventListener('storage', handleStorageChange);
-  };
-}, []);
+    window.addEventListener("storage", handleStorageChange);
 
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   const [users, setUsers] = useState([
     {

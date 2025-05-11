@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function VideoCallAppointment() {
   const [formData, setFormData] = useState({
-    purpose: '',
-    date: '',
-    time: '',
-    message: ''
+    purpose: "",
+    date: "",
+    time: "",
+    message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -13,21 +13,35 @@ function VideoCallAppointment() {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-    
-    
+    e.preventDefault();
+
     setIsSubmitted(true);
+    const user = localStorage.getItem("user");
+    const name = JSON.parse(user).name;
+    const email = JSON.parse(user).email;
+    const requestedAppointment = {
+      id: Date.now(),
+      requestedBy: "SCAD",
+      studentName: name,
+      studentEmail: email,
+      purpose: formData.purpose,
+      date: formData.date,
+      time: formData.time,
+      message: formData.message,
+      status: "pending",
+    };
+    addAppointment((prevApp) => [...prevApp, requestedAppointment]);
 
     setFormData({
-      purpose: '',
-        date: '',
-        time: '',
-        message: ''
+      purpose: "",
+      date: "",
+      time: "",
+      message: "",
     });
 
     setTimeout(() => setIsSubmitted(false), 10000);
@@ -36,16 +50,14 @@ function VideoCallAppointment() {
   return (
     <div className="appointment-form">
       <h2>Schedule Video Call</h2>
-      
-      
+
       {isSubmitted && (
-        <div className="success-message" >
+        <div className="success-message">
           Appointment requested successfully!
         </div>
       )}
-      
+
       <form onSubmit={handleSubmit}>
-       
         <div className="form-group">
           <label>Purpose of Call:</label>
           <select
@@ -68,7 +80,7 @@ function VideoCallAppointment() {
             name="date"
             value={formData.date}
             onChange={handleChange}
-            min={new Date().toLocaleDateString('en-CA')}
+            min={new Date().toLocaleDateString("en-CA")}
             className="input"
             required
           />
@@ -109,7 +121,9 @@ function VideoCallAppointment() {
           />
         </div>
 
-        <button type="submit" className="form-button">Request Appointment</button>
+        <button type="submit" className="form-button">
+          Request Appointment
+        </button>
       </form>
     </div>
   );

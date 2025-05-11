@@ -1,0 +1,101 @@
+import React, { useState, useEffect } from "react";
+import "./index.css";
+
+function PROStudentReqeustedAppointments({
+  requestedAppointments,
+  acceptAppointment,
+  rejectAppointment,
+  setSCADNotifications,
+}) {
+  function handleAccept(appointment) {
+    const updatedAppointment = {
+      ...appointment,
+      status: "accepted",
+    };
+    acceptAppointment((prevApp) => [...prevApp, updatedAppointment]);
+    rejectAppointment((prevApp) =>
+      prevApp.filter((app) => app.id !== appointment.id)
+    );
+    setSCADNotifications((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        message: `Your appointment with PRO Student has been accepted.`,
+        isRead: false,
+      },
+    ]);
+  }
+
+  function handleReject(appointment) {
+    const updatedAppointment = {
+      ...appointment,
+      status: "rejected",
+    };
+    rejectAppointment((prevApp) =>
+      prevApp.filter((app) => app.id !== appointment.id)
+    );
+    setSCADNotifications((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        message: `Your appointment with PRO Student has been rejected.`,
+        isRead: false,
+      },
+    ]);
+  }
+
+  return (
+    <div className="listings-container">
+      <div className="internship-list">
+        <h1>Requested Appointments</h1>
+        {requestedAppointments.length === 0 ? (
+          <div className="no-results">No pending appointments</div>
+        ) : (
+          requestedAppointments.map((appointment, index) => (
+            <div key={index} className="internship-card">
+              <div className="details-grid">
+                <div className="detail-item">
+                  <span className="detail-label">Purpose:</span>
+                  <span className="detail-value">{appointment.purpose}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Date:</span>
+                  <span className="detail-value">{appointment.date}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Time:</span>
+                  <span className="detail-value">{appointment.time}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Message:</span>
+                  <span className="detail-value">{appointment.message}</span>
+                </div>
+              </div>
+              <div className="detail-item">
+                <span className="detail-label">Status:</span>
+                <span className="detail-value">{appointment.status}</span>
+              </div>
+              {appointment.requestedBy === "SCAD" && (
+                <div className="detail-actions">
+                  <button
+                    onClick={() => handleAccept(appointment)}
+                    className="accept-btn"
+                  >
+                    Accept
+                  </button>
+                  <button
+                    onClick={() => handleReject(appointment)}
+                    className="delete-btn"
+                  >
+                    Reject
+                  </button>
+                </div>
+              )}
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+export default PROStudentReqeustedAppointments;
