@@ -58,6 +58,10 @@ function SCAD({
           <button onClick={() => setView("appointments")}>
             View Appointments
           </button>
+          <button onClick={() => setView("cycle")}>Set Internship Cycle</button>
+          <button onClick={() => setView("students")}>
+            View Student Profiles
+          </button>
           <button onClick={onLogout} className="logout-btn">
             Logout
           </button>
@@ -141,8 +145,8 @@ function SCAD({
           />
         )}
         {view === "listings" && <Listings />}
-        {view === "cycle" && < />}
-        {view === "listings" && <Listings />}
+        {view === "cycle" && <SetInternshipCycle />}
+        {view === "students" && <SCADStudentSearch />}
       </div>
     </div>
   );

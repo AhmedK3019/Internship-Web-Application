@@ -1,10 +1,26 @@
 import React, { useState } from "react";
 import "./index.css";
 
-const SCADStudentSearch = ({ students }) => {
+const SCADStudentSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const students = [
+    {
+      id: 1,
+      name: "John Doe",
+      email: "JohnDoe@gmai.com",
+      major: "Computer Science",
+      internshipStatus: "completed",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      email: "JaneSmith@gmail.com",
+      major: "Graphic Design",
+      internshipStatus: "in-progress",
+    },
+  ];
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);

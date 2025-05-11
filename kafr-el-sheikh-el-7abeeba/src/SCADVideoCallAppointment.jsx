@@ -76,20 +76,20 @@ function SCADVideoCallAppointment({ addAppointment }) {
         <div className="form-group">
           <label>Student Name:</label>
           <input
-            type="date"
-            name="date"
+            type="text"
+            placeholder="Student Name"
+            className="input"
             value={formData.studentName}
             onChange={handleChange}
-            className="input"
-            required
+            // required
           />
         </div>
 
         <div className="form-group">
           <label>Student Email:</label>
           <input
-            type="date"
-            name="date"
+            type="email"
+            placeholder="Student Email"
             value={formData.studentEmail}
             onChange={handleChange}
             className="input"
