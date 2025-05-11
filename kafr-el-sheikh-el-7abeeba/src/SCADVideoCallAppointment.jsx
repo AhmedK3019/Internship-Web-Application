@@ -110,7 +110,7 @@ function SCADVideoCallAppointment({ addAppointment }) {
           >
             <option value="">Select Purpose</option>
             <option value="career-guidance">Career Guidance</option>
-            <option value="progress-report">Progress Report</option>
+            <option value="progress-report">Report Clarification</option>
           </select>
         </div>
 

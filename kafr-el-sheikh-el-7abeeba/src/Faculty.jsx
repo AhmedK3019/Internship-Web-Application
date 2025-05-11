@@ -40,7 +40,6 @@ function Faculty({ user, onLogout }) {
             <header className="faculty-header">
               <h1>Welcome {username}</h1>
               <h2>Fcaulty Member Dashboard</h2>
-              <hr />
             </header>
           </div>
         )}
