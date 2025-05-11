@@ -5,7 +5,7 @@ import "jspdf-autotable";
 import "./index.css";
 
 function Statistics() {
-  // 1. Group reports by status and cycle
+  
   const cycles = [...new Set(reportsData.map(r => r.cycle))];
   const statsPerCycle = cycles.map(cycle => {
     const cycleReports = reportsData.filter(r => r.cycle === cycle);
@@ -17,7 +17,7 @@ function Statistics() {
     return { cycle, ...statusCounts };
   });
 
-  // 2. Average Review Time (in days)
+  
   const averageReviewTime = () => {
     const durations = reportsData
       .filter(r => r.reviewDate && r.submissionDate)
@@ -30,7 +30,7 @@ function Statistics() {
     return (durations.reduce((a, b) => a + b, 0) / durations.length).toFixed(2);
   };
 
-  // 3. Most Used Courses
+  
   const courseFrequency = {};
   reportsData.forEach(r => {
     r.courses?.forEach(course => {
@@ -41,7 +41,7 @@ function Statistics() {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
 
-  // 4. Top Rated Companies
+  
   const companyRatings = {};
   reportsData.forEach(r => {
     if (r.company && r.evaluation?.rating) {
@@ -60,7 +60,7 @@ function Statistics() {
     .sort((a, b) => b.avgRating - a.avgRating)
     .slice(0, 5);
 
-  // 5. Top Companies by Internship Count
+  
   const companyCounts = {};
   reportsData.forEach(r => {
     companyCounts[r.company] = (companyCounts[r.company] || 0) + 1;
@@ -69,7 +69,7 @@ function Statistics() {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
 
-  // 6. Generate PDF Summary
+  
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(16);
