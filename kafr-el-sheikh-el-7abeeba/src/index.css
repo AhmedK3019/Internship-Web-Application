@@ -230,6 +230,24 @@ textarea {
   align-items: center;
 }
 
+::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #050a30; /* Background of the scrollbar track */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #535bf2; /* Color of the scrollbar thumb */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7ec8e3; /* Color when hovering over the scrollbar thumb */
+}
+
 .menu-wrapper {
   display: flex;
   align-items: center;
