@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import reportsData from "./ReportsData";
 import jsPDF from "jspdf";
-import "jspdf-autotable";
 import "./index.css";
+
 
 function Statistics() {
   
@@ -70,42 +70,56 @@ function Statistics() {
     .slice(0, 5);
 
   
-  const generatePDF = () => {
+ const generatePDF = () => {
     const doc = new jsPDF();
+    let y = 20;
+
     doc.setFontSize(16);
-    doc.text("Internship Statistics Report", 14, 20);
+    doc.text("Internship Statistics Report", 14, y);
+    y += 10;
 
     doc.setFontSize(12);
-    doc.text(`Average Review Time: ${averageReviewTime()} days`, 14, 30);
+    doc.text(`Average Review Time: ${averageReviewTime()} days`, 14, y);
+    y += 10;
 
-    statsPerCycle.forEach((s, i) => {
+    doc.text("Reports Per Cycle:", 14, y);
+    y += 8;
+    statsPerCycle.forEach(s => {
       doc.text(
         `Cycle ${s.cycle}: Accepted: ${s.Accepted}, Rejected: ${s.Rejected}, Flagged: ${s.Flagged}`,
         14,
-        40 + i * 10
+        y
       );
+      y += 8;
     });
 
-    doc.autoTable({
-      startY: 70,
-      head: [["Top Courses", "Count"]],
-      body: mostUsedCourses.map(([course, count]) => [course, count])
+    y += 6;
+    doc.text("Most Frequently Used Courses:", 14, y);
+    y += 8;
+    mostUsedCourses.forEach(([course, count]) => {
+      doc.text(`${course}: ${count} uses`, 14, y);
+      y += 8;
     });
 
-    doc.autoTable({
-      startY: doc.lastAutoTable.finalY + 10,
-      head: [["Top Rated Companies", "Avg. Rating"]],
-      body: topRatedCompanies.map(c => [c.company, c.avgRating])
+    y += 6;
+    doc.text("Top Rated Companies:", 14, y);
+    y += 8;
+    topRatedCompanies.forEach(c => {
+      doc.text(`${c.company}: ${c.avgRating} stars`, 14, y);
+      y += 8;
     });
 
-    doc.autoTable({
-      startY: doc.lastAutoTable.finalY + 10,
-      head: [["Top Companies by Count", "Count"]],
-      body: topCompaniesByCount
+    y += 6;
+    doc.text("Top Companies by Internship Count:", 14, y);
+    y += 8;
+    topCompaniesByCount.forEach(([company, count]) => {
+      doc.text(`${company}: ${count} internships`, 14, y);
+      y += 8;
     });
 
-    doc.save("Internship_Statistics.pdf");
+    doc.save("Internship_Statistics_Report.pdf");
   };
+
 
   return (
     <div className="reports-background">

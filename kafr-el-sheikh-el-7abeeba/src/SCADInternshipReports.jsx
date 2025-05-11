@@ -169,24 +169,7 @@ function SCADInternshipReports() {
                 <span className="detail-label">Major:</span> {report.major}
               </p>
               <p>
-                <span className="detail-label">Status:</span>
-                <select
-                  className="filter-select"
-                  value={report.status}
-                  onChange={(e) =>
-                    handleStatusChange(report.id, e.target.value)
-                  }
-                  style={{
-                    marginLeft: "10px",
-                    width: "auto",
-                    display: "inline-block",
-                  }}
-                >
-                  <option value="Pending">Pending</option>
-                  <option value="Flagged">Flagged</option>
-                  <option value="Rejected">Rejected</option>
-                  <option value="Accepted">Accepted</option>
-                </select>
+                <span className="detail-label">Status:</span> {report.status}
               </p>
               <p>
                 <span className="detail-label">Industry:</span>{" "}
