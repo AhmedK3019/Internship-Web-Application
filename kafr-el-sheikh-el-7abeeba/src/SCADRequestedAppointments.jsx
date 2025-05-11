@@ -5,7 +5,7 @@ function SCADReqeustedAppointments({
   requestedAppointments,
   acceptAppointment,
   rejectAppointment,
-  setProStudentNotifications,
+  setPRONotifications,
 }) {
   function handleAccept(appointment) {
     const updatedAppointment = {
@@ -16,7 +16,7 @@ function SCADReqeustedAppointments({
     rejectAppointment((prevApp) =>
       prevApp.filter((app) => app.id !== appointment.id)
     );
-    setProStudentNotifications((prev) => [
+    setPRONotifications((prev) => [
       ...prev,
       {
         id: Date.now(),

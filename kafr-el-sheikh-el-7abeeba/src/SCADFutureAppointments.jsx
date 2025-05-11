@@ -25,34 +25,41 @@ function SCADFutureAppointments({
     setMessage("Appointment cancelled successfully.");
   }
 
-  async function handleJoin(appointment) {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
-
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play();
-      }
-
-      setIsCallActive(true);
-      setFutureAppointments((prevApp) =>
-        prevApp.filter((app) => app.id !== appointment.id)
-      );
-      setPRONotifications((prev) => [
-        ...prev,
-        {
-          id: Date.now(),
-          message: `SCAD Officer has joined the call.`,
-          isRead: false,
-        },
-      ]);
-      setMessage("You have joined the call.");
-    } catch (err) {
-      setMessage("Error accessing camera/microphone: " + err.message);
+  useEffect(() => {
+    if (isCallActive && videoRef.current) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          videoRef.current.srcObject = stream;
+          videoRef.current.onloadedmetadata = () => {
+            videoRef.current.play(); // Ensure the video starts playing
+          };
+        })
+        .catch((err) => {
+          setMessage("Error accessing camera/microphone: " + err.message);
+          console.error("Error accessing camera/microphone:", err);
+        });
     }
+  }, [isCallActive]);
+
+  useEffect(() => {
+    console.log("videoRef.current:", videoRef.current);
+  }, []);
+
+  async function handleJoin(appointment) {
+    setIsCallActive(true);
+    setFutureAppointments((prevApp) =>
+      prevApp.filter((app) => app.id !== appointment.id)
+    );
+    setPRONotifications((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        message: `SCAD Officer has joined the call.`,
+        isRead: false,
+      },
+    ]);
+    setMessage("You have joined the call.");
   }
 
   async function toggleMute() {
@@ -60,7 +67,7 @@ function SCADFutureAppointments({
       const stream = videoRef.current.srcObject;
       const audioTrack = stream.getAudioTracks()[0];
       audioTrack.enabled = !audioTrack.enabled;
-      setIsMuted(!isMuted);
+      setIsMuted((prev) => !prev);
     } catch (err) {
       setMessage("Error toggling audio: " + err.message);
     }
@@ -71,7 +78,7 @@ function SCADFutureAppointments({
       const stream = videoRef.current.srcObject;
       const videoTrack = stream.getVideoTracks()[0];
       videoTrack.enabled = !videoTrack.enabled;
-      setIsVideoOn(!isVideoOn);
+      setIsVideoOn((prev) => !prev);
     } catch (err) {
       setMessage("Error toggling video: " + err.message);
     }
