@@ -4,6 +4,7 @@ import SCADCompaniesRequests from "./SCADCompaniesRequests";
 import SCADVideoCallAppointment from "./SCADVideoCallAppointment";
 import SCADRequestedAppointments from "./SCADRequestedAppointments";
 import SCADFutureAppointments from "./SCADFutureAppointments";
+import SCADInternshipReports from "./SCADInternshipReports";
 import Listings from "./Listings";
 import SCADStudentSearch from "./SCADStudentSearch";
 import SetInternshipCycle from "./SetInternshipCycle";
@@ -56,7 +57,13 @@ function SCAD({
             Schedule Video Call
           </button>
           <button onClick={() => setView("appointments")}>
-            View Appointments
+            View Requested Appointments
+          </button>
+          <button onClick={() => setView("futureAppointments")}>
+            View Future Appointments
+          </button>
+          <button onClick={() => setView("reports")}>
+            View All Internship Reports
           </button>
           <button onClick={() => setView("cycle")}>Set Internship Cycle</button>
           <button onClick={() => setView("students")}>
@@ -146,6 +153,7 @@ function SCAD({
         )}
         {view === "listings" && <Listings />}
         {view === "cycle" && <SetInternshipCycle />}
+        {view === "reports" && <SCADInternshipReports />}
         {view === "students" && <SCADStudentSearch />}
       </div>
     </div>

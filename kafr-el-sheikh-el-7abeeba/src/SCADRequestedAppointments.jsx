@@ -87,7 +87,7 @@ function SCADReqeustedAppointments({
                 <span className="detail-label">Status:</span>
                 <span className="detail-value">{appointment.status}</span>
               </div>
-              {appointment.requestedBy === "Student" && (
+              {appointment.requestedBy === "PRO Student" && (
                 <div className="detail-actions">
                   <button
                     onClick={() => handleAccept(appointment)}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "./index.css";
+
 const SetInternshipCycle = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -20,35 +21,35 @@ const SetInternshipCycle = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-md">
-      <h2 className="text-2xl font-bold mb-4 text-center">Set Internship Cycle</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block mb-1 font-medium">Start Date</label>
+    <div className="form-container">
+      <h2 className="form-title">Set Internship Cycle</h2>
+      <form onSubmit={handleSubmit} className="form">
+        <div className="form-field">
+          <label className="form-label">Start Date</label>
           <input
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            className="w-full border rounded px-3 py-2"
+            className="form-input"
           />
         </div>
-        <div>
-          <label className="block mb-1 font-medium">End Date</label>
+        <div className="form-field">
+          <label className="form-label">End Date</label>
           <input
             type="date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
-            className="w-full border rounded px-3 py-2"
+            className="form-input"
           />
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          className="btn btn-primary w-full"
         >
           Set Cycle
         </button>
         {message && (
-          <p className="text-center mt-4 text-sm text-gray-700">{message}</p>
+          <p className="form-message">{message}</p>
         )}
       </form>
     </div>

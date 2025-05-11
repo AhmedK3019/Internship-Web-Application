@@ -19,7 +19,19 @@ function Login() {
 
   const [SCADNotifications, setSCADNotifications] = useState([]);
   const [PROStudentNotifications, setPROStudentNotifications] = useState([]);
-  const [requestedAppointments, setRequestedAppointments] = useState([]);
+  const [requestedAppointments, setRequestedAppointments] = useState([
+    {
+      id: 1,
+      requestedBy: "PRO Student",
+      studentName: "John Doe",
+      studentEmail: "JohnDoe@gmail.com",
+      purpose: "Career Guidance",
+      date: "2025-6-01",
+      time: "10:00 AM",
+      message: "I would like to discuss my career options.",
+      status: "pending",
+    },
+  ]);
   const [futureAppointments, setFutureAppointments] = useState([]);
 
   const [showCompany, setShowCompany] = useState(() => {
