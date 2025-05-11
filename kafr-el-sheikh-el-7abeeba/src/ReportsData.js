@@ -33,7 +33,7 @@ const ReportsData = [
       industry: "Data Science",
       duration: "6 Months",
       location: "Remote",
-      status: "Accepted",
+      status: "Rejected",
       major: "IET",
       cycle: "2024-Winter",
       submissionDate: "2024-4-11",
