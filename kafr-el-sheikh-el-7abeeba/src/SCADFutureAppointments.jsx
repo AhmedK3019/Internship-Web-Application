@@ -1,8 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./index.css";
 
-function SCADFutureAppointments({ futureAppointments, setFutureAppointments }) {
+function SCADFutureAppointments({
+  futureAppointments,
+  setFutureAppointments,
+  setPRONotifications,
+}) {
   const [message, setMessage] = useState("");
+  const [isCallActive, setIsCallActive] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isVideoOn, setIsVideoOn] = useState(true);
+  const [isScreenSharing, setIsScreenSharing] = useState(false);
+  const videoRef = useRef(null);
+  const screenShareRef = useRef(null);
 
   function handleCancel(appointment) {
     const updatedAppointment = {
@@ -15,15 +25,89 @@ function SCADFutureAppointments({ futureAppointments, setFutureAppointments }) {
     setMessage("Appointment cancelled successfully.");
   }
 
-  function handleJoin(appointment) {
-    const updatedAppointment = {
-      ...appointment,
-      status: "joined",
-    };
-    setFutureAppointments((prevApp) =>
-      prevApp.filter((app) => app.id !== appointment.id)
-    );
-    setMessage("You have joined the call.");
+  async function handleJoin(appointment) {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play();
+      }
+
+      setIsCallActive(true);
+      setFutureAppointments((prevApp) =>
+        prevApp.filter((app) => app.id !== appointment.id)
+      );
+      setPRONotifications((prev) => [
+        ...prev,
+        {
+          id: Date.now(),
+          message: `SCAD Officer has joined the call.`,
+          isRead: false,
+        },
+      ]);
+      setMessage("You have joined the call.");
+    } catch (err) {
+      setMessage("Error accessing camera/microphone: " + err.message);
+    }
+  }
+
+  async function toggleMute() {
+    try {
+      const stream = videoRef.current.srcObject;
+      const audioTrack = stream.getAudioTracks()[0];
+      audioTrack.enabled = !audioTrack.enabled;
+      setIsMuted(!isMuted);
+    } catch (err) {
+      setMessage("Error toggling audio: " + err.message);
+    }
+  }
+
+  async function toggleVideo() {
+    try {
+      const stream = videoRef.current.srcObject;
+      const videoTrack = stream.getVideoTracks()[0];
+      videoTrack.enabled = !videoTrack.enabled;
+      setIsVideoOn(!isVideoOn);
+    } catch (err) {
+      setMessage("Error toggling video: " + err.message);
+    }
+  }
+
+  async function toggleScreenShare() {
+    try {
+      if (!isScreenSharing) {
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({
+          video: true,
+        });
+        screenShareRef.current.srcObject = screenStream;
+        setIsScreenSharing(true);
+      } else {
+        const tracks = screenShareRef.current.srcObject.getTracks();
+        tracks.forEach((track) => track.stop());
+        screenShareRef.current.srcObject = null;
+        setIsScreenSharing(false);
+      }
+    } catch (err) {
+      setMessage("Error sharing screen: " + err.message);
+    }
+  }
+
+  function endCall() {
+    if (videoRef.current?.srcObject) {
+      videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
+    }
+    if (screenShareRef.current?.srcObject) {
+      screenShareRef.current.srcObject
+        .getTracks()
+        .forEach((track) => track.stop());
+    }
+    setIsCallActive(false);
+    setIsScreenSharing(false);
+    setMessage("Call ended");
   }
 
   return (
@@ -74,6 +158,40 @@ function SCADFutureAppointments({ futureAppointments, setFutureAppointments }) {
         )}
         {message && <p>{message}</p>}
       </div>
+      {isCallActive && (
+        <div className="video-call-container">
+          <div className="video-grid">
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              style={{ transform: "scaleX(-1)" }}
+              className="video-stream"
+            />
+            {isScreenSharing && (
+              <video
+                ref={screenShareRef}
+                autoPlay
+                playsInline
+                className="screen-share"
+              />
+            )}
+          </div>
+          <div className="call-controls">
+            <button onClick={toggleMute}>{isMuted ? "Unmute" : "Mute"}</button>
+            <button onClick={toggleVideo}>
+              {isVideoOn ? "Turn Off Camera" : "Turn On Camera"}
+            </button>
+            <button onClick={toggleScreenShare}>
+              {isScreenSharing ? "Stop Sharing" : "Share Screen"}
+            </button>
+            <button onClick={endCall} className="end-call">
+              End Call
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

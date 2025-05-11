@@ -149,6 +149,7 @@ function SCAD({
           <SCADFutureAppointments
             futureAppointments={futureAppointments}
             setFutureAppointments={setFutureAppointments}
+            setPRONotifications={setPRONotifications}
           />
         )}
         {view === "listings" && <Listings />}
