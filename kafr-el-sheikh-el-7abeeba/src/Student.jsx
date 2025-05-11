@@ -15,32 +15,34 @@ function Student({ user, onLogout }) {
   const [currentView, setCurrentView] = useState("");
   const [selectedInternship, setSelectedInternship] = useState(null);
   const [appliedInternships, setAppliedInternships] = useState([]);
-  
+
   const [notifications, setNotifications] = useState([
-    { 
-      id: 1, 
-      message: "New internship cycle begins next week! Start preparing your resume.", 
+    {
+      id: 1,
+      message:
+        "New internship cycle begins next week! Start preparing your resume.",
       isRead: false,
-      date: "2025-05-01"
+      date: "2025-05-01",
     },
     {
       id: 2,
       message: "Reminder: Early application deadline is approaching in 3 days.",
       isRead: false,
-      date: "2025-05-05"
+      date: "2025-05-05",
     },
-    { 
-      id: 3, 
-      message: "Summer 2025 internship cycle has officially begun! Applications are now open.", 
+    {
+      id: 3,
+      message:
+        "Summer 2025 internship cycle has officially begun! Applications are now open.",
       isRead: false,
-      date: "2025-05-08"
-    }
+      date: "2025-05-08",
+    },
   ]);
   const [showNotifications, setShowNotifications] = useState(false);
 
   const handleNotificationClick = (notificationId) => {
-    setNotifications(prevNotifications =>
-      prevNotifications.map(notification =>
+    setNotifications((prevNotifications) =>
+      prevNotifications.map((notification) =>
         notification.id === notificationId
           ? { ...notification, isRead: true }
           : notification
@@ -51,23 +53,23 @@ function Student({ user, onLogout }) {
   const handleBackToDashboard = () => {
     setCurrentView("");
   };
-  
+
   const handleApply = (internship) => {
     setSelectedInternship(internship);
     setCurrentView("application");
   };
-  
-  const handleApplySuccess = (internshipId) => {
-    setAppliedInternships(prev => [...prev, internshipId]);
 
-    setNotifications(prev => [
+  const handleApplySuccess = (internshipId) => {
+    setAppliedInternships((prev) => [...prev, internshipId]);
+
+    setNotifications((prev) => [
       ...prev,
       {
         id: Date.now(),
         message: `Your application for ${selectedInternship.title} has been submitted successfully!`,
         isRead: false,
-        date: new Date().toISOString().split('T')[0]
-      }
+        date: new Date().toISOString().split("T")[0],
+      },
     ]);
     setCurrentView("listing");
   };
@@ -86,9 +88,7 @@ function Student({ user, onLogout }) {
           <button onClick={() => setCurrentView("companies")}>
             View Suggested Companies
           </button>
-          <button onClick={() => setCurrentView("update")}>
-            Profile
-          </button>
+          <button onClick={() => setCurrentView("update")}>Profile</button>
           <button onClick={() => setCurrentView("majors")}>Majors</button>
           <button onClick={() => setCurrentView("listing")}>Internships</button>
           <button onClick={() => setCurrentView("Reportsubmission")}>
@@ -97,7 +97,9 @@ function Student({ user, onLogout }) {
           <button onClick={() => setCurrentView("my-internships")}>
             My Internships
           </button>
-          <button onClick={() => setCurrentView("applied")}>Applications</button>
+          <button onClick={() => setCurrentView("applied")}>
+            Applications
+          </button>
           <button onClick={onLogout} className="logout-btn">
             Logout
           </button>
@@ -114,9 +116,11 @@ function Student({ user, onLogout }) {
                     <h2>Student Dashboard</h2>
                   </div>
                 </div>
-                <div className={`notifications-area ${
-                  showNotifications ? "shifted" : ""
-                }`}>
+                <div
+                  className={`notifications-area ${
+                    showNotifications ? "shifted" : ""
+                  }`}
+                >
                   <div
                     className="notification-ring"
                     onClick={() => setShowNotifications(!showNotifications)}
@@ -149,14 +153,17 @@ function Student({ user, onLogout }) {
                         }`}
                         onClick={() => handleNotificationClick(notification.id)}
                       >
-                        <div className="notification-message">{notification.message}</div>
-                        <div className="notification-date">{notification.date}</div>
+                        <div className="notification-message">
+                          {notification.message}
+                        </div>
+                        <div className="notification-date">
+                          {notification.date}
+                        </div>
                       </div>
                     ))
                   )}
                 </div>
               )}
-              <hr />
               <Discover onBackUpdate={handleBackToDashboard} />
             </header>
           </div>
@@ -183,10 +190,7 @@ function Student({ user, onLogout }) {
           />
         )}
         {currentView === "update" && (
-          <Profile 
-            user={user} 
-            onBackUpdate={handleBackToDashboard} 
-          />
+          <Profile user={user} onBackUpdate={handleBackToDashboard} />
         )}
         {currentView === "application" && (
           <InternshipApplication

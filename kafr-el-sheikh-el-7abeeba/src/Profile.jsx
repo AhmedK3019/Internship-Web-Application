@@ -1,71 +1,86 @@
-import React, { useState } from 'react';
-import ProfileViews from './ProfileViews';
-import './index.css';
+import React, { useState } from "react";
+import ProfileViews from "./ProfileViews";
+import "./index.css";
 
-function Profile({ user, onBackUpdate, onNavigate, isPro = false, sharedAssessments = [], setSharedAssessments }) {
+function Profile({
+  user,
+  onBackUpdate,
+  onNavigate,
+  isPro = false,
+  sharedAssessments = [],
+  setSharedAssessments,
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     username: user.name,
     id: "58-1234",
-    email: `${user.name.replace(/\s/g, '.').toLowerCase()}@student.uni.edu.eg`,
+    email: `${user.name.replace(/\s/g, ".").toLowerCase()}@student.uni.edu.eg`,
     semester: 6,
-    jobInterests: 'Web Development, UI/UX Design',
+    jobInterests: "Web Development, UI/UX Design",
     internships: [
       {
         id: 1,
-        company: 'Tech Solutions Inc.',
-        position: 'Frontend Developer Intern',
-        duration: 'Summer 2024',
-        responsibilities: 'Developed responsive web interfaces, collaborated with design team'
-      }
+        company: "Tech Solutions Inc.",
+        position: "Frontend Developer Intern",
+        duration: "Summer 2024",
+        responsibilities:
+          "Developed responsive web interfaces, collaborated with design team",
+      },
     ],
-    collegeActivities: 'N/A'
+    collegeActivities: "N/A",
   });
   const [newInternship, setNewInternship] = useState({
-    company: '',
-    position: '',
-    duration: '',
-    responsibilities: ''
+    company: "",
+    position: "",
+    duration: "",
+    responsibilities: "",
   });
 
   const handleRemoveAssessment = (assessmentId) => {
     if (setSharedAssessments) {
-      setSharedAssessments(prev => prev.filter(assessment => assessment.id !== assessmentId));
+      setSharedAssessments((prev) =>
+        prev.filter((assessment) => assessment.id !== assessmentId)
+      );
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleInternshipChange = (e) => {
     const { name, value } = e.target;
-    setNewInternship(prev => ({ ...prev, [name]: value }));
+    setNewInternship((prev) => ({ ...prev, [name]: value }));
   };
 
   const addInternship = () => {
     if (newInternship.company && newInternship.position) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        internships: [...prev.internships, {
-          id: Date.now(),
-          ...newInternship
-        }]
+        internships: [
+          ...prev.internships,
+          {
+            id: Date.now(),
+            ...newInternship,
+          },
+        ],
       }));
       setNewInternship({
-        company: '',
-        position: '',
-        duration: '',
-        responsibilities: ''
+        company: "",
+        position: "",
+        duration: "",
+        responsibilities: "",
       });
     }
   };
 
   const removeInternship = (id) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      internships: prev.internships.filter(internship => internship.id !== id)
+      internships: prev.internships.filter(
+        (internship) => internship.id !== id
+      ),
     }));
   };
 
@@ -79,10 +94,10 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false, sharedAssessme
         <div className="profile-header">
           <h1 className="profile-title">My Profile</h1>
           <button
-            className={`btn ${isEditing ? 'btn-danger' : 'btn-primary'}`}
+            className={`btn ${isEditing ? "btn-danger" : "btn-primary1"}`}
             onClick={() => setIsEditing(!isEditing)}
           >
-            {isEditing ? 'Cancel' : 'Edit Profile'}
+            {isEditing ? "Cancel" : "Edit Profile"}
           </button>
         </div>
 
@@ -98,7 +113,7 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false, sharedAssessme
               <div className="profile-value">{formData.email}</div>
             </div>
           </div>
-          <div className="profile-section" >
+          <div className="profile-section">
             <h2 className="section-title">Personal Information</h2>
 
             <div className="profile-field">
@@ -125,12 +140,16 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false, sharedAssessme
                   onChange={handleChange}
                   className="profile-select"
                 >
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(sem => (
-                    <option key={sem} value={sem}>Semester {sem}</option>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((sem) => (
+                    <option key={sem} value={sem}>
+                      Semester {sem}
+                    </option>
                   ))}
                 </select>
               ) : (
-                <div className="profile-value">Semester {formData.semester}</div>
+                <div className="profile-value">
+                  Semester {formData.semester}
+                </div>
               )}
             </div>
 
@@ -146,7 +165,7 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false, sharedAssessme
                 />
               ) : (
                 <div className="profile-value">
-                  {formData.jobInterests.split(',').map((interest, index) => (
+                  {formData.jobInterests.split(",").map((interest, index) => (
                     <span key={index} className="interest-tag">
                       {interest.trim()}
                     </span>
@@ -158,13 +177,13 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false, sharedAssessme
             <div className="profile-field">
               <label>Internships & Part-time Jobs</label>
               {formData.internships.length > 0 ? (
-                formData.internships.map(internship => (
+                formData.internships.map((internship) => (
                   <div key={internship.id} className="internship-item">
                     {isEditing && (
                       <button
                         type="button"
                         className="btn btn-danger"
-                        style={{ float: 'right' }}
+                        style={{ float: "right" }}
                         onClick={() => removeInternship(internship.id)}
                       >
                         Remove
@@ -186,8 +205,10 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false, sharedAssessme
               )}
 
               {isEditing && (
-                <div style={{ marginTop: '2rem' }}>
-                  <h3 style={{ color: '#7EC8E3', marginBottom: '1rem' }}>Add New Internship</h3>
+                <div style={{ marginTop: "2rem" }}>
+                  <h3 style={{ color: "#7EC8E3", marginBottom: "1rem" }}>
+                    Add New Internship
+                  </h3>
                   <div className="profile-field">
                     <label>Company</label>
                     <input
@@ -230,7 +251,7 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false, sharedAssessme
                   </div>
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-primary1"
                     onClick={addInternship}
                     disabled={!newInternship.company || !newInternship.position}
                   >
@@ -251,24 +272,23 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false, sharedAssessme
                 />
               ) : (
                 <div className="profile-value">
-                  {formData.collegeActivities || 'No college activities added yet'}
+                  {formData.collegeActivities ||
+                    "No college activities added yet"}
                 </div>
               )}
             </div>
 
-
             {isPro && sharedAssessments && sharedAssessments.length > 0 && (
-              <div className="profile-section" style={{ marginBottom: '2rem' }}>
+              <div className="profile-section" style={{ marginBottom: "2rem" }}>
                 <h2 className="section-title">Assessment Scores</h2>
                 {sharedAssessments.map((assessment) => (
                   <div>
                     <strong>{assessment.title}</strong>: {assessment.score}%
-
                     {isEditing && (
                       <button
                         className="btn btn-danger btn-sm"
                         onClick={() => handleRemoveAssessment(assessment.id)}
-                        style={{ marginLeft: '10px', padding: '2px 8px' }}
+                        style={{ marginLeft: "10px", padding: "2px 8px" }}
                       >
                         Remove
                       </button>
@@ -281,30 +301,35 @@ function Profile({ user, onBackUpdate, onNavigate, isPro = false, sharedAssessme
               <div className="form-actions">
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-primary1"
                   onClick={handleSubmit}
                 >
                   Save Changes
                 </button>
               </div>
             )}
-            {isPro && (<div className="profile-section">
-              <h3 className="section-title">Profile Visibility</h3>
-              <div>
-                <p>See who viewed your profile</p>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => onNavigate('profile-views')}
-                >
-                  View All
-                </button>
+            {isPro && (
+              <div className="profile-section">
+                <h3 className="section-title">Profile Visibility</h3>
+                <div>
+                  <p>See who viewed your profile</p>
+                  <button
+                    className="btn btn-primary1"
+                    onClick={() => onNavigate("profile-views")}
+                  >
+                    View All
+                  </button>
+                </div>
               </div>
-            </div>
             )}
           </div>
         </div>
 
-        <button onClick={onBackUpdate} className="btn btn-secondary" style={{ marginTop: '2rem' }}>
+        <button
+          onClick={onBackUpdate}
+          className="btn btn-secondary"
+          style={{ marginTop: "2rem" }}
+        >
           Back to Dashboard
         </button>
       </div>

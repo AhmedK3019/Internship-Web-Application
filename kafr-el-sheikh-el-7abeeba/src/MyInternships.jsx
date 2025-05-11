@@ -282,22 +282,22 @@ function MyInternships() {
                 <div className="filter-combo">
                   <input
                     type="date"
-                    className="filter-input"
+                    className="filter-select"
                     value={dateRange.start}
                     onChange={(e) => handleDateChange("start", e.target.value)}
                     max={dateRange.end || undefined}
                   />
-                <div className="filter-combo">
-                  <input
-                    type="date"
-                    className="filter-input"
-                    value={dateRange.end}
-                    onChange={(e) => handleDateChange("end", e.target.value)}
-                    max={dateRange.end || undefined}
+                  <div className="filter-combo">
+                    <input
+                      type="date"
+                      className="filter-select"
+                      value={dateRange.end}
+                      onChange={(e) => handleDateChange("end", e.target.value)}
+                      max={dateRange.end || undefined}
                     />
+                  </div>
                 </div>
-                    </div>
-                
+
                 {dateError && <div className="error-message">{dateError}</div>}
               </div>
             </div>
