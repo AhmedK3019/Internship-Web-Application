@@ -56,7 +56,10 @@ function SCAD({
             Schedule Video Call
           </button>
           <button onClick={() => setView("appointments")}>
-            View Appointments
+            View Requested Appointments
+          </button>
+          <button onClick={() => setView("futureAppointments")}>
+            View Future Appointments
           </button>
           <button onClick={() => setView("cycle")}>Set Internship Cycle</button>
           <button onClick={() => setView("students")}>
