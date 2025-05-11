@@ -8,6 +8,7 @@ import SCADInternshipReports from "./SCADInternshipReports";
 import Listings from "./Listings";
 import SCADStudentSearch from "./SCADStudentSearch";
 import SetInternshipCycle from "./SetInternshipCycle";
+import SCADViewRealTimeStatistics from "./SCADViewRealTimeStatistics";
 
 function SCAD({
   user,
@@ -68,6 +69,9 @@ function SCAD({
           <button onClick={() => setView("cycle")}>Set Internship Cycle</button>
           <button onClick={() => setView("students")}>
             View Student Profiles
+          </button>
+          <button onClick={() => setView("statistics")}>
+            View Real Time Statistics
           </button>
           <button onClick={onLogout} className="logout-btn">
             Logout
@@ -156,6 +160,7 @@ function SCAD({
         {view === "cycle" && <SetInternshipCycle />}
         {view === "reports" && <SCADInternshipReports />}
         {view === "students" && <SCADStudentSearch />}
+        {view === "statistics" && <SCADViewRealTimeStatistics />}
       </div>
     </div>
   );

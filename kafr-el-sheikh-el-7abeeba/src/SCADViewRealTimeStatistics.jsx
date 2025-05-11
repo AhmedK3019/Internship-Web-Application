@@ -2,8 +2,18 @@ import React, { useState } from "react";
 import jsPDF from "jspdf";
 import "./index.css";
 
-const SCADViewRealTimeStatuses = ({ statistics }) => {
+const SCADViewRealTimeStatistics = () => {
   const [selectedCycle, setSelectedCycle] = useState("All");
+  const statistics = {
+    cycles: ["2023-Q1", "2023-Q2", "2023-Q3", "2023-Q4"],
+    accepted: 120,
+    rejected: 30,
+    flagged: 15,
+    averageReviewTime: 5,
+    mostUsedCourses: ["Computer Science", "Graphic Design", "Marketing"],
+    topRatedCompanies: ["Google", "Microsoft", "Amazon"],
+    topCompaniesByCount: ["Google", "Facebook", "Apple"],
+  };
 
   const handleGenerateReport = () => {
     const doc = new jsPDF();
@@ -17,7 +27,11 @@ const SCADViewRealTimeStatuses = ({ statistics }) => {
     doc.text(`Accepted Reports: ${statistics.accepted}`, 14, 60);
     doc.text(`Rejected Reports: ${statistics.rejected}`, 14, 70);
     doc.text(`Flagged Reports: ${statistics.flagged}`, 14, 80);
-    doc.text(`Average Review Time: ${statistics.averageReviewTime} days`, 14, 90);
+    doc.text(
+      `Average Review Time: ${statistics.averageReviewTime} days`,
+      14,
+      90
+    );
     doc.text(
       `Most Used Courses: ${statistics.mostUsedCourses.join(", ")}`,
       14,
@@ -97,4 +111,4 @@ const SCADViewRealTimeStatuses = ({ statistics }) => {
   );
 };
 
-export default SCADViewRealTimeStatuses;
+export default SCADViewRealTimeStatistics;
