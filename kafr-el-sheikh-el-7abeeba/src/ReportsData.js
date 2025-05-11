@@ -10,10 +10,18 @@ const ReportsData = [
       location: "Cairo",
       status: "Accepted",
       major: "MET",
+      submissionDate: "2024-09-01",
+      reviewDate: "2024-09-10",
       startDate: "2023-05-15",
       endDate: "2023-08-15",
       description: "Developed React components",
-      skills: ["React", "JavaScript"]
+      skills: ["React", "JavaScript"],
+      courses: ["CS301", "STAT200"],
+      evaluation: {
+        rating: 5,
+        feedback: "Excellent environment.",
+        recommends: true
+      }
     },
     {
       id: 2,
@@ -26,10 +34,18 @@ const ReportsData = [
       location: "Remote",
       status: "Pending",
       major: "IET",
+      submissionDate: "2024-09-01",
+      reviewDate: "2024-09-10",
       startDate: "2024-01-10",
       endDate: "",
       description: "Built data pipelines",
-      skills: ["Python", "SQL"]
+      skills: ["Python", "SQL"],
+      courses: ["CS301", "STAT200"],
+      evaluation: {
+        rating: 5,
+        feedback: "Excellent environment.",
+        recommends: true
+      }
     }
   ];
   
