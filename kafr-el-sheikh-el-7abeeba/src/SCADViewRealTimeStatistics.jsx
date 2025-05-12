@@ -12,6 +12,7 @@ const SCADViewRealTimeStatistics = () => {
     mostUsedCourses: [],
     topRatedCompanies: [],
     topCompaniesByCount: [],
+    topCount: [],
   });
 
   const allStatistics = {
@@ -23,6 +24,7 @@ const SCADViewRealTimeStatistics = () => {
       mostUsedCourses: ["Computer Science", "Marketing"],
       topRatedCompanies: ["Google", "Amazon"],
       topCompaniesByCount: ["Google", "Facebook"],
+      topCount: [14, 12],
     },
     "2023-Q2": {
       accepted: 120,
@@ -32,6 +34,7 @@ const SCADViewRealTimeStatistics = () => {
       mostUsedCourses: ["Graphic Design", "Finance"],
       topRatedCompanies: ["Microsoft", "Apple"],
       topCompaniesByCount: ["Microsoft", "Apple"],
+      topCount: [10, 7],
     },
     "2023-Q3": {
       accepted: 90,
@@ -41,6 +44,7 @@ const SCADViewRealTimeStatistics = () => {
       mostUsedCourses: ["Engineering", "Data Science"],
       topRatedCompanies: ["Tesla", "IBM"],
       topCompaniesByCount: ["Tesla", "IBM"],
+      topCount: [20, 12],
     },
     "2023-Q4": {
       accepted: 110,
@@ -50,6 +54,7 @@ const SCADViewRealTimeStatistics = () => {
       mostUsedCourses: ["Business", "Economics"],
       topRatedCompanies: ["Meta", "Netflix"],
       topCompaniesByCount: ["Meta", "Netflix"],
+      topCount: [17, 15],
     },
     All: {
       accepted: 420,
@@ -67,7 +72,14 @@ const SCADViewRealTimeStatistics = () => {
         "Economics",
       ],
       topRatedCompanies: ["Google", "Amazon", "Microsoft", "Apple", "Tesla"],
-      topCompaniesByCount: ["Google", "Facebook", "Microsoft", "Apple", "Tesla"],
+      topCompaniesByCount: [
+        "Google",
+        "Facebook",
+        "Microsoft",
+        "Apple",
+        "Tesla",
+      ],
+      topCount: [40, 36, 25, 20, 10],
     },
   };
 
@@ -93,83 +105,94 @@ const SCADViewRealTimeStatistics = () => {
       14,
       90
     );
+    const mostUsedCoursesText = `Most Used Courses: ${statistics.mostUsedCourses.join(
+      ", "
+    )}`;
+    const wrappedCourses = doc.splitTextToSize(mostUsedCoursesText, 180); // 180 is the width in mm
+    doc.text(wrappedCourses, 14, 100);
+
+    // Wrap "Top Rated Companies" text
+    const topRatedCompaniesText = `Top Rated Companies: ${statistics.topRatedCompanies.join(
+      ", "
+    )}`;
+    const wrappedCompanies = doc.splitTextToSize(topRatedCompaniesText, 180);
+    doc.text(wrappedCompanies, 14, 110 + wrappedCourses.length * 2); // Adjust Y position based on previous text
+
+    // Wrap "Top Companies by Internship Count" text
+    const topCompaniesText = `Top Companies by Internship Count: ${statistics.topCompaniesByCount
+      .map((company, index) => `${company} (${statistics.topCount[index]})`)
+      .join(", ")}`;
+    const wrappedTopCompanies = doc.splitTextToSize(topCompaniesText, 180);
     doc.text(
-      `Most Used Courses: ${statistics.mostUsedCourses.join(", ")}`,
+      wrappedTopCompanies,
       14,
-      100
-    );
-    doc.text(
-      `Top Rated Companies: ${statistics.topRatedCompanies.join(", ")}`,
-      14,
-      110
-    );
-    doc.text(
-      `Top Companies by Internship Count: ${statistics.topCompaniesByCount.join(
-        ", "
-      )}`,
-      14,
-      120
+      120 + wrappedCourses.length * 2 + wrappedCompanies.length * 2
     );
 
     doc.save("RealTimeStatisticsReport.pdf");
   };
 
   return (
-    <div className="realtime-statuses-container">
-      <h1>Real-Time Statistics</h1>
-      <div className="filter-row">
-        <label htmlFor="cycle-select" className="form-label">
-          Select Cycle:
-        </label>
-        <select
-          id="cycle-select"
-          className="filter-select"
-          value={selectedCycle}
-          onChange={(e) => setSelectedCycle(e.target.value)}
-        >
-          <option value="All">All Cycles</option>
-          {Object.keys(allStatistics)
-            .filter((cycle) => cycle !== "All")
-            .map((cycle) => (
-              <option key={cycle} value={cycle}>
-                {cycle}
-              </option>
-            ))}
-        </select>
-      </div>
-      <div className="statistics-grid">
-        <div className="statistics-card">
-          <h3>Accepted Reports</h3>
+    <div className="internship-background">
+      <div className="listings-container">
+        <h1>Real-Time Statistics</h1>
+        <div className="filter-row">
+          <label htmlFor="cycle-select" className="form-label">
+            Select Cycle:
+          </label>
+          <select
+            id="cycle-select"
+            className="filter-select"
+            value={selectedCycle}
+            onChange={(e) => setSelectedCycle(e.target.value)}
+          >
+            <option value="All">All Cycles</option>
+            {Object.keys(allStatistics)
+              .filter((cycle) => cycle !== "All")
+              .map((cycle) => (
+                <option key={cycle} value={cycle}>
+                  {cycle}
+                </option>
+              ))}
+          </select>
+        </div>
+        <div className="stats-block">
+          <h2>Accepted Reports</h2>
           <p>{statistics.accepted}</p>
         </div>
-        <div className="statistics-card">
-          <h3>Rejected Reports</h3>
+        <div className="stats-block">
+          <h2>Rejected Reports</h2>
           <p>{statistics.rejected}</p>
         </div>
-        <div className="statistics-card">
-          <h3>Flagged Reports</h3>
+        <div className="stats-block">
+          <h2>Flagged Reports</h2>
           <p>{statistics.flagged}</p>
         </div>
-        <div className="statistics-card">
-          <h3>Average Review Time</h3>
+        <div className="stats-block">
+          <h2>Average Review Time</h2>
           <p>{statistics.averageReviewTime} days</p>
         </div>
-        <div className="statistics-card">
-          <h3>Most Used Courses</h3>
+        <div className="stats-block">
+          <h2>Most Used Courses</h2>
           <p>{statistics.mostUsedCourses.join(", ")}</p>
         </div>
-        <div className="statistics-card">
-          <h3>Top Rated Companies</h3>
+        <div className="stats-block">
+          <h2>Top Rated Companies</h2>
           <p>{statistics.topRatedCompanies.join(", ")}</p>
         </div>
-        <div className="statistics-card">
-          <h3>Top Companies by Internship Count</h3>
-          <p>{statistics.topCompaniesByCount.join(", ")}</p>
+        <div className="stats-block">
+          <h2>Top Companies by Internship Count</h2>
+          <p>
+            {statistics.topCompaniesByCount.map((company, index) => (
+              <span key={index}>
+                {company} ({statistics.topCount[index]})
+                {index < statistics.topCompaniesByCount.length - 1 ? ", " : ""}
+              </span>
+            ))}
+          </p>
         </div>
+        <button onClick={handleGenerateReport}>Generate Report</button>
       </div>
-      <button className="btn btn-primary" onClick={handleGenerateReport}>
-        Generate Report
-      </button>
     </div>
   );
 };
