@@ -139,7 +139,7 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [] })
     if (showEmpty && currentWorkshop) {
         return (
             <div className="internship-background">
-                <LiveComponent onBack={handleBack} workshop={currentWorkshop} />
+                <LiveComponent user={user} onBack={handleBack} workshop={currentWorkshop} />
             </div>
         );
     }
