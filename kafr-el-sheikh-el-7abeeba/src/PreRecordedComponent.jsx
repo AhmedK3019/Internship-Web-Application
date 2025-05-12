@@ -5,6 +5,7 @@ const PreRecordedComponent = ({ onBack, workshop, onFinish }) => {
     const videoRef = useRef(null);
     const [notes, setNotes] = useState("");
     const [currentTime, setCurrentTime] = useState(0);
+    const [showNotes, setShowNotes] = useState(false);
 
     const handlePlay = () => videoRef.current.play();
     const handlePause = () => videoRef.current.pause();
@@ -21,6 +22,11 @@ const PreRecordedComponent = ({ onBack, workshop, onFinish }) => {
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+
+    const insertTimestamp = () => {
+        const timestamp = `[${formatTime(currentTime)}]: `;
+        setNotes(prevNotes => prevNotes + timestamp);
     };
 
     const handleFinishWorkshop = () => {
@@ -59,18 +65,34 @@ const PreRecordedComponent = ({ onBack, workshop, onFinish }) => {
                             <button className="btn-primary1" onClick={handlePlay}>▶️ Play</button>
                             <button className="btn-primary1" onClick={handlePause}>⏸ Pause</button>
                             <button className="btn-primary1" onClick={handleStop}>⏹ Stop</button>
+                             <button 
+                                className="btn-primary1" 
+                                onClick={() => setShowNotes(!showNotes)}
+                            >
+                                {showNotes ? '❌ Hide Notes' : '📝 Show Notes'}
+                            </button>
                         </div>
                     </div>
 
-                    <div className="notes-section">
-                        <h3 className="notes-title">Workshop Notes</h3>
-                        <textarea
-                            className="notes-textarea"
-                            value={notes}
-                            onChange={(e) => setNotes(e.target.value)}
-                            placeholder="Write your notes here..."
-                        />
-                    </div>
+                    {showNotes && (
+                        <div className="notes-section">
+                            <h4>Notes</h4>
+                            <textarea
+                                className="notes-textarea"
+                                value={notes}
+                                onChange={(e) => setNotes(e.target.value)}
+                                placeholder="Type your notes here..."
+                            />
+                            <div className="notes-actions">
+                                <button 
+                                    className="btn-primary1"
+                                    onClick={insertTimestamp}
+                                >
+                                    Insert Timestamp 
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <div style={{ textAlign: 'center', marginTop: '20px' }}>
