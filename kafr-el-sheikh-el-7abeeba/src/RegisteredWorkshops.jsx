@@ -1,30 +1,47 @@
 import React, { useState } from "react";
 import "./index.css";
 import LiveComponent from "./LiveComponent";
+import PreRecordedComponent from "./PreRecordedComponent";
 
 function RegisteredWorkshops({ workshops = [], registeredWorkshops = [] }) {
     const [showEmpty, setShowEmpty] = useState(false);
-
+    const [showPreRecorded, setShowPreRecorded] = useState(false);
+    const [currentWorkshop, setCurrentWorkshop] = useState(null);
 
     const registeredWorkshopsData = workshops.filter((workshop) =>
         registeredWorkshops.includes(workshop.id)
     );
 
+    const handleWatchPreRecorded = (workshop) => {
+        setCurrentWorkshop(workshop);  
+        setShowPreRecorded(true);
+    };
 
-    const handleJoinLive = () => {
+    const handleJoinLive = (workshop) => {
+        setCurrentWorkshop(workshop);
         setShowEmpty(true);
     };
 
-
     const handleBack = () => {
         setShowEmpty(false);
+        setShowPreRecorded(false);
     };
 
+    if (showPreRecorded) {
+        return (
+            
+                <PreRecordedComponent 
+                    onBack={handleBack} 
+                    workshop={currentWorkshop}  // Pass the current workshop to PreRecordedComponent
+                />
+            
+        );
+    }
 
     if (showEmpty) {
         return (
             <div className="internship-background">
-                <LiveComponent onBack={handleBack} />
+                <LiveComponent onBack={handleBack} workshop={currentWorkshop} />
             </div>
         );
     }
@@ -99,12 +116,12 @@ function RegisteredWorkshops({ workshops = [], registeredWorkshops = [] }) {
                                                 </button>
                                             )}
                                             {now >= startDate && now <= endDate && (
-                                                <button className="btn-primary1" onClick={handleJoinLive}>
+                                                <button className="btn-primary1"  onClick={() => handleJoinLive(workshop)}>
                                                     Join
                                                 </button>
                                             )}
                                             {now >= endDate && (
-                                                <button className="btn-primary1">
+                                                <button className="btn-primary1" onClick={() => handleWatchPreRecorded(workshop)}>
                                                     Join
                                                 </button>
                                             )}

@@ -2168,3 +2168,87 @@ input[type="file"][disabled] {
   left: 0;
   pointer-events: none;
 }
+
+.pre-recorded-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(5, 10, 48, 0.9);
+  border-radius: 15px;
+  border: 1px solid #7EC8E3;
+  box-shadow: 0 4px 20px rgba(126, 200, 227, 0.2);
+}
+
+.video-control-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.video-title {
+  color: white;
+  margin: 1rem 0 0 0;
+  font-size: 1.8rem;
+  text-align: center;
+  width: 100%;
+}
+
+.video-wrapper {
+  width: 100%;
+  max-width: 800px;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  position: relative;
+  margin: 0 auto;
+  background-color: black;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.workshop-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.video-control-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.video-layout-wrapper {
+
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  margin-left: auto;      
+  margin-top: auto;
+  margin-right: auto;  
+  margin-bottom: auto;   
+  padding-top: 3rem;     
+  padding-bottom: 3rem;
+  width: 100%;           
+  max-width: 900px;
+}
+
+.video-control-buttons button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid #535bf2;
+  background-color: #535bf2;
+  color: white;
+}
+
+.video-control-buttons button:hover {
+  background-color: transparent;
+  color: #7EC8E3;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 
-const LiveComponent = ({ onBack }) => {
+const LiveComponent = ({ onBack, workshop }) => {
     return (
         <div className="empty-live-component">
             <button
