@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import './index.css';
 
-const LiveComponent = ({ user, onBack, workshop }) => {
+const LiveComponent = ({ user, onBack, workshop, onAttendeeChatMessage }) => {
     const videoRef = useRef(null);
     const [currentTime, setCurrentTime] = useState(0);
     const [showNotes, setShowNotes] = useState(false);
@@ -68,13 +68,17 @@ const LiveComponent = ({ user, onBack, workshop }) => {
                         "The presenter mentioned this earlier too"
                     ];
                     const response = {
-                        id: Date.now(),
+                        id: Date.now() + 1,
                         user: attendeeNames[Math.floor(Math.random() * attendeeNames.length)],
                         isCurrentUser: false,
                         text: responses[Math.floor(Math.random() * responses.length)],
                         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     };
                     setMessages(prev => [...prev, response]);
+
+                    if (onAttendeeChatMessage && workshop) {
+                        onAttendeeChatMessage(workshop.name, response.user, response.text);
+                    }
                 }, 1000 + Math.random() * 2000);
             }
         }

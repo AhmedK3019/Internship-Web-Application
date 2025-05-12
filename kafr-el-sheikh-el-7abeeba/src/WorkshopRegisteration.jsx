@@ -19,7 +19,7 @@ function WorkshopRegistration({ workshop, onBack, onRegisterSuccess }) {
         }
 
         setSubmitted(true);
-        
+
 
         setTimeout(() => {
             onRegisterSuccess(workshop.id, {

@@ -23,9 +23,9 @@ const ProfileViews = ({ onBack }) => {
   ];
 
   return (
-    <div className="profile-page"> 
-      <div className="profile-container"> 
-        <div className="profile-header"> 
+    <div className="profile-page">
+      <div className="profile-container">
+        <div className="profile-header">
           <h1 className="profile-title">Companies That Viewed Your Profile</h1>
           <button onClick={onBack} className="btn btn-secondary">
             Back to Profile
@@ -40,13 +40,13 @@ const ProfileViews = ({ onBack }) => {
               ) : (
                 profileViews.map((view) => (
                   <div key={view.id} className="internship-item">
-                    <div className="internship-header"> 
+                    <div className="internship-header">
                       {view.companyName}
                     </div>
-                    <p> 
+                    <p>
                       Viewed by: {view.viewedBy}
                     </p>
-                    <div style={{marginTop:"10px"}}>
+                    <div style={{ marginTop: "10px" }}>
                       Date: {view.viewedOn}
                     </div>
                   </div>

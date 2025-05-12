@@ -107,9 +107,8 @@ function ViewAssessments({ sharedAssessments, setSharedAssessments }) {
             filtered.map((assessment) => (
               <div
                 key={assessment.id}
-                className={`internship-card ${
-                  selectedId === assessment.id ? "selected" : ""
-                }`}
+                className={`internship-card ${selectedId === assessment.id ? "selected" : ""
+                  }`}
                 onClick={() =>
                   setSelectedId(
                     selectedId === assessment.id ? null : assessment.id

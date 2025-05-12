@@ -3,7 +3,7 @@ import "./index.css";
 import LiveComponent from "./LiveComponent";
 import PreRecordedComponent from "./PreRecordedComponent";
 
-function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [] }) {
+function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], onAttendeeChatMessage }) {
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [showEmpty, setShowEmpty] = useState(false);
     const [showPreRecorded, setShowPreRecorded] = useState(false);
@@ -139,7 +139,7 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [] })
     if (showEmpty && currentWorkshop) {
         return (
             <div className="internship-background">
-                <LiveComponent user={user} onBack={handleBack} workshop={currentWorkshop} />
+                <LiveComponent user={user} onBack={handleBack} workshop={currentWorkshop} onAttendeeChatMessage={onAttendeeChatMessage} />
             </div>
         );
     }

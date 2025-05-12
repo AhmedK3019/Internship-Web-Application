@@ -65,8 +65,8 @@ const PreRecordedComponent = ({ onBack, workshop, onFinish }) => {
                             <button className="btn-primary1" onClick={handlePlay}>▶️ Play</button>
                             <button className="btn-primary1" onClick={handlePause}>⏸ Pause</button>
                             <button className="btn-primary1" onClick={handleStop}>⏹ Stop</button>
-                             <button 
-                                className="btn-primary1" 
+                            <button
+                                className="btn-primary1"
                                 onClick={() => setShowNotes(!showNotes)}
                             >
                                 {showNotes ? '❌ Hide Notes' : '📝 Show Notes'}
@@ -84,11 +84,11 @@ const PreRecordedComponent = ({ onBack, workshop, onFinish }) => {
                                 placeholder="Type your notes here..."
                             />
                             <div className="notes-actions">
-                                <button 
+                                <button
                                     className="btn-primary1"
                                     onClick={insertTimestamp}
                                 >
-                                    Insert Timestamp 
+                                    Insert Timestamp
                                 </button>
                             </div>
                         </div>

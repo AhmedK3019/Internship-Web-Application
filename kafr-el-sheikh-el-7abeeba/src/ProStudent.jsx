@@ -39,6 +39,7 @@ function ProStudent({
   const [internships] = useState(MyinternshipsData);
   const [sharedAssessments, setSharedAssessments] = useState([]);
 
+
   const [selectedWorkshopForRegistration, setSelectedWorkshopForRegistration] = useState(null);
   const [registeredWorkshopIds, setRegisteredWorkshopIds] = useState(() => {
     if (!user || !user.id) return [];
@@ -53,6 +54,21 @@ function ProStudent({
       return [];
     }
   });
+
+  const handleAttendeeChatMessage = (workshopName, attendeeName, messageText) => {
+    if (!workshopName || !attendeeName) {
+      console.warn("Workshop name or attendee name missing for chat notification.");
+      return;
+    }
+
+    const newNotification = {
+      id: `chat-${Date.now()}-${notifications.length}`, // Unique ID
+      message: `New message in "${workshopName}" chat from ${attendeeName}: "${messageText.substring(0, 30)}${messageText.length > 30 ? '...' : ''}"`,
+      isRead: false,
+      date: new Date().toISOString().split("T")[0],
+    };
+    setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
+  };
 
   const checkProBadgeEligibility = () => {
     const completedInternships = internships.filter(
@@ -116,9 +132,8 @@ function ProStudent({
     );
     const newNotification = {
       id: `app-${notifications.length + 1}`,
-      message: `Your application for ${
-        appliedInternshipDetails?.title || "the internship"
-      } has been submitted successfully!`,
+      message: `Your application for ${appliedInternshipDetails?.title || "the internship"
+        } has been submitted successfully!`,
       isRead: false,
       date: new Date().toISOString().split("T")[0],
     };
@@ -136,63 +151,57 @@ function ProStudent({
   };
 
   const handleWorkshopRegisterSuccess = (workshopId, registrationDetails) => {
-  setRegisteredWorkshopIds((prevIds) => {
-    if (!prevIds.includes(workshopId)) {
-      return [...prevIds, workshopId];
-    }
-    return prevIds;
-  });
+    setRegisteredWorkshopIds((prevIds) => {
+      if (!prevIds.includes(workshopId)) {
+        return [...prevIds, workshopId];
+      }
+      return prevIds;
+    });
 
-  const registeredWorkshopDetails = workshops.find(
-    (w) => w.id === workshopId
-  );
-  const now = new Date();
-  const workshopStart = new Date(registeredWorkshopDetails?.startDate);
-  const hoursUntilWorkshop = (workshopStart - now) / (1000 * 60 * 60);
+    const registeredWorkshopDetails = workshops.find(
+      (w) => w.id === workshopId
+    );
+    const now = new Date();
+    const workshopStart = new Date(registeredWorkshopDetails?.startDate);
+    const hoursUntilWorkshop = (workshopStart - now) / (1000 * 60 * 60);
 
-  const messages = [
-    `Successfully registered for workshop: "${registeredWorkshopDetails?.name}"!`
-  ];
+    const messages = [
+      `Successfully registered for workshop: "${registeredWorkshopDetails?.name}"!`
+    ];
 
-  const newNotification = {
-    id: `reg-${notifications.length + 1}-${Date.now()}`,
-    message: messages.join(" "),
-    isRead: false,
-    date: new Date().toISOString().split("T")[0],
-  };
-
-  if (hoursUntilWorkshop <= 48) {
-    const reminderNotification = {
-      id: `reminder-${notifications.length + 2}-${Date.now()}`,
-      message: `Reminder: The workshop "${registeredWorkshopDetails?.name}" starts in less than 48 hours!`,
+    const newNotification = {
+      id: `reg-${notifications.length + 1}-${Date.now()}`,
+      message: messages.join(" "),
       isRead: false,
       date: new Date().toISOString().split("T")[0],
     };
 
-    
-    setNotifications((prev) => [
-      reminderNotification,
-      newNotification,
-      ...prev,
-    ]);
-  } else {
-    
-    setNotifications((prev) => [newNotification, ...prev]);
-  }
+    if (hoursUntilWorkshop <= 48) {
+      const reminderNotification = {
+        id: `reminder-${notifications.length + 2}-${Date.now()}`,
+        message: `Reminder: The workshop "${registeredWorkshopDetails?.name}" starts in less than 48 hours!`,
+        isRead: false,
+        date: new Date().toISOString().split("T")[0],
+      };
 
-  setSelectedWorkshopForRegistration(null);
-  setCurrentView("workshops");
-};
+
+      setNotifications((prev) => [
+        reminderNotification,
+        newNotification,
+        ...prev,
+      ]);
+    } else {
+
+      setNotifications((prev) => [newNotification, ...prev]);
+    }
+
+    setSelectedWorkshopForRegistration(null);
+    setCurrentView("workshops");
+  };
 
 
   if (selectedWorkshopForRegistration) {
-    return (
-      <WorkshopRegistration
-        workshop={selectedWorkshopForRegistration}
-        onBack={handleBackFromWorkshopRegistration}
-        onRegisterSuccess={handleWorkshopRegisterSuccess}
-      />
-    );
+    setCurrentView("join-workshop");
   }
 
   return (
@@ -266,9 +275,8 @@ function ProStudent({
                   </div>
                 </div>
                 <div
-                  className={`notifications-area ${
-                    showNotifications ? "shifted" : ""
-                  }`}
+                  className={`notifications-area ${showNotifications ? "shifted" : ""
+                    }`}
                 >
                   <div
                     className="notification-ring"
@@ -284,9 +292,8 @@ function ProStudent({
 
               {showNotifications && (
                 <div
-                  className={`notifications-panel ${
-                    showNotifications ? "visible" : ""
-                  }`}
+                  className={`notifications-panel ${showNotifications ? "visible" : ""
+                    }`}
                 >
                   <h3>Notifications</h3>
                   {notifications.length === 0 ? (
@@ -297,9 +304,8 @@ function ProStudent({
                     notifications.map((notification) => (
                       <div
                         key={notification.id}
-                        className={`notification-item ${
-                          notification.isRead ? "read" : "unread"
-                        }`}
+                        className={`notification-item ${notification.isRead ? "read" : "unread"
+                          }`}
                         onClick={() => handleNotificationClick(notification.id)}
                       >
                         <div className="notification-message">
@@ -398,6 +404,14 @@ function ProStudent({
             user={user}
             workshops={workshops}
             registeredWorkshops={registeredWorkshopIds}
+            onAttendeeChatMessage={handleAttendeeChatMessage}
+          />
+        )}
+        {currentView === "join-workshop" && (
+          <WorkshopRegistration
+            workshop={selectedWorkshopForRegistration}
+            onBack={handleBackFromWorkshopRegistration}
+            onRegisterSuccess={handleWorkshopRegisterSuccess}
           />
         )}
       </div>
