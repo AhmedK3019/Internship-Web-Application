@@ -43,7 +43,7 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
         if (!finishedWorkshops.includes(workshopId)) {
             setFinishedWorkshops([...finishedWorkshops, workshopId]);
         }
-        setShowCertificate(true);
+        
         setShowPreRecorded(false);
     };
 

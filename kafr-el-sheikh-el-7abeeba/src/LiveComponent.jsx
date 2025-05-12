@@ -87,7 +87,7 @@ const LiveComponent = ({ user, onBack, workshop, onAttendeeChatMessage }) => {
     return (
         <div className="internship-background">
             <div className="video-layout-wrapper">
-                <div className="video-control-header">
+                <div className="pre-recorded-header">
                     <button className="back-button" onClick={onBack}>
                         ← Back to Workshops
                     </button>

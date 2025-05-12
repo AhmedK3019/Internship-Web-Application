@@ -2445,6 +2445,13 @@ input[type="file"][disabled] {
     padding: 0.8rem 1.5rem;
     white-space: nowrap;
 }
-
+.pre-recorded-header {
+    width: 100%;
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
 
 
