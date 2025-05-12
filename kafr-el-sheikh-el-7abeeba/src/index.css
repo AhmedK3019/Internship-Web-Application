@@ -1771,6 +1771,7 @@ input[type="file"][disabled] {
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s;
+  color: #7EC8E3;
 }
 
 .option:hover {

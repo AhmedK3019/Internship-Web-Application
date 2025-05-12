@@ -48,8 +48,8 @@ function Login() {
     {
       id: 1,
       requestedBy: "PRO Student",
-      studentName: "John Doe",
-      studentEmail: "JohnDoe@gmail.com",
+      studentName: "Alice Johnson",
+      studentEmail: "AliceJohnson@gmail.com",
       purpose: "Career Guidance",
       date: "2025-6-01",
       time: "10:00 AM",
