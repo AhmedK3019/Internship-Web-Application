@@ -2157,3 +2157,14 @@ input[type="file"][disabled] {
 .call-controls .end-call:hover {
   background: #cc0000;
 }
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
