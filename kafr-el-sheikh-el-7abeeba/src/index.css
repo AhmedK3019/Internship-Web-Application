@@ -2308,6 +2308,55 @@ input[type="file"][disabled] {
 .save-notes-btn {
   align-self: flex-end;
 }
+.certificate-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.certificate-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 15px;
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(126, 200, 227, 0.5);
+    border: 10px solid #7EC8E3;
+    position: relative;
+}
+
+.certificate-content h1 {
+    color: #050a30;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.certificate-content h2 {
+    color: #050a30;
+    font-size: 2rem;
+    margin: 1rem 0;
+}
+
+.certificate-content h3 {
+    color: #050a30;
+    font-size: 1.8rem;
+    margin: 1rem 0 2rem 0;
+}
+
+.certificate-content p {
+    color: #050a30;
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.certificate-footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 2px solid #050a30;
+}
 
 
 

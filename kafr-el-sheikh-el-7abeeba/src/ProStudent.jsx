@@ -395,6 +395,7 @@ function ProStudent({
         )}
         {currentView === "registered-workshops" && (
           <RegisteredWorkshops
+            user={user}
             workshops={workshops}
             registeredWorkshops={registeredWorkshopIds}
           />
