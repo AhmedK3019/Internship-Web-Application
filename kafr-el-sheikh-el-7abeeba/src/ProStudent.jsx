@@ -39,10 +39,8 @@ function ProStudent({
   const [internships] = useState(MyinternshipsData);
   const [sharedAssessments, setSharedAssessments] = useState([]);
 
-  const [selectedWorkshopForRegistration, setSelectedWorkshopForRegistration] =
-    useState(null); // ADDED STATE
+  const [selectedWorkshopForRegistration, setSelectedWorkshopForRegistration] = useState(null);
   const [registeredWorkshopIds, setRegisteredWorkshopIds] = useState(() => {
-    // ADDED STATE
     if (!user || !user.id) return [];
     const saved = localStorage.getItem(`registered_workshops_${user.id}`);
     try {
@@ -138,28 +136,54 @@ function ProStudent({
   };
 
   const handleWorkshopRegisterSuccess = (workshopId, registrationDetails) => {
-    setRegisteredWorkshopIds((prevIds) => {
-      if (!prevIds.includes(workshopId)) {
-        return [...prevIds, workshopId];
-      }
-      return prevIds;
-    });
+  setRegisteredWorkshopIds((prevIds) => {
+    if (!prevIds.includes(workshopId)) {
+      return [...prevIds, workshopId];
+    }
+    return prevIds;
+  });
 
-    const registeredWorkshopDetails = workshops.find(
-      (w) => w.id === workshopId
-    );
-    const newNotification = {
-      id: `reg-${notifications.length + 1}-${Date.now()}`,
-      message: `Successfully registered for workshop: "${
-        registeredWorkshopDetails?.name || "the workshop"
-      }"!`,
+  const registeredWorkshopDetails = workshops.find(
+    (w) => w.id === workshopId
+  );
+  const now = new Date();
+  const workshopStart = new Date(registeredWorkshopDetails?.startDate);
+  const hoursUntilWorkshop = (workshopStart - now) / (1000 * 60 * 60);
+
+  const messages = [
+    `Successfully registered for workshop: "${registeredWorkshopDetails?.name}"!`
+  ];
+
+  const newNotification = {
+    id: `reg-${notifications.length + 1}-${Date.now()}`,
+    message: messages.join(" "),
+    isRead: false,
+    date: new Date().toISOString().split("T")[0],
+  };
+
+  if (hoursUntilWorkshop <= 48) {
+    const reminderNotification = {
+      id: `reminder-${notifications.length + 2}-${Date.now()}`,
+      message: `Reminder: The workshop "${registeredWorkshopDetails?.name}" starts in less than 48 hours!`,
       isRead: false,
       date: new Date().toISOString().split("T")[0],
     };
+
+    
+    setNotifications((prev) => [
+      reminderNotification,
+      newNotification,
+      ...prev,
+    ]);
+  } else {
+    
     setNotifications((prev) => [newNotification, ...prev]);
-    setSelectedWorkshopForRegistration(null);
-    setCurrentView("workshops");
-  };
+  }
+
+  setSelectedWorkshopForRegistration(null);
+  setCurrentView("workshops");
+};
+
 
   if (selectedWorkshopForRegistration) {
     return (
