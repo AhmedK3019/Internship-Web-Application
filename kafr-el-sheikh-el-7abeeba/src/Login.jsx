@@ -271,6 +271,11 @@ function Login() {
     setShowRegister(true);
   }
 
+  {
+    setTimeout(() => {
+      setMessage("");
+    }, 10000);
+  }
   function addUser(newUser) {
     const addedUser = {
       id: users.length + 1,
@@ -403,7 +408,7 @@ function Login() {
                   .
                 </h3>
               </form>
-              {message && <div className="error-message"> {message}</div>}
+              {message && <p className="error-message">{message}</p>}
             </div>
           </div>
         </div>
