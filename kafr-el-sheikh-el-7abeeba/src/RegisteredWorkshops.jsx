@@ -32,7 +32,7 @@ function RegisteredWorkshops({ workshops = [], registeredWorkshops = [] }) {
             
                 <PreRecordedComponent 
                     onBack={handleBack} 
-                    workshop={currentWorkshop}  // Pass the current workshop to PreRecordedComponent
+                    workshop={currentWorkshop}
                 />
             
         );

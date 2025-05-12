@@ -2252,3 +2252,62 @@ input[type="file"][disabled] {
   background-color: transparent;
   color: #7EC8E3;
 }
+
+.workshop-content-container {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+
+.video-section {
+  flex: 2;
+  min-width: 0;
+}
+
+.notes-section {
+  flex: 1;
+  background: rgba(5, 10, 48, 0.8);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid #7EC8E3;
+  display: flex;
+  flex-direction: column;
+}
+
+.notes-title {
+  color: #7EC8E3;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.notes-textarea {
+  flex-grow: 1;
+  padding: 1rem;
+  background: rgba(126, 200, 227, 0.1);
+  border: 1px solid #535bf2;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  resize: none;
+  margin-bottom: 1rem;
+  min-height: 300px;
+}
+
+.notes-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.current-time {
+  color: #7EC8E3;
+  font-size: 0.9rem;
+}
+
+.save-notes-btn {
+  align-self: flex-end;
+}
+
+
+
