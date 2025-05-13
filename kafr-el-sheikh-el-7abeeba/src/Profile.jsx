@@ -15,6 +15,7 @@ function Profile({
     username: user.name,
     id: "58-1234",
     email: `${user.name.replace(/\s/g, ".").toLowerCase()}@student.uni.edu.eg`,
+    major: "MET",
     semester: 6,
     jobInterests: "Web Development, UI/UX Design",
     internships: [
@@ -130,6 +131,27 @@ function Profile({
                 <div className="profile-value">{formData.username}</div>
               )}
             </div>
+            <div className="profile-field">
+              <label>Major</label>
+              {isEditing ? (
+                <select
+                  name="major"
+                  value={formData.major}
+                  onChange={handleChange}
+                  className="profile-select"
+                >
+                  {["MET", "DMET" , "IET - Networks", "IET - Communication", "BI", "Pharmacy"].map((major) => (
+                    <option key={major} value={major}>
+                      {major}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <div className="profile-value">
+                  {formData.major}
+                </div>
+              )}
+            </div>
 
             <div className="profile-field">
               <label>Semester</label>
@@ -152,6 +174,7 @@ function Profile({
                 </div>
               )}
             </div>
+
 
             <div className="profile-field">
               <label>Job Interests</label>
