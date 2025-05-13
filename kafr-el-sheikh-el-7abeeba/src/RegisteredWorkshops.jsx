@@ -94,7 +94,7 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
                             <p>Date: {new Date().toLocaleDateString()}</p>
                         </div>
                         <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-                            <button className="btn-primary1" onClick={handleDownloadCertificate}>
+                            <button className="green_btn" onClick={handleDownloadCertificate}>
                                 Download PDF
                             </button>
                             <button

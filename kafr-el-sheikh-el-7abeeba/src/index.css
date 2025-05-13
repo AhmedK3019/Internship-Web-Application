@@ -381,7 +381,7 @@ textarea {
   background-color: red;
   color: white;
   padding: 6px 12px;
-  border: 2px solid #535bf2;
+  border: 2px solid red;
   border-radius: 6px;
   cursor: pointer;
 }
@@ -2454,3 +2454,14 @@ input[type="file"][disabled] {
 }
 
 
+.green_btn{
+  background-color: #4CAF50;
+  color: white;
+  border: 2px solid #4CAF50;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.green_btn:hover{
+  background-color: transparent;
+  color: #7EC8E3;
+}
