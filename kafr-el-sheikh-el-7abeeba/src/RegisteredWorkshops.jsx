@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 import "./index.css";
 import LiveComponent from "./LiveComponent";
 import PreRecordedComponent from "./PreRecordedComponent";
@@ -13,73 +15,66 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
     const [finishedWorkshops, setFinishedWorkshops] = useState([]);
     const [evaluations, setEvaluations] = useState([]);
 
-    const registeredWorkshopsData = workshops.filter((workshop) =>
-        registeredWorkshops.includes(workshop.id)
-    );
+    const registeredWorkshopsData = workshops.filter(w => registeredWorkshops.includes(w.id));
 
-    const handleSelectWorkshop = (workshopId) => {
-        setSelectedWorkshop(selectedWorkshop === workshopId ? null : workshopId);
+    // ←–– UPDATED: uses html2canvas to snapshot the styled DOM
+    const handleDownloadCertificate = async () => {
+        if (!currentWorkshop) return;
+
+        // grab the certificate element
+        const element = document.querySelector(".certificate-content");
+
+        // hide all buttons inside the certificate before capture
+        const buttons = element.querySelectorAll("button");
+        buttons.forEach(btn => btn.style.visibility = "hidden");
+
+        // snapshot the styled DOM (at higher res)
+        const canvas = await html2canvas(element, { scale: 2, backgroundColor: null });
+        const imgData = canvas.toDataURL("image/png");
+
+        // restore button visibility
+        buttons.forEach(btn => btn.style.visibility = "");
+
+        // build the PDF
+        const pdf = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`certificate_${currentWorkshop.name}.pdf`);
     };
 
-    const handleWatchPreRecorded = (workshop) => {
-        setCurrentWorkshop(workshop);
-        setShowPreRecorded(true);
+    const handleSelectWorkshop = id => {
+        setSelectedWorkshop(selectedWorkshop === id ? null : id);
     };
-
-    const handleJoinLive = (workshop) => {
-        setCurrentWorkshop(workshop);
-        setShowEmpty(true);
-    };
-
-    const handleBack = () => {
-        setShowEmpty(false);
-        setShowPreRecorded(false);
-        setShowCertificate(false);
-    };
-
-    const handleWorkshopFinished = (workshopId) => {
-        const workshop = workshops.find(w => w.id === workshopId);
-        setCurrentWorkshop(workshop);
-        if (!finishedWorkshops.includes(workshopId)) {
-            setFinishedWorkshops([...finishedWorkshops, workshopId]);
+    const handleWatchPreRecorded = w => { setCurrentWorkshop(w); setShowPreRecorded(true); };
+    const handleJoinLive = w => { setCurrentWorkshop(w); setShowEmpty(true); };
+    const handleBack = () => { setShowEmpty(false); setShowPreRecorded(false); setShowCertificate(false); };
+    const handleWorkshopFinished = id => {
+        const w = workshops.find(x => x.id === id);
+        setCurrentWorkshop(w);
+        if (!finishedWorkshops.includes(id)) {
+            setFinishedWorkshops([...finishedWorkshops, id]);
         }
-        
         setShowPreRecorded(false);
     };
-
-    const handleViewCertificate = (workshop) => {
-        setCurrentWorkshop(workshop);
-        setShowCertificate(true);
-    };
-
-    const handleCloseCertificate = () => {
-        setShowCertificate(false);
-    };
-
-    const handleRateWorkshop = (workshop) => {
-        const existingEvaluation = evaluations.find(e => e.workshopId === workshop.id);
-
+    const handleViewCertificate = w => { setCurrentWorkshop(w); setShowCertificate(true); };
+    const handleCloseCertificate = () => { setShowCertificate(false); };
+    const handleRateWorkshop = w => {
+        const existing = evaluations.find(e => e.workshopId === w.id);
         setCurrentWorkshop({
-            ...workshop,
-            existingRating: existingEvaluation?.rating,
-            existingFeedback: existingEvaluation?.feedback
+            ...w,
+            existingRating: existing?.rating,
+            existingFeedback: existing?.feedback
         });
         setShowEvaluationModal(true);
     };
-
-    const handleCloseEvaluationModal = () => {
-        setShowEvaluationModal(false);
-    };
-
-    const handleSubmitEvaluation = (evaluation) => {
-        const filteredEvaluations = evaluations.filter(e => e.workshopId !== currentWorkshop.id);
-
-        setEvaluations([...filteredEvaluations, {
-            ...evaluation,
-            workshopId: currentWorkshop.id,
-            date: new Date().toISOString()
-        }]);
-
+    const handleCloseEvaluationModal = () => setShowEvaluationModal(false);
+    const handleSubmitEvaluation = evalData => {
+        setEvaluations(evals => [
+            ...evals.filter(e => e.workshopId !== currentWorkshop.id),
+            { ...evalData, workshopId: currentWorkshop.id, date: new Date().toISOString() }
+        ]);
         setShowEvaluationModal(false);
     };
 
@@ -87,7 +82,7 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
         if (!showCertificate || !currentWorkshop) return null;
         return (
             <div className="modal-overlay" onClick={handleCloseCertificate}>
-                <div className="certificate-modal" onClick={(e) => e.stopPropagation()}>
+                <div className="certificate-modal" onClick={e => e.stopPropagation()}>
                     <div className="certificate-content">
                         <h1>Certificate of Completion</h1>
                         <p>This is to certify that</p>
@@ -95,15 +90,21 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
                         <p>has successfully completed the workshop</p>
                         <h3>{currentWorkshop.name}</h3>
                         <div className="certificate-footer">
+                            <p>Supervisor: {currentWorkshop.speakerBio}</p>
                             <p>Date: {new Date().toLocaleDateString()}</p>
                         </div>
-                        <button
-                            className="btn-primary1"
-                            onClick={handleCloseCertificate}
-                            style={{ marginTop: '20px' }}
-                        >
-                            Close
-                        </button>
+                        <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+                            <button className="btn-primary1" onClick={handleDownloadCertificate}>
+                                Download PDF
+                            </button>
+                            <button
+                                className="delete-btn"
+                                onClick={handleCloseCertificate}
+                                style={{ border: "red 2px solid" }}
+                            >
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -112,7 +113,6 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
 
     const renderEvaluationModal = () => {
         if (!showEvaluationModal || !currentWorkshop) return null;
-
         return (
             <EvaluationModal
                 workshop={currentWorkshop}
@@ -121,6 +121,7 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
             />
         );
     };
+
 
     if (showPreRecorded && currentWorkshop) {
         return (
@@ -139,7 +140,12 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
     if (showEmpty && currentWorkshop) {
         return (
             <div className="internship-background">
-                <LiveComponent user={user} onBack={handleBack} workshop={currentWorkshop} onAttendeeChatMessage={onAttendeeChatMessage} />
+                <LiveComponent
+                    user={user}
+                    onBack={handleBack}
+                    workshop={currentWorkshop}
+                    onAttendeeChatMessage={onAttendeeChatMessage}
+                />
             </div>
         );
     }
@@ -148,6 +154,7 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
         <div className="internship-background">
             {renderCertificateModal()}
             {renderEvaluationModal()}
+
             <div className="listings-container">
                 <h1>My Registered Workshops</h1>
                 <div className="internship-list">
@@ -156,47 +163,40 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
                             You haven't registered for any workshops yet.
                         </div>
                     ) : (
-                        registeredWorkshopsData.map((workshop) => {
+                        registeredWorkshopsData.map(workshop => {
                             const now = new Date();
                             const startDate = new Date(workshop.startDate);
                             const endDate = new Date(workshop.endDate);
-                            const workshopEvaluation = evaluations.find(e => e.workshopId === workshop.id);
-                            const hasEvaluation = !!workshopEvaluation;
-                            const isSelected = selectedWorkshop === workshop.id;
+                            const hasEval = evaluations.some(e => e.workshopId === workshop.id);
+                            const isSel = selectedWorkshop === workshop.id;
 
                             return (
                                 <div
                                     key={workshop.id}
-                                    className={`internship-card ${isSelected ? "selected" : ""}`}
+                                    className={`internship-card ${isSel ? "selected" : ""}`}
                                     onClick={() => handleSelectWorkshop(workshop.id)}
                                 >
                                     <div>
-                                        {now < startDate && (
-                                            <h2>{workshop.name} (Available After Start date) </h2>
-                                        )}
-                                        {now >= startDate && now <= endDate && (
-                                            <h2>{workshop.name} (Live) </h2>
-                                        )}
-                                        {now >= endDate && (
-                                            <h2>{workshop.name} (Pre-Recorded) </h2>
-                                        )}
+                                        {now < startDate && <h2>{workshop.name} (Available After Start date)</h2>}
+                                        {now >= startDate && now <= endDate && <h2>{workshop.name} (Live)</h2>}
+                                        {now > endDate && <h2>{workshop.name} (Pre-Recorded)</h2>}
                                         <h3>
-                                            {startDate.toLocaleDateString()} -{" "}
-                                            {endDate.toLocaleDateString()}
+                                            {startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}
                                         </h3>
                                     </div>
-                                    <div className="expand-indicator">{isSelected ? "▼" : "▶"}</div>
+                                    <div className="expand-indicator">{isSel ? "▼" : "▶"}</div>
+
                                     <div
                                         style={{
                                             borderBottom: "1px solid rgba(126, 200, 227, 0.2)",
-                                            padding: "0.5rem 0",
+                                            padding: "0.5rem 0"
                                         }}
                                     >
                                         <span
                                             style={{
                                                 display: "flex",
                                                 justifyContent: "space-between",
-                                                fontWeight: "normal",
+                                                fontWeight: "normal"
                                             }}
                                         >
                                             <span className="detail-label">Time:</span>
@@ -205,7 +205,8 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
                                             </span>
                                         </span>
                                     </div>
-                                    {isSelected && (
+
+                                    {isSel && (
                                         <div className="details-grid">
                                             <div className="detail-item">
                                                 <span className="detail-label">Description:</span>
@@ -218,22 +219,20 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
                                             <div className="detail-item">
                                                 <span className="detail-label">Agenda:</span>
                                                 <span className="detail-value">
-                                                    {workshop.agenda || "Detailed agenda will be provided during the workshop"}
+                                                    {workshop.agenda ||
+                                                        "Detailed agenda will be provided during the workshop"}
                                                 </span>
                                             </div>
                                             <div className="detail-actions">
                                                 {now < startDate && (
-                                                    <button
-                                                        className="btn-primary1"
-                                                        style={{ cursor: "not-allowed", opacity: 0.5 }}
-                                                    >
+                                                    <button className="btn-primary1" style={{ cursor: "not-allowed", opacity: 0.5 }}>
                                                         Available Soon
                                                     </button>
                                                 )}
                                                 {now >= startDate && now <= endDate && (
                                                     <button
                                                         className="btn-primary1"
-                                                        onClick={(e) => {
+                                                        onClick={e => {
                                                             e.stopPropagation();
                                                             handleJoinLive(workshop);
                                                         }}
@@ -241,10 +240,10 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
                                                         Join
                                                     </button>
                                                 )}
-                                                {now >= endDate && (
+                                                {now > endDate && (
                                                     <button
                                                         className="btn-primary1"
-                                                        onClick={(e) => {
+                                                        onClick={e => {
                                                             e.stopPropagation();
                                                             handleWatchPreRecorded(workshop);
                                                         }}
@@ -256,36 +255,22 @@ function RegisteredWorkshops({ user, workshops = [], registeredWorkshops = [], o
                                                     <>
                                                         <button
                                                             className="btn-primary1"
-                                                            onClick={(e) => {
+                                                            onClick={e => {
                                                                 e.stopPropagation();
                                                                 handleViewCertificate(workshop);
                                                             }}
                                                         >
                                                             View Certificate
                                                         </button>
-                                                        {!hasEvaluation && (
-                                                            <button
-                                                                className="btn-primary1"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    handleRateWorkshop(workshop);
-                                                                }}
-                                                            >
-                                                                Rate Workshop
-                                                            </button>
-                                                        )}
-                                                        {hasEvaluation && (
-                                                            <button
-                                                                className="btn-primary1"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    handleRateWorkshop(workshop);
-                                                                }}
-                                                            >
-                                                                Edit Rating
-                                                            </button>
-
-                                                        )}
+                                                        <button
+                                                            className="btn-primary1"
+                                                            onClick={e => {
+                                                                e.stopPropagation();
+                                                                handleRateWorkshop(workshop);
+                                                            }}
+                                                        >
+                                                            {hasEval ? "Edit Rating" : "Rate Workshop"}
+                                                        </button>
                                                     </>
                                                 )}
                                             </div>
@@ -312,31 +297,28 @@ const EvaluationModal = ({ workshop, onSubmit, onClose }) => {
         }
     }, [workshop]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = e => {
         e.preventDefault();
-        onSubmit({
-            rating,
-            feedback,
-            workshopName: workshop.name
-        });
+        onSubmit({ rating, feedback, workshopName: workshop.name });
     };
 
     return (
         <div className="modal-overlay">
             <div className="modal-content">
                 <div className="modal-header">
-                    <h2>{workshop.existingRating ? 'Edit Rating for' : 'Rate'} {workshop.name}</h2>
+                    <h2>
+                        {workshop.existingRating ? "Edit Rating for" : "Rate"} {workshop.name}
+                    </h2>
                     <button onClick={onClose} className="close-button">
                         &times;
                     </button>
                 </div>
-
                 <form onSubmit={handleSubmit}>
                     <div className="evaluation-details">
                         <div className="detail-item">
                             <span className="detail-label">Rating:</span>
                             <div className="rating-stars">
-                                {[1, 2, 3, 4, 5].map((star) => (
+                                {[1, 2, 3, 4, 5].map(star => (
                                     <span
                                         key={star}
                                         className={`star ${star <= rating ? "filled" : ""}`}
@@ -347,25 +329,36 @@ const EvaluationModal = ({ workshop, onSubmit, onClose }) => {
                                 ))}
                             </div>
                         </div>
-
                         <div className="detail-item">
                             <span className="detail-label">Feedback:</span>
                             <textarea
                                 className="feedback-input"
                                 value={feedback}
-                                onChange={(e) => setFeedback(e.target.value)}
+                                onChange={e => setFeedback(e.target.value)}
                                 placeholder="Share your experience..."
                             />
                         </div>
-
                         <div className="form-actions">
-                            <button type="button" onClick={onClose} className="btn-primary1" style={{ border: "2px solid red", backgroundColor: "red" }} onMouseEnter={(e) => e.target.style.backgroundColor = "transparent"} onMouseLeave={(e) => e.target.style.backgroundColor = "red"}>
+                            <button
+                                type="button"
+                                onClick={onClose}
+                                className="btn-primary1"
+                                style={{
+                                    border: "2px solid red",
+                                    backgroundColor: "red"
+                                }}
+                                onMouseEnter={e => (e.target.style.backgroundColor = "transparent")}
+                                onMouseLeave={e => (e.target.style.backgroundColor = "red")}
+                            >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
                                 className="btn-primary1"
-                                style={{ cursor: rating === 0 || feedback.trim() === "" ? "not-allowed" : "pointer", opacity: rating === 0 || feedback.trim() === "" ? 0.5 : 1 }}
+                                style={{
+                                    cursor: rating === 0 || feedback.trim() === "" ? "not-allowed" : "pointer",
+                                    opacity: rating === 0 || feedback.trim() === "" ? 0.5 : 1
+                                }}
                                 disabled={rating === 0 || feedback.trim() === ""}
                             >
                                 Submit Rating
