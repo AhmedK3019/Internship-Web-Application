@@ -337,7 +337,7 @@ function ProStudent({
           <Majors onBackMajors={handleBackToDashboard} />
         )}
         {currentView === "Reportsubmission" && (
-          <Reportsubmission onBackReportsubmission={handleBackToDashboard} />
+          <Reportsubmission onBackReportsubmission={handleBackToDashboard} setNotifications={setNotifications} />
         )}
         {currentView === "companies" && (
           <SuggestedCompanies
