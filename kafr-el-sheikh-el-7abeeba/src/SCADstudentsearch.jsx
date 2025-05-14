@@ -79,18 +79,12 @@ const SCADStudentSearch = () => {
             >
               <h3>{student.name}</h3>
               <p>Status: {student.internshipStatus}</p>
+              <p>Email: {student.email}</p>
+              <p>Major: {student.major}</p>
+              <p>Internship Status: {student.internshipStatus}</p>
             </div>
           ))}
         </div>
-        {selectedStudent && (
-          <div className="student-profile">
-            <h2>{selectedStudent.name}'s Profile</h2>
-            <p>Email: {selectedStudent.email}</p>
-            <p>Major: {selectedStudent.major}</p>
-            <p>Internship Status: {selectedStudent.internshipStatus}</p>
-            <button onClick={() => setSelectedStudent(null)}>Close</button>
-          </div>
-        )}
       </div>
     </div>
   );
