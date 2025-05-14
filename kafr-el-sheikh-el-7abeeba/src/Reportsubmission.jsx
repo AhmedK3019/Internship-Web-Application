@@ -178,6 +178,11 @@ function Reportsubmission({ onBackReportsubmission }) {
     doc.text(introLines, margin, y);
     y += introLines.length * 7 + 15;
 
+    // Add section heading for Introduction
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Report Body", margin, y);
+    y += 8;
 
 
     // Add body text
