@@ -15,8 +15,23 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
     status: "draft",
     facultyStatus: "Pending",
     submittedDate: null,
-    appealStatus: null
+    appealStatus: null,
+    rejectionComment: null
   });
+
+  const rejectionComments = [
+    "The report lacks sufficient detail about the technical skills you developed.",
+    "Your learning outcomes are not clearly articulated in the report.",
+    "The connection between your coursework and internship experience needs more explanation.",
+    "The internship duration does not meet the minimum requirement.",
+    "The company is not on our approved list of internship providers.",
+    "The internship duties described do not align with your major's learning outcomes.",
+    "Missing required documentation from the company supervisor.",
+    "The report contains several grammatical errors that need to be corrected.",
+    "The reflection component is too superficial and needs more depth.",
+    "The skills listed don't match the job description you provided earlier."
+  ];
+
   const [isEditing, setIsEditing] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -91,6 +106,11 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
     const possibleStatuses = ["Pending", "Accepted", "Flagged", "Rejected"];
     
     const randomStatus = possibleStatuses[Math.floor(Math.random() * possibleStatuses.length)];
+
+    let comment = null;
+    if (randomStatus === "Flagged" || randomStatus === "Rejected") {
+      comment = rejectionComments[Math.floor(Math.random() * rejectionComments.length)];
+    }
     
     const currentReports = JSON.parse(localStorage.getItem("internshipReports")) || [...reports];
     
@@ -107,10 +127,13 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
           status: "submitted",
           facultyStatus: randomStatus,
           submittedDate: new Date().toLocaleDateString(),
-          appealStatus: null // Initialize appeal status
+          appealStatus: null,
+          rejectionComment: comment
         }
         : report
     );
+
+    const updatedReport = updatedReports.find(r => r.id === reportId);
 
     setReports(updatedReports);
     localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
@@ -154,11 +177,8 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
     
     setReports(updatedReports);
     localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
-    setTimeout(() => {
-      setAppealSubmissionStatus(null);
-      setAppealReportId(null);
-      setAppealMessage("");
-    }, 3000);
+
+
 
     setAppealError(null);
     setAppealReportId(null);
@@ -200,7 +220,8 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
       status: "draft",
       facultyStatus: "Pending",
       submittedDate: null,
-      appealStatus: null
+      appealStatus: null,
+      rejectionComment: null
     });
     setIsEditing(false);
     setAvailableCourses(
@@ -283,7 +304,8 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
       courses: selectedCourses.map((course) => course.name),
       id: newId,
       status: "draft",
-      appealStatus: null
+      appealStatus: null,
+      rejectionComment: null
     };
 
     let updatedReports;
@@ -454,7 +476,7 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
                         <button
                           onClick={() => handleAppealClick(report.id)}
                           className={appealReportId === report.id ? "delete-btn" : "download-button"}
-                          style={{ marginRight: "0px", border:"none" }}
+                          style={{marginLeft:"0px", border:"none" }}
                         >
                           {appealReportId === report.id ? "Close Appeal" : "Appeal"}
                         </button>
@@ -486,9 +508,17 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
                     </p>
                   )}
                   {report.status === "submitted" && (
-                    <p className="faculty-status">
-                      <strong>Status:</strong> {report.facultyStatus}
-                    </p>
+                    <div className="status-section">
+                      <p className="faculty-status">
+                        <strong>Status:</strong> {report.facultyStatus}
+                      </p>
+
+                      {(report.facultyStatus === "Rejected" || report.facultyStatus === "Flagged") && (
+                        <div className="rejection-comment">
+                          <strong>Comment:</strong> {report.rejectionComment}
+                        </div>
+                      )}
+                    </div>
                   )}
                   {appealReportId === report.id && (
                     <div className="appeal-form">
@@ -498,7 +528,7 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
                         placeholder="Explain why you're appealing this decision..."
                         rows="6"
                         className="input"
-                        style={{width: "90%"}}
+                        style={{width: "90%", marginTop:"20px"}}
                       />
                       <div className="form-actions">
                         <button
