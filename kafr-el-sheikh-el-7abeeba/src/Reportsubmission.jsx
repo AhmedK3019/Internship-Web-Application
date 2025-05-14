@@ -251,7 +251,7 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
     
     setIsSubmitting(true);
     
-
+    // First save the current report to get an ID
     const selectedCourses = availableCourses.filter((course) => course.selected);
     const newId = isEditing ? currentReport.id : Date.now();
     
@@ -351,6 +351,17 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
               >
                 {isEditing ? "Update Draft" : "Save Draft"}
               </button>
+              {!isEditing && (
+                <button
+                  type="button"
+                  className="download-button"
+                style={{marginLeft:"0px", border:"2px green solid"}}
+                  onClick={handleSubmitNew}
+                  disabled={isSubmitting}
+                >
+                  Submit
+                </button>
+              )}
               {isEditing && (
                 <button
                   type="button"
