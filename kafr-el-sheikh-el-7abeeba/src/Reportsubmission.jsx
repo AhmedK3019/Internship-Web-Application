@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
+import { jsPDF } from "jspdf";
 
 function Reportsubmission({ onBackReportsubmission }) {
   const [reports, setReports] = useState([]);
@@ -11,6 +12,8 @@ function Reportsubmission({ onBackReportsubmission }) {
     courses: [],
     file: null,
     fileName: "",
+    status: "draft", // 'draft' or 'submitted'
+    submittedDate: null
   });
   const [isEditing, setIsEditing] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState(null);
@@ -25,8 +28,7 @@ function Reportsubmission({ onBackReportsubmission }) {
   ]);
 
   useEffect(() => {
-    const savedReports =
-      JSON.parse(localStorage.getItem("internshipReports")) || [];
+    const savedReports = JSON.parse(localStorage.getItem("internshipReports")) || [];
     setReports(savedReports);
   }, []);
 
@@ -57,13 +59,12 @@ function Reportsubmission({ onBackReportsubmission }) {
   };
 
   const saveReport = () => {
-    const selectedCourses = availableCourses.filter(
-      (course) => course.selected
-    );
+    const selectedCourses = availableCourses.filter((course) => course.selected);
     const reportToSave = {
       ...currentReport,
       courses: selectedCourses.map((course) => course.name),
       id: isEditing ? currentReport.id : Date.now(),
+      status: "draft" // Ensure new reports are saved as drafts
     };
 
     let updatedReports;
@@ -81,7 +82,27 @@ function Reportsubmission({ onBackReportsubmission }) {
     setSubmissionStatus("saved");
   };
 
+  const finalizeReport = (reportId) => {
+    const updatedReports = reports.map(report => 
+      report.id === reportId 
+        ? { 
+            ...report, 
+            status: "submitted",
+            submittedDate: new Date().toLocaleDateString()
+          } 
+        : report
+    );
+    
+    setReports(updatedReports);
+    localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
+    setSubmissionStatus("submitted");
+  };
+
   const editReport = (report) => {
+    if (report.status === "submitted") {
+      alert("Submitted reports cannot be edited.");
+      return;
+    }
     setCurrentReport(report);
     setIsEditing(true);
     setAvailableCourses(
@@ -93,9 +114,11 @@ function Reportsubmission({ onBackReportsubmission }) {
   };
 
   const deleteReport = (id) => {
-    const updatedReports = reports.filter((report) => report.id !== id);
-    setReports(updatedReports);
-    localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
+    if (window.confirm("Are you sure you want to delete this report? This action cannot be undone.")) {
+      const updatedReports = reports.filter((report) => report.id !== id);
+      setReports(updatedReports);
+      localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
+    }
   };
 
   const resetForm = () => {
@@ -107,6 +130,8 @@ function Reportsubmission({ onBackReportsubmission }) {
       courses: [],
       file: null,
       fileName: "",
+      status: "draft",
+      submittedDate: null
     });
     setIsEditing(false);
     setAvailableCourses(
@@ -114,8 +139,74 @@ function Reportsubmission({ onBackReportsubmission }) {
     );
   };
 
-  const downloadReport = (report) => {
-    alert(`Downloading report: ${report.title}`);
+const downloadReport = (report) => {
+  // Get fresh reports data directly from localStorage
+  const freshReports = JSON.parse(localStorage.getItem("internshipReports")) || [];
+  const freshReport = freshReports.find(r => r.id === report.id) || report;
+  
+  const doc = new jsPDF();
+  
+    
+    // Set margins
+    const margin = 15;
+    let y = margin;
+    
+    // Add title with styling
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(33, 37, 41);
+    doc.text(freshReport.title, 105, y, { align: 'center' });
+    y += 10;
+    
+    // Add divider line
+    doc.setDrawColor(200, 200, 200);
+    doc.line(margin, y, 200 - margin, y);
+    y += 15;
+    
+    // Add section heading for Introduction
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Introduction", margin, y);
+    y += 8;
+    
+    // Add introduction text
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    const introLines = doc.splitTextToSize(freshReport.introduction, 180);
+    doc.text(introLines, margin, y);
+    y += introLines.length * 7 + 15;
+    
+    // Add section heading for Report Body
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Report Body", margin, y);
+    y += 8;
+    
+    // Add body text
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    const bodyLines = doc.splitTextToSize(freshReport.body, 180);
+    doc.text(bodyLines, margin, y);
+    y += bodyLines.length * 7 + 15;
+    
+    // Add section heading for Relevant Courses
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Relevant Courses", margin, y);
+    y += 8;
+    
+    // Add courses list
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text(freshReport.courses.join(", "), margin, y);
+    
+    // Add footer
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text("Internship Report - Generated by Student Portal", 105, 285, { align: 'center' });
+    
+    // Save the PDF
+    doc.save(`${freshReport.title.replace(/[^a-z0-9]/gi, '_')}.pdf`);
   };
 
   return (
@@ -185,10 +276,10 @@ function Reportsubmission({ onBackReportsubmission }) {
             <div className="form-actions">
               <button
                 type="submit"
-                className="submit-button"
+                className="btn-primary1"
                 disabled={isSubmitting}
               >
-                {isEditing ? "Update Report" : "Save Report"}
+                {isEditing ? "Update Draft" : "Save Draft"}
               </button>
               {isEditing && (
                 <button
@@ -204,13 +295,18 @@ function Reportsubmission({ onBackReportsubmission }) {
 
           {submissionStatus === "saved" && (
             <div className="success-message">
-              {isEditing ? null : "✓ Report saved successfully!"}
+              {isEditing ? "✓ Draft updated successfully!" : "✓ Draft saved successfully!"}
+            </div>
+          )}
+          {submissionStatus === "submitted" && (
+            <div className="success-message">
+              ✓ Report submitted successfully!
             </div>
           )}
         </div>
 
         <div className="reports-list">
-          <h3>Your Saved Reports</h3>
+          <h3>Your Reports</h3>
           {reports.length === 0 ? (
             <p className="no-reports">No reports saved yet</p>
           ) : (
@@ -218,32 +314,50 @@ function Reportsubmission({ onBackReportsubmission }) {
               {reports.map((report) => (
                 <li key={report.id} className="report-item">
                   <div className="report-item-header">
-                    <h4>{report.title}</h4>
+                    <h4>
+                      {report.title}
+                      {report.status === "submitted" && (
+                        <span className="pro-badge">Submitted</span>
+                      )}
+                    </h4>
                     <div className="report-actions">
-                      <button
+                      {report.status === "draft" && (<button
                         onClick={() => editReport(report)}
                         className="edit-button"
-                      >
+                        disabled={report.status === "submitted"}
+                        >
                         Edit
                       </button>
-                      <button
+                      )}
+                        {report.status === "draft" && (
+                          <button
+                            onClick={() => finalizeReport(report.id)}
+                            className="download-button"
+                            style={{marginRight:"0px"}}
+                          > 
+                            Submit
+                          </button>
+                        )}
+                     <button
                         onClick={() => downloadReport(report)}
                         className="download-button"
                       >
                         Download
                       </button>
-                      <button
+                      {report.status === "draft" && (<button
                         onClick={() => deleteReport(report.id)}
                         className="delete-button"
                       >
                         Delete
                       </button>
+                      )}
                     </div>
-                  </div>
-                  <p className="report-courses">
-                    <strong>Relevant Courses:</strong>{" "}
-                    {report.courses.join(", ")}
-                  </p>
+                  </div>  
+                  {report.status === "submitted" && report.submittedDate && (
+                    <p className="submission-date">
+                      <strong>Submitted on:</strong> {report.submittedDate}
+                    </p>
+                  )}
                 </li>
               ))}
             </ul>
@@ -258,6 +372,7 @@ function Reportsubmission({ onBackReportsubmission }) {
             <li>Body should detail your experiences and learnings</li>
             <li>Select courses that directly contributed to your internship</li>
             <li>Final PDF should be professionally formatted</li>
+            <li>Drafts can be edited, submitted reports are final</li>
           </ul>
         </div>
       </div>
