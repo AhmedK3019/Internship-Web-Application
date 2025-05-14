@@ -52,7 +52,7 @@ function Faculty({ user, onLogout }) {
           <InternshipReports onBackInternshipreports={handleBackToDashboard} />
         )}
         {currentView === "submittedreports" && (
-          <SubmittedReports />
+          <SubmittedReports isFaculty={true} />
         )}
         {currentView === "statistics" && (
           <Statistics onBackStatistics={handleBackToDashboard} />

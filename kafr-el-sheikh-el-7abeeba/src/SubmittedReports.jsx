@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./index.css";
 import { jsPDF } from "jspdf";
 
-function SubmittedReports() {
+function SubmittedReports({isFaculty = false}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMajor, setSelectedMajor] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -289,6 +289,7 @@ function SubmittedReports() {
                   </div>
                   
                   <div className="detail-actions">
+                    {isFaculty && (
                     <select
                       className="custom-select"
                       value={report.facultyStatus}
@@ -300,7 +301,7 @@ function SubmittedReports() {
                         </option>
                       ))}
                     </select>
-              
+                )}
                     
                     <button 
                       className="btn-primary1"
