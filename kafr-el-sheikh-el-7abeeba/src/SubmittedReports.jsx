@@ -7,8 +7,9 @@ function SubmittedReports() {
   const [selectedMajor, setSelectedMajor] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [selectedReport, setSelectedReport] = useState(null);
+  const [clarifications, setClarifications] = useState({});
+  const [submittedClarifications, setSubmittedClarifications] = useState({});
 
-  // Hardcoded sample reports with state
   const [reports, setReports] = useState([
     {
       id: 1,
@@ -195,6 +196,25 @@ function SubmittedReports() {
     doc.save(`${report.title.replace(/[^a-z0-9]/gi, '_')}.pdf`);
   };
 
+  const handleClarificationSubmit = (reportId, message) => {
+    if (!message || !message.trim()) {
+      alert("Please enter a clarification message");
+      return;
+    }
+    
+   
+    setSubmittedClarifications(prev => ({
+      ...prev,
+      [reportId]: true
+    }));
+    
+  
+    setClarifications(prev => ({
+      ...prev,
+      [reportId]: ""
+    }));
+  };
+
   return (
     <div className="internship-background">
       <div className="listings-container">
@@ -296,18 +316,60 @@ function SubmittedReports() {
                     </button>
                   </div>
                 </div>
+
+                {["Rejected", "Flagged"].includes(report.facultyStatus) && (
+                  <div className="clarification-section">
+                    {submittedClarifications[report.id] ? (
+                      <div className="clarification-success">
+                        <div className="success-message">✓ Submitted Successfully</div>
+                        <button 
+                          className="green-btn"
+                          disabled
+                          style={{cursor:"not-allowed", opacity:"0.5"}}
+                        >
+                          Submitted
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <textarea
+                          rows="3"
+                          placeholder="Submit a clarification..."
+                          className="search-input"
+                          style={{ width: "100%", marginBottom: "5px" }}
+                          value={clarifications[report.id] || ""}
+                          onChange={(e) =>
+                            setClarifications((prev) => ({
+                              ...prev,
+                              [report.id]: e.target.value,
+                            }))
+                          }
+                        />
+                        <button
+                          className="btn-primary1"
+                          onClick={() =>
+                            handleClarificationSubmit(
+                              report.id,
+                              clarifications[report.id]
+                            )
+                          }
+                        >
+                          Submit Clarification
+                        </button>
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
             ))
           )}
         </div>
       </div>
 
-      
       {selectedReport && (
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header" style={{marginBottom:"0px"}}>
-            
               <h2>{selectedReport.title}</h2>
               <button className="close-button" onClick={closeReportModal}>×</button>
             </div>
@@ -321,8 +383,6 @@ function SubmittedReports() {
               <span className="detail-label">Email:</span>
               <span className="detail-value">{selectedReport.studentEmail}</span>
             </div>
-            
-            
             
             <div className="detail-item">
               <span className="detail-label">Relevant Courses:</span>
