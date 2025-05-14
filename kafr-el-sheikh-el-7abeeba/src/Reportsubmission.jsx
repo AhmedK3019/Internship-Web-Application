@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./index.css";
 import { jsPDF } from "jspdf";
 
-function Reportsubmission({ onBackReportsubmission }) {
+function Reportsubmission({ onBackReportsubmission, setNotifications }) {
   const [reports, setReports] = useState([]);
   const [currentReport, setCurrentReport] = useState({
     id: null,
@@ -110,7 +110,23 @@ function Reportsubmission({ onBackReportsubmission }) {
     setReports(updatedReports);
     localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
     setSubmissionStatus("submitted");
+    
+    const submittedReport = updatedReports.find(r => r.id === reportId);
+    if (submittedReport && setNotifications && randomStatus !== "Pending") {
+      setNotifications(prev => [
+        ...prev,
+        {
+          id: Date.now(),
+          message: `Your report "${submittedReport.title}" status has been updated. Status: ${randomStatus}`,
+          isRead: false,
+          date: new Date().toISOString().split("T")[0],
+        }
+      ]);
+    }
   };
+
+  
+  
 
   const editReport = (report) => {
     if (report.status === "submitted") {
@@ -145,7 +161,7 @@ function Reportsubmission({ onBackReportsubmission }) {
       file: null,
       fileName: "",
       status: "draft",
-      ReportStatus: "pending",
+      facultyStatus: "Pending",
       submittedDate: null
     });
     setIsEditing(false);
@@ -160,7 +176,6 @@ function Reportsubmission({ onBackReportsubmission }) {
     const freshReport = freshReports.find(r => r.id === report.id) || report;
 
     const doc = new jsPDF();
-
 
     // Set margins
     const margin = 15;
@@ -196,7 +211,6 @@ function Reportsubmission({ onBackReportsubmission }) {
     doc.setFont("helvetica", "bold");
     doc.text("Report Body", margin, y);
     y += 8;
-
 
     // Add body text
     doc.setFontSize(12);
@@ -277,12 +291,7 @@ function Reportsubmission({ onBackReportsubmission }) {
         </h1>
 
         <div className="report-submission-card">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              saveReport();
-            }}
-          >
+          <form>
             <div className="form-group">
               <label>Report Title</label>
               <input
@@ -335,8 +344,9 @@ function Reportsubmission({ onBackReportsubmission }) {
 
             <div className="form-actions">
               <button
-                type="submit"
+                type="button"
                 className="btn-primary1"
+                onClick={saveReport}
                 disabled={isSubmitting}
               >
                 {isEditing ? "Update Draft" : "Save Draft"}
@@ -416,6 +426,11 @@ function Reportsubmission({ onBackReportsubmission }) {
                   {report.status === "submitted" && report.submittedDate && (
                     <p className="submission-date">
                       <strong>Submitted on:</strong> {report.submittedDate}
+                    </p>
+                  )}
+                  {report.status === "submitted" && (
+                    <p className="faculty-status">
+                      <strong>Status:</strong> {report.facultyStatus}
                     </p>
                   )}
                 </li>

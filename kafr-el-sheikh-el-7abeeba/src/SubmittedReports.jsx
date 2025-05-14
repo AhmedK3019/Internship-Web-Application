@@ -306,7 +306,8 @@ function SubmittedReports() {
       {selectedReport && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <div className="modal-header">
+            <div className="modal-header" style={{marginBottom:"0px"}}>
+            
               <h2>{selectedReport.title}</h2>
               <button className="close-button" onClick={closeReportModal}>×</button>
             </div>
