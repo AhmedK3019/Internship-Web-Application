@@ -83,6 +83,7 @@ function Register({ onBack, onRegister }) {
       files: files,
     };
     onRegister(companyRequest);
+    setMessage("");
     setSubmitted(true);
     setTimeout(() => {
       onBack();
@@ -91,6 +92,11 @@ function Register({ onBack, onRegister }) {
 
   return (
     <div className="page">
+      <div className="sidebar">
+        <button type="button" onClick={onBack}>
+          Back to Login
+        </button>
+      </div>
       <title>Register</title>
       <div className="content">
         {submitted ? (
@@ -186,11 +192,10 @@ function Register({ onBack, onRegister }) {
                 </div>
               )}
             </label>
-            <button type="submit">Register</button>
-            <button type="button" onClick={onBack}>
-              Back to Login
+            <button type="submit" className="Register-btn">
+              Register
             </button>
-            {message && <div className="message">{message}</div>}
+            {message && <div className="error-message">{message}</div>}
           </form>
         )}
       </div>

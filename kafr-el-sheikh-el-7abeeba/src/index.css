@@ -122,6 +122,10 @@ form button {
   transition: background-color 0.3s;
 }
 
+.Register-btn{
+  background-color: green;
+}
+
 button:hover {
   background-color: transparent;
   color: #7EC8E3;
@@ -205,7 +209,7 @@ textarea {
 }
 
 .sidebar {
-  width: 60px;
+  width: 220px;
   height: 97vh;
   background-color: transparent;
   position: fixed;
@@ -250,13 +254,9 @@ textarea {
 .menu-wrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   transition: all 0.3s ease;
-}
-
-.sidebar:hover .menu-wrapper {
-  justify-content: flex-start;
   padding-left: 20px;
 }
 
@@ -264,17 +264,12 @@ textarea {
   font-size: 24px;
   color: #7ec8e3;
   min-width: 24px;
-  margin-left: 18px;
+  margin-left: 0px;
   text-align: center;
   transition: all 0.3s ease;
 }
 
-.sidebar:hover .menu-icon {
-  margin-left: 0px;
-}
-
 .menu-label {
-  opacity: 0;
   white-space: nowrap;
   overflow: hidden;
   margin-left: 12px;
@@ -283,14 +278,6 @@ textarea {
   font-weight: bold;
   font-family: sans-serif;
   color: #7ec8e3;
-}
-
-.sidebar:hover .menu-label {
-  opacity: 1;
-}
-
-.sidebar:hover {
-  width: 220px;
 }
 
 .sidebar-buttons {
@@ -312,16 +299,11 @@ textarea {
   font-size: 14px;
   align-items: center;
   cursor: pointer;
-  opacity: 0;
   transition: background-color 0.3s ease;
 }
 
 .sidebar-buttons button:hover {
   background-color: #535bf2;
-}
-
-.sidebar:hover .sidebar-buttons button {
-  opacity: 1;
 }
 
 .sidebar ul {
@@ -345,22 +327,13 @@ textarea {
   font-size: 16px;
   margin-left: 10px;
   white-space: nowrap;
-  opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-.sidebar:hover .text {
-  opacity: 1;
-}
-
 .main-content {
-  margin-left: 60px;
+  margin-left: 220px;
   width: 100%;
   transition: margin-left 0.3s ease;
-}
-
-.sidebar:hover~.main-content {
-  margin-left: 220px;
 }
 
 .hyperText {

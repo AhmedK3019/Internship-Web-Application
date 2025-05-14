@@ -320,6 +320,7 @@ function Login() {
     if (foundUser) {
       setEmail("");
       setPassword("");
+      setMessage("");
       setUser(foundUser);
       if (foundUser.role === "Company") {
         setShowCompany(true);
