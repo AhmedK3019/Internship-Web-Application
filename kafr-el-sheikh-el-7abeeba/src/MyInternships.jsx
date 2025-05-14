@@ -157,7 +157,7 @@ function MyInternships() {
             {error && <div className="error-message">{error}</div>}
 
             <div className="form-actions">
-              <button type="submit" className="action-button">
+              <button type="submit" className="but-primary1">
                 Submit Evaluation
               </button>
             </div>
@@ -217,7 +217,7 @@ function MyInternships() {
             )}
 
             <div className="form-actions">
-              <button onClick={onClose} className="action-button">
+              <button onClick={onClose} className="btn-primary1">
                 Close
               </button>
               <button

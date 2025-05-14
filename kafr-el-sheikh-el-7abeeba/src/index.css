@@ -379,9 +379,9 @@ textarea {
 
 .delete-btn {
   background-color: red;
-  color: #7EC8E3;
+  color: white;
   padding: 6px 12px;
-  border: 2px solid #535bf2;
+  border: 2px solid red;
   border-radius: 6px;
   cursor: pointer;
 }
@@ -974,7 +974,7 @@ textarea {
 }
 
 .form-group textarea {
-  min-height: 120px;
+  min-height: 110px;
   resize: vertical;
 }
 
@@ -1256,7 +1256,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .success-message {
-  color: green;
+  color: rgb(10, 255, 10);
   margin-top: 10px;
   text-align: center;
 }
@@ -2454,3 +2454,14 @@ input[type="file"][disabled] {
 }
 
 
+.green_btn{
+  background-color: #4CAF50;
+  color: white;
+  border: 2px solid #4CAF50;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.green_btn:hover{
+  background-color: transparent;
+  color: #7EC8E3;
+}
