@@ -16,7 +16,6 @@ const SetInternshipCycle = () => {
       setMessage("End date must be after start date.");
       return;
     }
-    // Dummy action: normally you would call a backend API here
     setMessage(`Internship cycle set from ${startDate} to ${endDate}`);
   };
 
@@ -44,8 +43,19 @@ const SetInternshipCycle = () => {
             />
           </div>
           <button type="submit">Set Cycle</button>
-          {message && <p>{message}</p>}
         </form>
+        {message && (
+          <p
+            className={
+              message === "Please fill in both dates." ||
+              message === "End date must be after start date."
+                ? "error-message"
+                : "success-message"
+            }
+          >
+            {message}
+          </p>
+        )}
       </div>
     </div>
   );

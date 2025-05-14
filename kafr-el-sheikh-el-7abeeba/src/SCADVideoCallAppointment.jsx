@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function SCADVideoCallAppointment({ addAppointment }) {
+function SCADVideoCallAppointment({ addAppointment, setView }) {
   const [formData, setFormData] = useState({
     studentName: "",
     studentEmail: "",
@@ -64,6 +64,24 @@ function SCADVideoCallAppointment({ addAppointment }) {
 
   return (
     <div className="appointment-form">
+      <div className="other-options">
+        <button
+          className="other-btn"
+          onClick={() => {
+            setView("appointments");
+          }}
+        >
+          Requested Appointments
+        </button>
+        <button
+          className="other-btn"
+          onClick={() => {
+            setView("futureAppointments");
+          }}
+        >
+          Future Appointments
+        </button>
+      </div>
       <h2>Schedule Video Call</h2>
 
       {isSubmitted && (
@@ -124,7 +142,9 @@ function SCADVideoCallAppointment({ addAppointment }) {
             className="input"
             required
           />
-          <small>Available from today onward</small>
+          <small style={{ color: "#7EC8E3" }}>
+            Available from today onward
+          </small>
         </div>
 
         <div className="form-group">

@@ -52,20 +52,11 @@ function SCAD({
         </div>
         <div className="sidebar-buttons">
           <button onClick={() => setView("dashboard")}>Dashboard</button>
-          <button onClick={() => setView("companiesRequests")}>
-            View Companies Requests
-          </button>
           <button onClick={() => setView("listings")}>
-            View all internships
+            View All Internships
           </button>
           <button onClick={() => setView("callRequest")}>
             Schedule Video Call
-          </button>
-          <button onClick={() => setView("appointments")}>
-            View Requested Appointments
-          </button>
-          <button onClick={() => setView("futureAppointments")}>
-            View Future Appointments
           </button>
           <button onClick={() => setView("submittedReports")}>
             View Submitted Reports
@@ -80,9 +71,7 @@ function SCAD({
           <button onClick={() => setView("statistics")}>
             View Real Time Statistics
           </button>
-          <button onClick={() => setView("workshops")}>
-            View Workshops
-          </button>
+          <button onClick={() => setView("workshops")}>View Workshops</button>
           <button onClick={onLogout} className="logout-btn">
             Logout
           </button>
@@ -119,6 +108,11 @@ function SCAD({
                 </div>
               </div>
             </div>
+            <SCADCompaniesRequests
+              companiesRequests={companiesRequests}
+              addUser={addUser}
+              rejectCompanyRequest={rejectCompanyRequest}
+            />
             {showNotifications && (
               <div
                 className={`notifications-panel ${
@@ -141,15 +135,11 @@ function SCAD({
             )}
           </div>
         )}
-        {view === "companiesRequests" && (
-          <SCADCompaniesRequests
-            companiesRequests={companiesRequests}
-            addUser={addUser}
-            rejectCompanyRequest={rejectCompanyRequest}
-          />
-        )}
         {view === "callRequest" && (
-          <SCADVideoCallAppointment addAppointment={addAppointment} />
+          <SCADVideoCallAppointment
+            addAppointment={addAppointment}
+            setView={setView}
+          />
         )}
         {view === "appointments" && (
           <SCADRequestedAppointments
@@ -157,6 +147,7 @@ function SCAD({
             acceptAppointment={setFutureAppointments}
             rejectAppointment={addAppointment}
             setPRONotifications={setPRONotifications}
+            setView={setView}
           />
         )}
         {view === "futureAppointments" && (
@@ -164,16 +155,22 @@ function SCAD({
             futureAppointments={futureAppointments}
             setFutureAppointments={setFutureAppointments}
             setPRONotifications={setPRONotifications}
+            setView={setView}
           />
         )}
         {view === "listings" && <Listings />}
         {view === "cycle" && <SetInternshipCycle />}
         {view === "evaluations" && <SCADInternshipReports />}
-        {view === "submittedReports" && <SubmittedReports /> }
+        {view === "submittedReports" && <SubmittedReports />}
         {view === "students" && <SCADStudentSearch />}
         {view === "statistics" && <SCADViewRealTimeStatistics />}
-        {view === "workshops" &&
-          <SCADWorkshops workshops={workshops} setWorkshops={setWorkshops} isScad={true}/>}
+        {view === "workshops" && (
+          <SCADWorkshops
+            workshops={workshops}
+            setWorkshops={setWorkshops}
+            isScad={true}
+          />
+        )}
       </div>
     </div>
   );

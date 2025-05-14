@@ -6,6 +6,7 @@ function SCADReqeustedAppointments({
   acceptAppointment,
   rejectAppointment,
   setPRONotifications,
+  setView,
 }) {
   function handleAccept(appointment) {
     const updatedAppointment = {
@@ -46,6 +47,29 @@ function SCADReqeustedAppointments({
 
   return (
     <div className="listings-container">
+      <div className="other-options">
+        <button
+          className="other-btn"
+          onClick={() => {
+            setView("futureAppointments");
+          }}
+        >
+          Future Appointments
+        </button>
+      </div>
+      <div
+        className="sidebar"
+        style={{ marginLeft: "220px", top: "10px", gap: "20px" }}
+      >
+        <button
+          type="button"
+          onClick={() => {
+            setView("callRequest");
+          }}
+        >
+          Back to Scheduling
+        </button>
+      </div>
       <div className="internship-list">
         <h1>Requested Appointments</h1>
         {requestedAppointments.length === 0 ? (

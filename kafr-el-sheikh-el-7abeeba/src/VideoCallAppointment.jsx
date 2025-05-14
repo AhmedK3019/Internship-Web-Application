@@ -50,7 +50,6 @@ function VideoCallAppointment() {
   return (
     <div className="appointment-form">
       <h2>Schedule Video Call</h2>
-
       {isSubmitted && (
         <div className="success-message">
           Appointment requested successfully!
@@ -84,7 +83,9 @@ function VideoCallAppointment() {
             className="input"
             required
           />
-          <small>Available from today onward</small>
+          <small style={{ color: "#7EC8E3" }}>
+            Available from today onward
+          </small>
         </div>
 
         <div className="form-group">

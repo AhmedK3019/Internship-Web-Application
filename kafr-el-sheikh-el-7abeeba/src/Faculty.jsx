@@ -40,20 +40,23 @@ function Faculty({ user, onLogout }) {
 
       <div className="main-content">
         {currentView === "" && (
-          <div className="faculty-container">
-            <header className="faculty-header">
-              <h1>Welcome {username}</h1>
-              <h2>Fcaulty Member Dashboard</h2>
-            </header>
+          <div className="dashboard">
+            <div className="dashboard-header">
+              <div className="welcome-text">
+                <h1>Welcome {username}</h1>
+                <h2>Fcaulty Member Dashboard</h2>
+              </div>
+            </div>
+            <InternshipReports
+              onBackInternshipreports={handleBackToDashboard}
+            />
           </div>
         )}
 
         {currentView === "internshipreports" && (
           <InternshipReports onBackInternshipreports={handleBackToDashboard} />
         )}
-        {currentView === "submittedreports" && (
-          <SubmittedReports />
-        )}
+        {currentView === "submittedreports" && <SubmittedReports />}
         {currentView === "statistics" && (
           <Statistics onBackStatistics={handleBackToDashboard} />
         )}
