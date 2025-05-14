@@ -23,11 +23,11 @@ function Faculty({ user, onLogout }) {
         </div>
         <div className="sidebar-buttons">
           <button onClick={() => setCurrentView("")}>Dashboard</button>
-          <button onClick={() => setCurrentView("internshipreports")}>
-            View Internship Reports
-          </button>
           <button onClick={() => setCurrentView("submittedreports")}>
             View Submitted Reports
+          </button>
+          <button onClick={() => setCurrentView("internshipreports")}>
+            View Internship Evaluations
           </button>
           <button onClick={() => setCurrentView("statistics")}>
             Statistics

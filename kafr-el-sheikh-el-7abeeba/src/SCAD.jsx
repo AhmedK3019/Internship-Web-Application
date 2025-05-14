@@ -10,6 +10,7 @@ import SCADStudentSearch from "./SCADStudentSearch";
 import SetInternshipCycle from "./SetInternshipCycle";
 import SCADViewRealTimeStatistics from "./SCADViewRealTimeStatistics";
 import SCADWorkshops from "./SCADWorkshops";
+import SubmittedReports from "./SubmittedReports";
 
 function SCAD({
   user,
@@ -66,8 +67,11 @@ function SCAD({
           <button onClick={() => setView("futureAppointments")}>
             View Future Appointments
           </button>
-          <button onClick={() => setView("reports")}>
-            View All Internship Reports
+          <button onClick={() => setView("submittedReports")}>
+            View Submitted Reports
+          </button>
+          <button onClick={() => setView("evaluations")}>
+            View All Internship Evaluations
           </button>
           <button onClick={() => setView("cycle")}>Set Internship Cycle</button>
           <button onClick={() => setView("students")}>
@@ -164,7 +168,8 @@ function SCAD({
         )}
         {view === "listings" && <Listings />}
         {view === "cycle" && <SetInternshipCycle />}
-        {view === "reports" && <SCADInternshipReports />}
+        {view === "evaluations" && <SCADInternshipReports />}
+        {view === "submittedReports" && <SubmittedReports /> }
         {view === "students" && <SCADStudentSearch />}
         {view === "statistics" && <SCADViewRealTimeStatistics />}
         {view === "workshops" &&
