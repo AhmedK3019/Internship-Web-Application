@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import InternshipReports from "./InternshipReports";
+import SubmittedReports from "./SubmittedReports";
 import Statistics from "./Statistics";
 import "./index.css";
 
@@ -25,6 +26,9 @@ function Faculty({ user, onLogout }) {
           <button onClick={() => setCurrentView("internshipreports")}>
             View Internship Reports
           </button>
+          <button onClick={() => setCurrentView("submittedreports")}>
+            View Submitted Reports
+          </button>
           <button onClick={() => setCurrentView("statistics")}>
             Statistics
           </button>
@@ -46,6 +50,9 @@ function Faculty({ user, onLogout }) {
 
         {currentView === "internshipreports" && (
           <InternshipReports onBackInternshipreports={handleBackToDashboard} />
+        )}
+        {currentView === "submittedreports" && (
+          <SubmittedReports />
         )}
         {currentView === "statistics" && (
           <Statistics onBackStatistics={handleBackToDashboard} />
