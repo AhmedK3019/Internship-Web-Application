@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import reportsData from "./ReportsData";
 import "./index.css";
 import jsPDF from "jspdf";
@@ -12,9 +12,45 @@ function InternshipReports() {
   const [selectedReport, setSelectedReport] = useState(null);
   const [showEvaluationModal, setShowEvaluationModal] = useState(false);
   const [clarifications, setClarifications] = useState({});
+  const [submittedClarifications, setSubmittedClarifications] = useState({});
+
+
+  useEffect(() => {
+    const savedClarifications = localStorage.getItem('clarifications');
+    const savedSubmissions = localStorage.getItem('submittedClarifications');
+    
+    if (savedClarifications) {
+      setClarifications(JSON.parse(savedClarifications));
+    }
+    
+    if (savedSubmissions) {
+      setSubmittedClarifications(JSON.parse(savedSubmissions));
+    }
+  }, []);
 
   const handleClarificationSubmit = (id, text) => {
-    setClarifications((prev) => ({ ...prev, [id]: text }));
+    if (!text || !text.trim()) {
+      alert("Please enter a clarification message");
+      return;
+    }
+    
+    // Update the submitted state
+    const updatedSubmissions = {
+      ...submittedClarifications,
+      [id]: true
+    };
+    
+    // Update the clarifications text
+    const updatedClarifications = {
+      ...clarifications,
+      [id]: text
+    };
+    
+    // Set both state updates
+    setSubmittedClarifications(updatedSubmissions);
+    setClarifications(updatedClarifications);
+    
+
   };
 
   const EvaluationModal = ({ report, onClose }) => (
@@ -71,11 +107,21 @@ function InternshipReports() {
   );
 
   const handleStatusChange = (id, newStatus) => {
-    setReports((prevReports) =>
-      prevReports.map((report) =>
-        report.id === id ? { ...report, status: newStatus } : report
-      )
+    const updatedReports = reports.map((report) =>
+      report.id === id ? { ...report, status: newStatus } : report
     );
+    
+    setReports(updatedReports);
+    
+    if (!["Rejected", "Flagged"].includes(newStatus) && submittedClarifications[id]) {
+      const newSubmittedClarifications = { ...submittedClarifications };
+      delete newSubmittedClarifications[id];
+      setSubmittedClarifications(newSubmittedClarifications);
+      
+      const newClarifications = { ...clarifications };
+      delete newClarifications[id];
+      setClarifications(newClarifications);
+    }
   };
 
   const filteredReports = reports.filter((report) => {
@@ -219,12 +265,14 @@ function InternshipReports() {
                 </p>
                 <div className="detail-actions">
                   <button
+                    className="green-btn"
                     onClick={() => generatePDF(report)}
                     style={{ marginTop: "10px" }}
                   >
                     Download PDF
                   </button>
                   <button
+                      className="btn-primary1"  
                     onClick={() => {
                       setSelectedReport(report);
                       setShowEvaluationModal(true);
@@ -235,30 +283,47 @@ function InternshipReports() {
                   </button>
                 </div>
                 {["Rejected", "Flagged"].includes(report.status) && (
-                  <div style={{ marginTop: "10px" }}>
-                    <textarea
-                      rows="3"
-                      placeholder="Submit a clarification..."
-                      className="search-input"
-                      style={{ width: "100%", marginBottom: "5px" }}
-                      value={clarifications[report.id] || ""}
-                      onChange={(e) =>
-                        setClarifications((prev) => ({
-                          ...prev,
-                          [report.id]: e.target.value,
-                        }))
-                      }
-                    />
-                    <button
-                      onClick={() =>
-                        handleClarificationSubmit(
-                          report.id,
-                          clarifications[report.id]
-                        )
-                      }
-                    >
-                      Submit Clarification
-                    </button>
+                  <div className="clarification-section">
+                    {submittedClarifications[report.id] ? (
+                      <div className="clarification-success">
+                        <div className="success-message">✓ Submitted Successfully</div>
+                        <button 
+                          className="green-btn"
+                          style={{cursor: "not-allowed", marginTop: "10px", opacity: 0.5}}
+                          disabled
+                        >
+                          Submitted
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <textarea
+                          rows="3"
+                          placeholder="Submit a clarification..."
+                          className="search-input"
+                          style={{ width: "100%", marginBottom: "10px", marginTop: "20px" }}
+                          value={clarifications[report.id] || ""}
+                          onChange={(e) =>
+                            setClarifications((prev) => ({
+                              ...prev,
+                              [report.id]: e.target.value,
+                            }))
+                          }
+                        />
+                        <button
+                        className="green-btn"
+                          onClick={() =>
+                            handleClarificationSubmit(
+                              report.id,
+                              clarifications[report.id]
+                            )
+                          }
+                          
+                        >
+                          Submit Clarification
+                        </button>
+                      </>
+                    )}
                   </div>
                 )}
               </div>

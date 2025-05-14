@@ -300,6 +300,7 @@ function SubmittedReports() {
                         </option>
                       ))}
                     </select>
+              
                     
                     <button 
                       className="btn-primary1"
@@ -309,7 +310,7 @@ function SubmittedReports() {
                     </button>
                     <button 
                       className="download-button"
-                      style={{border:"2px green solid"}}
+                      style={{border:"2px green solid", marginLeft:"5px"}}
                       onClick={() => downloadReport(report)}
                     >
                       Download PDF
@@ -346,7 +347,8 @@ function SubmittedReports() {
                           }
                         />
                         <button
-                          className="btn-primary1"
+                          className="green-btn"
+                          style={{marginTop:"20px"}}
                           onClick={() =>
                             handleClarificationSubmit(
                               report.id,
@@ -412,7 +414,7 @@ function SubmittedReports() {
             <div className="form-actions">
               <button 
                 className="download-button"
-                style={{border:"2px green solid"}}
+                style={{border:"2px green solid", marginRight:"0px"}}
                 onClick={() => downloadReport(selectedReport)}
               >
                 Download PDF
