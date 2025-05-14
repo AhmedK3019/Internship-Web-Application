@@ -13,7 +13,7 @@ function Reportsubmission({ onBackReportsubmission }) {
     file: null,
     fileName: "",
     status: "draft",
-    ReportStatus: "pending",
+    facultyStatus: "Pending",
     submittedDate: null
   });
   const [isEditing, setIsEditing] = useState(false);
@@ -84,11 +84,24 @@ function Reportsubmission({ onBackReportsubmission }) {
   };
 
   const finalizeReport = (reportId) => {
-    const updatedReports = reports.map(report =>
+    const possibleStatuses = ["Pending", "Accepted", "Flagged", "Rejected"];
+    
+    const randomStatus = possibleStatuses[Math.floor(Math.random() * possibleStatuses.length)];
+    
+    const currentReports = JSON.parse(localStorage.getItem("internshipReports")) || [...reports];
+    
+    const reportExists = currentReports.some(r => r.id === reportId);
+    if (!reportExists) {
+      console.error("Report not found for finalizing:", reportId);
+      return;
+    }
+    
+    const updatedReports = currentReports.map(report =>
       report.id === reportId
         ? {
           ...report,
           status: "submitted",
+          facultyStatus: randomStatus,
           submittedDate: new Date().toLocaleDateString()
         }
         : report
@@ -212,6 +225,50 @@ function Reportsubmission({ onBackReportsubmission }) {
     doc.save(`${freshReport.title.replace(/[^a-z0-9]/gi, '_')}.pdf`);
   };
 
+
+  const handleSubmitNew = (e) => {
+    e.preventDefault();
+    
+
+    if (!currentReport.title || !currentReport.introduction || !currentReport.body) {
+      alert("Please fill in all required fields");
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+
+    const selectedCourses = availableCourses.filter((course) => course.selected);
+    const newId = isEditing ? currentReport.id : Date.now();
+    
+    const reportToSave = {
+      ...currentReport,
+      courses: selectedCourses.map((course) => course.name),
+      id: newId,
+      status: "draft"
+    };
+
+    
+    let updatedReports;
+    if (isEditing) {
+      updatedReports = reports.map((report) =>
+        report.id === currentReport.id ? reportToSave : report
+      );
+    } else {
+      updatedReports = [...reports, reportToSave];
+    }
+
+    
+    setReports(updatedReports);
+    localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
+    
+    setTimeout(() => {
+      finalizeReport(newId);
+      setIsSubmitting(false);
+      resetForm();
+    }, 100);
+  };
+
   return (
     <div className="page">
       <div className="report-submission-container">
@@ -287,7 +344,7 @@ function Reportsubmission({ onBackReportsubmission }) {
               {isEditing && (
                 <button
                   type="button"
-                  className="cancel-button"
+                  className="delete-btn"
                   onClick={resetForm}
                 >
                   Cancel
