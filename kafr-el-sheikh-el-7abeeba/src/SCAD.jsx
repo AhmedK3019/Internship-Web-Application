@@ -4,7 +4,7 @@ import SCADCompaniesRequests from "./SCADCompaniesRequests";
 import SCADVideoCallAppointment from "./SCADVideoCallAppointment";
 import SCADRequestedAppointments from "./SCADRequestedAppointments";
 import SCADFutureAppointments from "./SCADFutureAppointments";
-import SCADInternshipReports from "./SCADInternshipReports";
+import InternshipReports from "./InternshipReports";
 import Listings from "./Listings";
 import SCADStudentSearch from "./SCADStudentSearch";
 import SetInternshipCycle from "./SetInternshipCycle";
@@ -160,7 +160,7 @@ function SCAD({
         )}
         {view === "listings" && <Listings />}
         {view === "cycle" && <SetInternshipCycle />}
-        {view === "evaluations" && <SCADInternshipReports />}
+        {view === "evaluations" && <InternshipReports />}
         {view === "submittedReports" && <SubmittedReports />}
         {view === "students" && <SCADStudentSearch />}
         {view === "statistics" && <SCADViewRealTimeStatistics />}

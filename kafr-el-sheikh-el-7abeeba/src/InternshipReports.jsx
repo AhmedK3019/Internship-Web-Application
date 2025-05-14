@@ -6,7 +6,6 @@ import jsPDF from "jspdf";
 function InternshipReports() {
   const [reports, setReports] = useState(reportsData);
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
   const [majorFilter, setMajorFilter] = useState("All");
 
   const [selectedReport, setSelectedReport] = useState(null);
@@ -78,9 +77,6 @@ function InternshipReports() {
             {report.endDate}
           </p>
           <p>
-            <strong>Status:</strong> {report.status}
-          </p>
-          <p>
             <strong>Description:</strong> {report.description}
           </p>
 
@@ -103,37 +99,16 @@ function InternshipReports() {
     </div>
   );
 
-  const handleStatusChange = (id, newStatus) => {
-    const updatedReports = reports.map((report) =>
-      report.id === id ? { ...report, status: newStatus } : report
-    );
-
-    setReports(updatedReports);
-
-    if (
-      !["Rejected", "Flagged"].includes(newStatus) &&
-      submittedClarifications[id]
-    ) {
-      const newSubmittedClarifications = { ...submittedClarifications };
-      delete newSubmittedClarifications[id];
-      setSubmittedClarifications(newSubmittedClarifications);
-
-      const newClarifications = { ...clarifications };
-      delete newClarifications[id];
-      setClarifications(newClarifications);
-    }
-  };
 
   const filteredReports = reports.filter((report) => {
     const matchesSearch =
       report.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       report.studentName.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesStatus =
-      statusFilter === "All" || report.status === statusFilter;
+
     const matchesMajor = majorFilter === "All" || report.major === majorFilter;
 
-    return matchesSearch && matchesStatus && matchesMajor;
+    return matchesSearch && matchesMajor;
   });
 
   const generatePDF = (report) => {
@@ -146,7 +121,6 @@ function InternshipReports() {
     doc.text(`Title: ${report.title}`, 14, 40);
     doc.text(`Student: ${report.studentName}`, 14, 50);
     doc.text(`Major: ${report.major}`, 14, 60);
-    doc.text(`Status: ${report.status}`, 14, 70);
     doc.text(`Industry: ${report.industry}`, 14, 80);
     doc.text(`Duration: ${report.duration}`, 14, 90);
     doc.text(`Location: ${report.location}`, 14, 100);
@@ -176,17 +150,6 @@ function InternshipReports() {
       />
 
       <div className="filter-row">
-        <select
-          className="filter-select"
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-        >
-          <option value="All">All Statuses</option>
-          <option value="Pending">Pending</option>
-          <option value="Flagged">Flagged</option>
-          <option value="Rejected">Rejected</option>
-          <option value="Accepted">Accepted</option>
-        </select>
 
         <select
           className="filter-select"
@@ -213,26 +176,6 @@ function InternshipReports() {
               </p>
               <p>
                 <span className="detail-label">Major:</span> {report.major}
-              </p>
-              <p>
-                <span className="detail-label">Status:</span>
-                <select
-                  className="filter-select"
-                  value={report.status}
-                  onChange={(e) =>
-                    handleStatusChange(report.id, e.target.value)
-                  }
-                  style={{
-                    marginLeft: "10px",
-                    width: "auto",
-                    display: "inline-block",
-                  }}
-                >
-                  <option value="Pending">Pending</option>
-                  <option value="Flagged">Flagged</option>
-                  <option value="Rejected">Rejected</option>
-                  <option value="Accepted">Accepted</option>
-                </select>
               </p>
               <p>
                 <span className="detail-label">Industry:</span>{" "}
@@ -280,59 +223,6 @@ function InternshipReports() {
                   View Evaluation
                 </button>
               </div>
-              {["Rejected", "Flagged"].includes(report.status) && (
-                <div className="clarification-section">
-                  {submittedClarifications[report.id] ? (
-                    <div className="clarification-success">
-                      <div className="success-message">
-                        ✓ Submitted Successfully
-                      </div>
-                      <button
-                        className="green-btn"
-                        style={{
-                          cursor: "not-allowed",
-                          marginTop: "10px",
-                          opacity: 0.5,
-                        }}
-                        disabled
-                      >
-                        Submitted
-                      </button>
-                    </div>
-                  ) : (
-                    <>
-                      <textarea
-                        rows="3"
-                        placeholder="Submit a clarification..."
-                        className="search-input"
-                        style={{
-                          width: "100%",
-                          marginBottom: "10px",
-                          marginTop: "20px",
-                        }}
-                        value={clarifications[report.id] || ""}
-                        onChange={(e) =>
-                          setClarifications((prev) => ({
-                            ...prev,
-                            [report.id]: e.target.value,
-                          }))
-                        }
-                      />
-                      <button
-                        className="green-btn"
-                        onClick={() =>
-                          handleClarificationSubmit(
-                            report.id,
-                            clarifications[report.id]
-                          )
-                        }
-                      >
-                        Submit Clarification
-                      </button>
-                    </>
-                  )}
-                </div>
-              )}
             </div>
           ))
         )}
