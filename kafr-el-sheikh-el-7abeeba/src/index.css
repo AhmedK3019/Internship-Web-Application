@@ -2455,6 +2455,11 @@ input[type="file"][disabled] {
 h4{
   color: #7EC8E3;
 }
+.other-btn{
+  background-color: #050a30;
+  border: 2px solid #050a30;
+  color:white;
+}
 
 .other-btn:hover{
   color: #050a30;

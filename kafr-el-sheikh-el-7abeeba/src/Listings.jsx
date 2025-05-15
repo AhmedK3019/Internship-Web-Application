@@ -194,6 +194,7 @@ function Listings({
             />
             {!onlyShowApplied && (
               <button
+                className="btn-primary1"
                 onClick={() => setShowFilters(!showFilters)}
                 style={{ marginTop: "10px" }}
               >
