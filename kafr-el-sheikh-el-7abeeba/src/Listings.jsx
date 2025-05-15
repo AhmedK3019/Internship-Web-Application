@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import "./index.css";
 
-function Listings({ showApplyButton = false, onApply = () => { }, appliedInternships = [], onlyShowApplied = false}) {
+function Listings({
+  showApplyButton = false,
+  onApply = () => {},
+  appliedInternships = [],
+  onlyShowApplied = false,
+  setView,
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedIndustry, setSelectedIndustry] = useState("");
@@ -65,18 +71,16 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
       description: "Assist in marketing campaigns and social media management",
     },
   ];
-  const normalizedData = dummyData.map(internship => ({
+  const normalizedData = dummyData.map((internship) => ({
     ...internship,
-    salary: internship.pay.toLowerCase() === "unpaid" ? "Unpaid" : internship.salary
+    salary:
+      internship.pay.toLowerCase() === "unpaid" ? "Unpaid" : internship.salary,
   }));
-
-
 
   function handleIndustryChange(event) {
     setSelectedIndustry(event.target.value);
     setCustomIndustry("");
   }
-
 
   function handleDurationChange(event) {
     setSelectedDuration(event.target.value);
@@ -90,7 +94,9 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
 
   const filteredData = normalizedData.filter((internship) => {
     const searchLower = searchQuery.toLowerCase();
-    const searchMatch = internship.title.toLowerCase().includes(searchLower) || internship.company.toLowerCase().includes(searchLower);
+    const searchMatch =
+      internship.title.toLowerCase().includes(searchLower) ||
+      internship.company.toLowerCase().includes(searchLower);
 
     const industryFilter = selectedIndustry || customIndustry;
     const industryMatch = industryFilter
@@ -113,18 +119,68 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
   });
 
   const finalData = onlyShowApplied
-    ? filteredData.filter(item => appliedInternships.includes(item.id))
+    ? filteredData.filter((item) => appliedInternships.includes(item.id))
     : filteredData;
-
 
   const title = onlyShowApplied
     ? "My Applications"
     : searchQuery
-      ? `Search Results for "${searchQuery}"`
-      : "All Internship Opportunities";
+    ? `Search Results for "${searchQuery}"`
+    : "All Internship Opportunities";
 
   return (
     <div className="internship-background">
+      {(localStorage.getItem("view") === "student" ||
+        localStorage.getItem("view") === "proStudent") &&
+        !onlyShowApplied && (
+          <div className="other-options">
+            <button
+              className="other-btn"
+              onClick={() => {
+                setView("my-internships");
+              }}
+            >
+              My Internships
+            </button>
+            <button
+              className="other-btn"
+              onClick={() => {
+                setView("applied");
+              }}
+            >
+              My Applications
+            </button>
+          </div>
+        )}
+      {(localStorage.getItem("view") === "student" ||
+        localStorage.getItem("view") === "proStudent") &&
+        onlyShowApplied && (
+          <div
+            className="sidebar"
+            style={{
+              marginLeft: "220px",
+              top: "10px",
+              gap: "20px",
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => {
+                setView("listing");
+              }}
+            >
+              Back to All Internships
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setView("my-internships");
+              }}
+            >
+              Back to My Internships
+            </button>
+          </div>
+        )}
       <div className="listings-container">
         <h1>{title}</h1>
         <div className="filters-container">
@@ -137,7 +193,10 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             {!onlyShowApplied && (
-              <button onClick={() => setShowFilters(!showFilters)} style={{ marginTop: "10px" }}>
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                style={{ marginTop: "10px" }}
+              >
                 {showFilters ? "Hide Filter" : "Show Filter"}
               </button>
             )}
@@ -147,7 +206,11 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
               <div className="filter-group">
                 <label>Industry:</label>
                 <div className="filter-combo">
-                  <select className="filter-select" value={selectedIndustry} onChange={handleIndustryChange}>
+                  <select
+                    className="filter-select"
+                    value={selectedIndustry}
+                    onChange={handleIndustryChange}
+                  >
                     <option value="">Select Industry</option>
                     <option value="Technology">Technology</option>
                     <option value="Design">Design</option>
@@ -159,7 +222,11 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
               <div className="filter-group">
                 <label>Duration:</label>
                 <div className="filter-combo">
-                  <select className="filter-select" value={selectedDuration} onChange={handleDurationChange}>
+                  <select
+                    className="filter-select"
+                    value={selectedDuration}
+                    onChange={handleDurationChange}
+                  >
                     <option value="">Select Duration</option>
                     <option value="1 Month">1 Month</option>
                     <option value="3 Months">3 Months</option>
@@ -170,7 +237,11 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
               <div className="filter-group">
                 <label>Compensation:</label>
                 <div className="filter-combo">
-                  <select className="filter-select" value={selectedPaid} onChange={handlePaidChange}>
+                  <select
+                    className="filter-select"
+                    value={selectedPaid}
+                    onChange={handlePaidChange}
+                  >
                     <option value="">All Types</option>
                     <option value="paid">Paid</option>
                     <option value="unpaid">Unpaid</option>
@@ -181,7 +252,6 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
           )}
         </div>
 
-
         <div className="internship-list">
           {finalData.length === 0 ? (
             <div className="no-results">
@@ -190,53 +260,69 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
                   ? `No applications found for “${searchQuery}”`
                   : `You haven't applied to any internships yet.`
                 : searchQuery
-                  ? `No internships found for “${searchQuery}”`
-                  : `No internships currently available.`
-              }
+                ? `No internships found for “${searchQuery}”`
+                : `No internships currently available.`}
             </div>
           ) : (
             finalData.map((internship) => (
               <div
                 key={internship.id}
-                className={`internship-card ${selectedInternship === internship.id ? "selected" : ""}`}
-                onClick={() => setSelectedInternship(selectedInternship === internship.id ? null : internship.id)}
+                className={`internship-card ${
+                  selectedInternship === internship.id ? "selected" : ""
+                }`}
+                onClick={() =>
+                  setSelectedInternship(
+                    selectedInternship === internship.id ? null : internship.id
+                  )
+                }
               >
                 <div>
                   <h2>{internship.title}</h2>
                   <h3>{internship.company}</h3>
                 </div>
-                <div className="expand-indicator">{selectedInternship === internship.id ? "▼" : "▶"}</div>
-                {!onlyShowApplied && (<div
-                  style={{
-                    borderBottom: "1px solid rgba(126, 200, 227, 0.2)",
-                    padding: "0.5rem 0",
-                  }}
-                >
-                  <span
+                <div className="expand-indicator">
+                  {selectedInternship === internship.id ? "▼" : "▶"}
+                </div>
+                {!onlyShowApplied && (
+                  <div
+                    style={{
+                      borderBottom: "1px solid rgba(126, 200, 227, 0.2)",
+                      padding: "0.5rem 0",
+                    }}
+                  >
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      <span className="detail-label">Duration:</span>
+                      <span className="detail-value">
+                        {internship.duration}
+                      </span>
+                    </span>
+                  </div>
+                )}
+                {onlyShowApplied && (
+                  <div
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
-                      fontWeight: "normal",
-                    }}>
-                    <span className="detail-label">Duration:</span>
-                    <span className="detail-value">{internship.duration}</span>
-                  </span>
-
-                </div>
-                )}
-                {onlyShowApplied && (
-                  <div style={{display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(126, 200, 227, 0.2)", padding: "0.5rem 0"}}>
+                      borderBottom: "1px solid rgba(126, 200, 227, 0.2)",
+                      padding: "0.5rem 0",
+                    }}
+                  >
                     <span className="detail-label">Status:</span>
-                    <span>
-                      {internship.status || "pending"}
-                    </span>
+                    <span>{internship.status || "pending"}</span>
                   </div>
                 )}
                 {selectedInternship === internship.id && (
                   <div className="details-grid">
                     <div className="detail-item">
                       <span className="detail-label">Location:</span>
-                      <span className="detail-value">{internship.location}
+                      <span className="detail-value">
+                        {internship.location}
                       </span>
                     </div>
                     <div className="detail-item">
@@ -246,12 +332,16 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
                     {onlyShowApplied && (
                       <div className="detail-item">
                         <span className="detail-label">Duration:</span>
-                        <span className="detail-value">{internship.duration}</span>
+                        <span className="detail-value">
+                          {internship.duration}
+                        </span>
                       </div>
                     )}
                     <div className="detail-item">
                       <span className="detail-label">Skills Required:</span>
-                      <span className="detail-value">{internship.skills?.join(", ") || "No specific skills required"}
+                      <span className="detail-value">
+                        {internship.skills?.join(", ") ||
+                          "No specific skills required"}
                       </span>
                     </div>
                     <div className="detail-item">
@@ -259,13 +349,20 @@ function Listings({ showApplyButton = false, onApply = () => { }, appliedInterns
                     </div>
                     <p style={{ color: "white" }}>{internship.description}</p>
 
-                    {showApplyButton && !onlyShowApplied && (
-                      appliedInternships.includes(internship.id) ? (
-                        <button className="apply-button applied" disabled>✓ Applied</button>
+                    {showApplyButton &&
+                      !onlyShowApplied &&
+                      (appliedInternships.includes(internship.id) ? (
+                        <button className="apply-button applied" disabled>
+                          ✓ Applied
+                        </button>
                       ) : (
-                        <button className="apply-button" onClick={() => onApply(internship)}>Apply</button>
-                      )
-                    )}
+                        <button
+                          className="apply-button"
+                          onClick={() => onApply(internship)}
+                        >
+                          Apply
+                        </button>
+                      ))}
                   </div>
                 )}
               </div>

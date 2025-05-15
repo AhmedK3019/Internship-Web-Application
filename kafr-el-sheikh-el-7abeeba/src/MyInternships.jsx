@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MyinternshipsData from "./InternshipsData";
 import "./index.css";
 
-function MyInternships() {
+function MyInternships({ setView }) {
   const [internships] = useState(MyinternshipsData);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,7 +50,7 @@ function MyInternships() {
   const filteredInternships = internships.filter((internship) => {
     const matchesSearch = searchQuery
       ? internship.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      internship.company.toLowerCase().includes(searchQuery.toLowerCase())
+        internship.company.toLowerCase().includes(searchQuery.toLowerCase())
       : true;
 
     const matchesStatus =
@@ -127,16 +127,18 @@ function MyInternships() {
               <div className="recommend-buttons">
                 <button
                   type="button"
-                  className={`recommend-btn ${recommends === true ? "active-yes" : ""
-                    }`}
+                  className={`recommend-btn ${
+                    recommends === true ? "active-yes" : ""
+                  }`}
                   onClick={() => setRecommends(true)}
                 >
                   Yes
                 </button>
                 <button
                   type="button"
-                  className={`recommend-btn ${recommends === false ? "active-no" : ""
-                    }`}
+                  className={`recommend-btn ${
+                    recommends === false ? "active-no" : ""
+                  }`}
                   onClick={() => setRecommends(false)}
                 >
                   No
@@ -185,8 +187,9 @@ function MyInternships() {
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
-                    className={`star ${star <= evaluation.rating ? "filled" : ""
-                      }`}
+                    className={`star ${
+                      star <= evaluation.rating ? "filled" : ""
+                    }`}
                   >
                     ★
                   </span>
@@ -239,6 +242,29 @@ function MyInternships() {
 
   return (
     <div className="internship-background">
+      <div
+        className="sidebar"
+        style={{ marginLeft: "220px", top: "10px", gap: "20px" }}
+      >
+        <button
+          type="button"
+          onClick={() => {
+            setView("listing");
+          }}
+        >
+          Back to All Internships
+        </button>
+      </div>
+      <div className="other-options">
+        <button
+          className="other-btn"
+          onClick={() => {
+            setView("applied");
+          }}
+        >
+          My Applications
+        </button>
+      </div>
       <div className="listings-container">
         <h1>My Internship Experience</h1>
 
@@ -305,9 +331,9 @@ function MyInternships() {
           {filteredInternships.length === 0 ? (
             <div className="no-results">
               {searchQuery ||
-                statusFilter !== "All" ||
-                dateRange.start ||
-                dateRange.end
+              statusFilter !== "All" ||
+              dateRange.start ||
+              dateRange.end
                 ? "No internships match your filters"
                 : "No internship records found"}
             </div>
@@ -315,8 +341,9 @@ function MyInternships() {
             filteredInternships.map((internship) => (
               <div
                 key={internship.id}
-                className={`internship-card ${selectedInternship === internship.id ? "selected" : ""
-                  }`}
+                className={`internship-card ${
+                  selectedInternship === internship.id ? "selected" : ""
+                }`}
                 onClick={() => handleInternshipClick(internship.id)}
               >
                 <div>

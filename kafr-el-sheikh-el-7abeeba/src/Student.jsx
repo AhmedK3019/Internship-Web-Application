@@ -173,6 +173,7 @@ function Student({ user, onLogout }) {
             showApplyButton={true}
             onApply={handleApply}
             appliedInternships={appliedInternships}
+            setView={setCurrentView}
           />
         )}
         {currentView === "applied" && (
@@ -182,7 +183,10 @@ function Student({ user, onLogout }) {
           <Majors onBackMajors={handleBackToDashboard} />
         )}
         {currentView === "Reportsubmission" && (
-          <Reportsubmission onBackReportsubmission={handleBackToDashboard} setNotifications={setNotifications} />
+          <Reportsubmission
+            onBackReportsubmission={handleBackToDashboard}
+            setNotifications={setNotifications}
+          />
         )}
         {currentView === "companies" && (
           <SuggestedCompanies
