@@ -111,21 +111,38 @@ const LiveComponent = ({ user, onBack, workshop, onAttendeeChatMessage }) => {
                                 Your browser does not support the video tag.
                             </video>
                         </div>
-                        <div className="video-control-buttons">
-                            <button className="btn-primary1" onClick={handlePlay}>▶️ Play</button>
-                            <button className="btn-primary1" onClick={handlePause}>⏸ Pause</button>
-                            <button className="btn-primary1" onClick={handleStop}>⏹ Stop</button>
+                        <div className="workshop-button-container">
                             <button
-                                className="btn-primary1"
-                                onClick={() => setShowNotes(!showNotes)}
+                                className="workshop-button btn-play"
+                                onClick={handlePlay}
                             >
-                                {showNotes ? '❌ Hide Notes' : '📝 Show Notes'}
+                                <span className="icon">▶</span> Play
                             </button>
                             <button
-                                className="btn-primary1"
+                                className="workshop-button btn-pause"
+                                onClick={handlePause}
+                            >
+                                <span className="icon">⏸</span> Pause
+                            </button>
+                            <button
+                                className="workshop-button btn-stop"
+                                onClick={handleStop}
+                            >
+                                <span className="icon">⏹</span> Stop
+                            </button>
+                            <button
+                                className="workshop-button btn-notes"
+                                onClick={() => setShowNotes(!showNotes)}
+                            >
+                                <span className="icon">{showNotes ? '❌' : '📝'}</span>
+                                {showNotes ? 'Hide Notes' : 'Show Notes'}
+                            </button>
+                            <button
+                                className="workshop-button btn-chat"
                                 onClick={() => setShowChat(!showChat)}
                             >
-                                {showChat ? '❌ Hide Chat' : '💬 Live Chat'}
+                                <span className="icon">{showChat ? '❌' : '💬'}</span>
+                                {showChat ? 'Hide Chat' : 'Live Chat'}
                             </button>
                         </div>
                     </div>
@@ -141,10 +158,10 @@ const LiveComponent = ({ user, onBack, workshop, onAttendeeChatMessage }) => {
                             />
                             <div className="notes-actions">
                                 <button
-                                    className="btn-primary1"
+                                    className="workshop-button btn-timestamp"
                                     onClick={insertTimestamp}
                                 >
-                                    Insert Timestamp
+                                    <span className="icon">⏱️</span> Insert Timestamp
                                 </button>
                             </div>
                         </div>
@@ -180,7 +197,7 @@ const LiveComponent = ({ user, onBack, workshop, onAttendeeChatMessage }) => {
                                     placeholder="Type your message..."
                                     className="chat-input"
                                 />
-                                <button type="submit" className="btn-primary1 chat-send">
+                                <button type="submit" className="workshop-button btn-send">
                                     Send
                                 </button>
                             </form>

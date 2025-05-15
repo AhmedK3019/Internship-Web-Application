@@ -30,7 +30,6 @@ const PreRecordedComponent = ({ onBack, workshop, onFinish }) => {
     };
 
     const handleFinishWorkshop = () => {
-   
         onFinish(workshop.id);
     };
 
@@ -61,15 +60,31 @@ const PreRecordedComponent = ({ onBack, workshop, onFinish }) => {
                             </video>
                         </div>
 
-                        <div className="video-control-buttons">
-                            <button className="btn-primary1" onClick={handlePlay}>▶️ Play</button>
-                            <button className="btn-primary1" onClick={handlePause}>⏸ Pause</button>
-                            <button className="btn-primary1" onClick={handleStop}>⏹ Stop</button>
+                        <div className="workshop-button-container">
+                            <button 
+                                className="workshop-button btn-play" 
+                                onClick={handlePlay}
+                            >
+                                <span className="icon">▶</span> Play
+                            </button>
+                            <button 
+                                className="workshop-button btn-pause" 
+                                onClick={handlePause}
+                            >
+                                <span className="icon">⏸</span> Pause
+                            </button>
+                            <button 
+                                className="workshop-button btn-stop" 
+                                onClick={handleStop}
+                            >
+                                <span className="icon">⏹</span> Stop
+                            </button>
                             <button
-                                className="btn-primary1"
+                                className="workshop-button btn-notes"
                                 onClick={() => setShowNotes(!showNotes)}
                             >
-                                {showNotes ? '❌ Hide Notes' : '📝 Show Notes'}
+                                <span className="icon">{showNotes ? '❌' : '📝'}</span> 
+                                {showNotes ? 'Hide Notes' : 'Show Notes'}
                             </button>
                         </div>
                     </div>
@@ -85,10 +100,10 @@ const PreRecordedComponent = ({ onBack, workshop, onFinish }) => {
                             />
                             <div className="notes-actions">
                                 <button
-                                    className="btn-primary1"
+                                    className="workshop-button btn-timestamp"
                                     onClick={insertTimestamp}
                                 >
-                                    Insert Timestamp
+                                    <span className="icon">⏱️</span> Insert Timestamp
                                 </button>
                             </div>
                         </div>
@@ -97,7 +112,7 @@ const PreRecordedComponent = ({ onBack, workshop, onFinish }) => {
 
                 <div style={{ textAlign: 'center', marginTop: '20px' }}>
                     <button
-                        className="btn-primary1"
+                        className="workshop-button btn-finish"
                         onClick={handleFinishWorkshop}
                     >
                         Finish Workshop
