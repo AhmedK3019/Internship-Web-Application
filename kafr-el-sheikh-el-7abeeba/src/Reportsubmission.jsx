@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./index.css";
 import { jsPDF } from "jspdf";
 
-function Reportsubmission({ onBackReportsubmission, setNotifications }) {
+function Reportsubmission({ user, onBackReportsubmission, setNotifications }) {
   const [reports, setReports] = useState([]);
   const [currentReport, setCurrentReport] = useState({
     id: null,
@@ -277,7 +277,7 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
 
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
-    doc.text(freshReport.courses.join(", "), margin, y);
+    doc.text(freshReport.courses.length !== 0 ? [freshReport.courses.join(", ")] : "None", margin, y);
 
     doc.setFontSize(10);
     doc.setTextColor(100, 100, 100);
@@ -305,7 +305,9 @@ function Reportsubmission({ onBackReportsubmission, setNotifications }) {
       id: newId,
       status: "draft",
       appealStatus: null,
-      rejectionComment: null
+      rejectionComment: null,
+      studentName: user.name,
+      studentEmail: user.email,
     };
 
     let updatedReports;

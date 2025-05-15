@@ -62,6 +62,7 @@ function PROStudentReqeustedAppointments({
         style={{ marginLeft: "220px", top: "10px", gap: "20px" }}
       >
         <button
+          className="btn-primary1"
           type="button"
           onClick={() => {
             setView("videocall");

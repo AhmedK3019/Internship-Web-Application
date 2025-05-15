@@ -174,15 +174,29 @@ function SubmittedReports({ isFaculty = false }) {
   };
 
   // Clarification submission
-  const handleClarificationSubmit = (reportId, message) => {
-    if (!message?.trim()) {
-      alert("Please enter a clarification message");
-      return;
-    }
+const handleClarificationSubmit = (reportId, message) => {
+  if (!message?.trim()) {
+    alert("Please enter a clarification message");
+    return;
+  }
 
-    setSubmittedClarifications(prev => ({ ...prev, [reportId]: true }));
-    setClarifications(prev => ({ ...prev, [reportId]: "" }));
-  };
+  setReports(prevReports => 
+    prevReports.map(report => 
+      report.id === reportId
+        ? { 
+            ...report,
+
+            rejectionComment: report.rejectionComment 
+              ? `${report.rejectionComment}\n\nFaculty Clarification (${new Date().toLocaleDateString()}): ${message}`
+              : `${message}`
+          }
+        : report
+    )
+  );
+
+  setSubmittedClarifications(prev => ({ ...prev, [reportId]: true }));
+  setClarifications(prev => ({ ...prev, [reportId]: "" }));
+};
 
   return (
     <div className="internship-background">
