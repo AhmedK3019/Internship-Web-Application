@@ -255,7 +255,8 @@ const generatePDF = (report) => {
   doc.setFont("helvetica", "bold");
   doc.setTextColor(44, 62, 80); // Dark blue/gray color
   doc.text("INTERNSHIP EVALUATION REPORT", pageWidth / 2, yPosition, { align: "center" });
-  yPosition += 15;
+  doc.text("Job Title: " + report.internshipTitle, pageWidth / 2, yPosition + 10, { align: "center" });
+  yPosition += 25;
 
 
   addSectionHeader("Student Information");
