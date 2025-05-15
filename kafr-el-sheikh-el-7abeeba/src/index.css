@@ -1113,6 +1113,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 8px;
   width: 90%;
   max-width: 500px;
+  max-height: 80vh;
+  position: relative;
 }
 
 .modal-header {
@@ -1120,6 +1122,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid rgba(100, 100, 100, 0.5)
 }
 
 .close-button {
@@ -1128,6 +1134,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: white;
   font-size: 24px;
   cursor: pointer;
+}
+
+.evaluation-details {
+  max-height: calc(80vh - 80px);
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
 /* Evaluation Form Styles */
