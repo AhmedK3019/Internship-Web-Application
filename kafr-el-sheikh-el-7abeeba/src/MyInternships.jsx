@@ -159,7 +159,7 @@ function MyInternships({ setView }) {
             {error && <div className="error-message">{error}</div>}
 
             <div className="form-actions">
-              <button type="submit" className="but-primary1">
+              <button type="submit" className="btn-primary1">
                 Submit Evaluation
               </button>
             </div>
@@ -410,7 +410,7 @@ function MyInternships({ setView }) {
                           (e) => e.internshipId === internship.id
                         ) ? (
                           <button
-                            className="view-evaluation-btn"
+                            className="btn-primary1"
                             onClick={(e) => {
                               e.stopPropagation();
                               setCurrentEvaluation(
@@ -425,7 +425,7 @@ function MyInternships({ setView }) {
                           </button>
                         ) : (
                           <button
-                            className="evaluation-button"
+                            className="btn-primary1"
                             onClick={(e) => handleEvaluateClick(internship, e)}
                           >
                             Share Your Experience

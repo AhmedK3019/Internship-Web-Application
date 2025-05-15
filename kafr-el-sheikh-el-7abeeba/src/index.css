@@ -1167,7 +1167,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .recommend-btn {
   padding: 8px 16px;
-  border: 1px solid #ddd;
+  border: 1px solid #7EC8E3;
+  color: white;
   border-radius: 4px;
   cursor: pointer;
 }
