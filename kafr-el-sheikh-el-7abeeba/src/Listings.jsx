@@ -156,14 +156,11 @@ function Listings({
         localStorage.getItem("view") === "proStudent") &&
         onlyShowApplied && (
           <div
-            className="sidebar"
-            style={{
-              marginLeft: "220px",
-              top: "10px",
-              gap: "20px",
-            }}
+            className="other-options"
+            style={{ right: "1100px" }}
           >
             <button
+              className="btn-primary1"
               type="button"
               onClick={() => {
                 setView("listing");
@@ -172,6 +169,7 @@ function Listings({
               Back to All Internships
             </button>
             <button
+              className="btn-primary1"
               type="button"
               onClick={() => {
                 setView("my-internships");

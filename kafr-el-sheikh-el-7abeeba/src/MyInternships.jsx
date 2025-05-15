@@ -243,11 +243,12 @@ function MyInternships({ setView }) {
   return (
     <div className="internship-background">
       <div
-        className="sidebar"
-        style={{ marginLeft: "220px", top: "10px", gap: "20px" }}
+        className="other-options"
+        style={{ right: "1100px" }}
       >
         <button
           type="button"
+          className="btn-primary1"
           onClick={() => {
             setView("listing");
           }}
@@ -278,6 +279,7 @@ function MyInternships({ setView }) {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <button
+              className="btn-primary1"
               style={{ marginTop: "10px" }}
               onClick={() => setShowFilters(!showFilters)}
             >
