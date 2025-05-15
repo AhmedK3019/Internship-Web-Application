@@ -123,7 +123,7 @@ function AssessmentQuestions({ assessment, onComplete, onBack }) {
         </div>
       ))}
 
-      <button className="btn btn-primary" onClick={submitAssessment}>
+      <button className="green-btn" onClick={submitAssessment}>
         Submit Assessment
       </button>
     </div>
