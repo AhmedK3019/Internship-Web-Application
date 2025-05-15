@@ -175,6 +175,7 @@ function ProStudent({
   };
 
   const handleBackFromWorkshopRegistration = () => {
+    setCurrentView("workshops");
     setSelectedWorkshopForRegistration(null);
   };
 

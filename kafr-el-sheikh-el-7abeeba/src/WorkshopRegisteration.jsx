@@ -110,7 +110,7 @@ function WorkshopRegistration({ workshop, onBack, onRegisterSuccess }) {
                                 </button>
                                 <button
                                     type="button"
-                                    className="btn btn-secondary"
+                                    className="delete-btn"
                                     onClick={onBack}
                                 >
                                     Back to Workshops
