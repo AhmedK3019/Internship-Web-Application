@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 
-
-
 function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent = false, onRegister, registeredWorkshops = [] }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [selectedWorkshop, setSelectedWorkshop] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [dateError, setDateError] = useState(null);
+  
   const initialWorkshopFormState = {
     name: "",
     startDate: "",
@@ -18,8 +18,8 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
     speakerBio: "",
     agenda: ""
   };
+  
   const [newWorkshop, setNewWorkshop] = useState(initialWorkshopFormState);
-
 
   useEffect(() => {
     if (!isScad) {
@@ -30,14 +30,37 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
   }, [isScad]);
 
   const handleInputChange = (e) => {
-
     const { name, value } = e.target;
     setNewWorkshop(prev => ({ ...prev, [name]: value }));
+    
+    // Clear date error when dates are changed
+    if ((name === 'startDate' || name === 'endDate') && dateError) {
+      setDateError(null);
+    }
+  };
+
+  const validateDates = () => {
+    if (newWorkshop.startDate && newWorkshop.endDate) {
+      const startDate = new Date(newWorkshop.startDate);
+      const endDate = new Date(newWorkshop.endDate);
+      
+      if (endDate < startDate) {
+        setDateError("End date cannot be before start date");
+        return false;
+      }
+    }
+    setDateError(null);
+    return true;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isScad || !setWorkshops) {
+      return;
+    }
+
+    // Validate dates before submission
+    if (!validateDates()) {
       return;
     }
 
@@ -53,6 +76,7 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
     setNewWorkshop(initialWorkshopFormState);
     setEditingId(null);
     setShowForm(false);
+    setDateError(null);
   };
 
   const handleEdit = (workshop) => {
@@ -62,6 +86,7 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
     setEditingId(workshop.id);
     setSelectedWorkshop(null);
     setShowForm(true);
+    setDateError(null);
   };
 
   const handleDelete = (id) => {
@@ -87,10 +112,10 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
       setNewWorkshop(initialWorkshopFormState);
     }
     setShowForm(!showForm);
+    setDateError(null);
   };
 
   const handleCardClick = (workshopId) => {
-
     if (isScad && editingId && editingId !== workshopId && showForm) {
       setEditingId(null);
       setNewWorkshop(initialWorkshopFormState);
@@ -107,7 +132,6 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
   return (
     <div className="internship-background">
       <div className="listings-container">
-
         <h1>{isScad ? "Manage Online Workshops" : "Available Online Workshops"}</h1>
 
         <div className="filters-container">
@@ -121,6 +145,7 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
             />
             {isScad && (
               <button
+                className="btn-primary1"
                 onClick={handleToggleForm}
                 style={{ marginTop: "10px" }}
               >
@@ -128,7 +153,6 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
               </button>
             )}
           </div>
-
 
           {isScad && showForm && (
             <form onSubmit={handleSubmit} className="internship-card" style={{ marginBottom: "20px", marginTop: "20px" }}>
@@ -142,13 +166,36 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
               <div className="filter-row">
                 <div className="detail-item">
                   <span className="detail-label">Start Date:</span>
-                  <input type="date" name="startDate" className="detail-value" style={{ width: "100%" }} value={newWorkshop.startDate} onChange={handleInputChange} required />
+                  <input 
+                    type="date" 
+                    name="startDate" 
+                    className="detail-value" 
+                    style={{ width: "100%" }} 
+                    value={newWorkshop.startDate} 
+                    onChange={handleInputChange} 
+                    required 
+                  />
                 </div>
                 <div className="detail-item">
                   <span className="detail-label">End Date:</span>
-                  <input type="date" name="endDate" className="detail-value" style={{ width: "100%" }} value={newWorkshop.endDate} onChange={handleInputChange} required />
+                  <input 
+                    type="date" 
+                    name="endDate" 
+                    className="detail-value" 
+                    style={{ width: "100%" }} 
+                    value={newWorkshop.endDate} 
+                    onChange={handleInputChange} 
+                    required 
+                    onBlur={validateDates}
+                  />
                 </div>
               </div>
+
+              {dateError && (
+                <div className="error-message" style={{ color: "red", margin: "10px 0" }}>
+                  {dateError}
+                </div>
+              )}
 
               <div className="filter-row">
                 <div className="detail-item">
@@ -175,18 +222,20 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
                 <span className="detail-label">Agenda:</span>
                 <textarea name="agenda" className="detail-value" style={{ width: "100%", minHeight: "80px" }} value={newWorkshop.agenda} onChange={handleInputChange} required />
               </div>
+              
               <div className="form-actions">
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn-primary1" disabled={dateError}>
                   {editingId ? "Update Workshop" : "Add Workshop"}
                 </button>
                 {editingId && (
                   <button
                     type="button"
-                    className="btn btn-secondary"
+                    className="delete-btn"
                     onClick={() => {
                       setEditingId(null);
                       setNewWorkshop(initialWorkshopFormState);
                       setShowForm(false);
+                      setDateError(null);
                     }}
                   >
                     Cancel
@@ -264,7 +313,6 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
                       </div>
                     )}
                     <div className="detail-actions">
-
                       {isStudent && (
                         <button
                           onClick={(e) => {
