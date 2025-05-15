@@ -187,7 +187,6 @@ function PROStudentFutureAppointments({
             </div>
           ))
         )}
-        {message && <p>{message}</p>}
       </div>
       {isCallActive && (
         <div className="video-call-container">

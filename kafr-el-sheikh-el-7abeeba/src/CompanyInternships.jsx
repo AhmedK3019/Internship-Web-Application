@@ -20,6 +20,7 @@ function CompanyInternships({ internships, setInternships }) {
   }
 
   function unShowAdd() {
+    setSelectedInternship(null);
     setShowAdd(false);
   }
 

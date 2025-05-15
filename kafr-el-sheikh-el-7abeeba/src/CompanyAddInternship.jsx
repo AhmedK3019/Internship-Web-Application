@@ -146,8 +146,18 @@ function CompanyAddInternship({
         onChange={handleDescChange}
       />
       <button onClick={addInternship}>{buttonLabel}</button>
-      <button onClick={unShowAdd}>Back to Dashboard</button>
-      {message && <p className="message">{message}</p>}
+      <button onClick={unShowAdd}>Back to My Internships</button>
+      {message && (
+        <p
+          className={
+            message === "Please fill in all fields."
+              ? "error-message"
+              : "success-message"
+          }
+        >
+          {message}
+        </p>
+      )}
     </div>
   );
 }
