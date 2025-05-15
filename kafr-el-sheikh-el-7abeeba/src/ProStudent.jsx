@@ -38,8 +38,9 @@ function ProStudent({
   const [hasProBadge, setHasProBadge] = useState(false);
   const [internships] = useState(MyinternshipsData);
   const [sharedAssessments, setSharedAssessments] = useState([]);
-  const [selectedWorkshopForRegistration, setSelectedWorkshopForRegistration] = useState(null);
-  
+  const [selectedWorkshopForRegistration, setSelectedWorkshopForRegistration] =
+    useState(null);
+
   const [registeredWorkshopIds, setRegisteredWorkshopIds] = useState(() => {
     if (!user || !user.id) return [];
     const saved = localStorage.getItem(`registered_workshops_${user.id}`);
@@ -129,9 +130,11 @@ function ProStudent({
   }
 
   const handleRemoveNotification = (notificationId, e) => {
-    e.stopPropagation(); 
-    setNotifications(prevNotifications => 
-      prevNotifications.filter(notification => notification.id !== notificationId)
+    e.stopPropagation();
+    setNotifications((prevNotifications) =>
+      prevNotifications.filter(
+        (notification) => notification.id !== notificationId
+      )
     );
   };
 
@@ -319,15 +322,17 @@ function ProStudent({
                         onClick={() => handleNotificationClick(notification.id)}
                       >
                         {notification.isRead && (
-                            <button 
-                              className="close-button"
-                              onClick={(e) => handleRemoveNotification(notification.id, e)}
-                              aria-label="Remove notification"
-                              style={{ marginRight: "240px",padding:"0.1rem" }}
-                            >
-                              &times;
-                            </button>
-                          )}
+                          <button
+                            className="close-button"
+                            onClick={(e) =>
+                              handleRemoveNotification(notification.id, e)
+                            }
+                            aria-label="Remove notification"
+                            style={{ marginRight: "240px", padding: "0.1rem" }}
+                          >
+                            &times;
+                          </button>
+                        )}
                         <div className="notification-message">
                           {notification.message}
                         </div>
@@ -395,7 +400,10 @@ function ProStudent({
           <MyInternships setView={setCurrentView} />
         )}
         {currentView === "videocall" && (
-          <VideoCallAppointment setView={setCurrentView} />
+          <VideoCallAppointment
+            addAppointment={setRequestedAppointments}
+            setView={setCurrentView}
+          />
         )}
         {currentView === "requestedAppointments" && (
           <PROStudentRequestedAppointments

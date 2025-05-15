@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function VideoCallAppointment({ setView }) {
+function VideoCallAppointment({ addAppointment, setView }) {
   const [formData, setFormData] = useState({
     purpose: "",
     date: "",
@@ -26,7 +26,7 @@ function VideoCallAppointment({ setView }) {
     const email = JSON.parse(user).email;
     const requestedAppointment = {
       id: Date.now(),
-      requestedBy: "SCAD",
+      requestedBy: "PRO Student",
       studentName: name,
       studentEmail: email,
       purpose: formData.purpose,
