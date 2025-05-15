@@ -114,6 +114,10 @@ form button {
 
 .Register-btn{
   background-color: green;
+  color: #7EC8E3;
+  border: 2px solid green;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 button:hover {
@@ -388,8 +392,10 @@ textarea {
 
 .listings-container {
   align-items: center;
-  max-width: fit-content;
-  margin: 2rem auto;
+  /* max-width: fit-content; */
+  width: 70%;
+  margin: 2rem auto ;
+  justify-content: center; /* Center-align vertically */
   padding: 0 1rem;
 }
 
@@ -842,6 +848,7 @@ textarea {
   flex-direction: column;
   align-items: center;
   padding: 2rem;
+  padding-right: 150px;
   box-sizing: border-box;
 }
 
@@ -1322,6 +1329,7 @@ input[type="file"][disabled] {
   background: rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 15px rgba(126, 200, 227, 0.3);
   transition: all 0.1s ease;
+  right: 20px;
 }
 
 .notification-ring:hover {
@@ -1391,7 +1399,7 @@ input[type="file"][disabled] {
   flex-grow: 1;
   text-align: center;
   margin: 0 auto;
-  padding-right: 100px;
+  padding-right: 55px;
 }
 
 .welcome-text h1 {

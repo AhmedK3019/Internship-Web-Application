@@ -5,6 +5,7 @@ function PROStudentFutureAppointments({
   futureAppointments,
   setFutureAppointments,
   setSCADNotifications,
+  setView,
 }) {
   const [message, setMessage] = useState("");
   const [isCallActive, setIsCallActive] = useState(false);
@@ -127,6 +128,27 @@ function PROStudentFutureAppointments({
 
   return (
     <div className="listings-container">
+      <div
+        className="sidebar"
+        style={{ marginLeft: "220px", top: "10px", gap: "20px" }}
+      >
+        <button
+          type="button"
+          onClick={() => {
+            setView("videocall");
+          }}
+        >
+          Back to Scheduling
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setView("requestedAppointments");
+          }}
+        >
+          Back to Requested
+        </button>
+      </div>
       <div className="internship-list">
         <h1>Future Appointments</h1>
         {futureAppointments.length === 0 ? (

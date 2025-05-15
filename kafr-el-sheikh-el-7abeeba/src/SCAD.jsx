@@ -51,7 +51,9 @@ function SCAD({
           </div>
         </div>
         <div className="sidebar-buttons">
-          <button onClick={() => setView("dashboard")}>Dashboard</button>
+          <button onClick={() => setView("dashboard")}>
+            Dashboard - Companies Requests
+          </button>
           <button onClick={() => setView("listings")}>
             View All Internships
           </button>

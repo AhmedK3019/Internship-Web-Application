@@ -22,12 +22,11 @@ function Faculty({ user, onLogout }) {
           </div>
         </div>
         <div className="sidebar-buttons">
-          <button onClick={() => setCurrentView("")}>Dashboard</button>
+          <button onClick={() => setCurrentView("")}>
+            Dashboard - Internship Reports
+          </button>
           <button onClick={() => setCurrentView("submittedreports")}>
             View Submitted Reports
-          </button>
-          <button onClick={() => setCurrentView("internshipreports")}>
-            View Internship Evaluations
           </button>
           <button onClick={() => setCurrentView("statistics")}>
             Statistics
@@ -44,7 +43,7 @@ function Faculty({ user, onLogout }) {
             <div className="dashboard-header">
               <div className="welcome-text">
                 <h1>Welcome {username}</h1>
-                <h2>Fcaulty Member Dashboard</h2>
+                <h2>Faculty Member Dashboard</h2>
               </div>
             </div>
             <InternshipReports

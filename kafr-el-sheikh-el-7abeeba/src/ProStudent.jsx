@@ -39,8 +39,8 @@ function ProStudent({
   const [internships] = useState(MyinternshipsData);
   const [sharedAssessments, setSharedAssessments] = useState([]);
 
-
-  const [selectedWorkshopForRegistration, setSelectedWorkshopForRegistration] = useState(null);
+  const [selectedWorkshopForRegistration, setSelectedWorkshopForRegistration] =
+    useState(null);
   const [registeredWorkshopIds, setRegisteredWorkshopIds] = useState(() => {
     if (!user || !user.id) return [];
     const saved = localStorage.getItem(`registered_workshops_${user.id}`);
@@ -55,19 +55,31 @@ function ProStudent({
     }
   });
 
-  const handleAttendeeChatMessage = (workshopName, attendeeName, messageText) => {
+  const handleAttendeeChatMessage = (
+    workshopName,
+    attendeeName,
+    messageText
+  ) => {
     if (!workshopName || !attendeeName) {
-      console.warn("Workshop name or attendee name missing for chat notification.");
+      console.warn(
+        "Workshop name or attendee name missing for chat notification."
+      );
       return;
     }
 
     const newNotification = {
       id: `chat-${Date.now()}-${notifications.length}`, // Unique ID
-      message: `New message in "${workshopName}" chat from ${attendeeName}: "${messageText.substring(0, 30)}${messageText.length > 30 ? '...' : ''}"`,
+      message: `New message in "${workshopName}" chat from ${attendeeName}: "${messageText.substring(
+        0,
+        30
+      )}${messageText.length > 30 ? "..." : ""}"`,
       isRead: false,
       date: new Date().toISOString().split("T")[0],
     };
-    setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
+    setNotifications((prevNotifications) => [
+      newNotification,
+      ...prevNotifications,
+    ]);
   };
 
   const checkProBadgeEligibility = () => {
@@ -132,8 +144,9 @@ function ProStudent({
     );
     const newNotification = {
       id: `app-${notifications.length + 1}`,
-      message: `Your application for ${appliedInternshipDetails?.title || "the internship"
-        } has been submitted successfully!`,
+      message: `Your application for ${
+        appliedInternshipDetails?.title || "the internship"
+      } has been submitted successfully!`,
       isRead: false,
       date: new Date().toISOString().split("T")[0],
     };
@@ -166,7 +179,7 @@ function ProStudent({
     const hoursUntilWorkshop = (workshopStart - now) / (1000 * 60 * 60);
 
     const messages = [
-      `Successfully registered for workshop: "${registeredWorkshopDetails?.name}"!`
+      `Successfully registered for workshop: "${registeredWorkshopDetails?.name}"!`,
     ];
 
     const newNotification = {
@@ -184,21 +197,18 @@ function ProStudent({
         date: new Date().toISOString().split("T")[0],
       };
 
-
       setNotifications((prev) => [
         reminderNotification,
         newNotification,
         ...prev,
       ]);
     } else {
-
       setNotifications((prev) => [newNotification, ...prev]);
     }
 
     setSelectedWorkshopForRegistration(null);
     setCurrentView("workshops");
   };
-
 
   if (selectedWorkshopForRegistration) {
     setCurrentView("join-workshop");
@@ -233,12 +243,6 @@ function ProStudent({
           <button onClick={() => setCurrentView("videocall")}>
             Schedule Video Call
           </button>
-          <button onClick={() => setCurrentView("requestedAppointments")}>
-            Requested Appointments
-          </button>
-          <button onClick={() => setCurrentView("futureAppointments")}>
-            Future Appointments
-          </button>
           <button onClick={() => setCurrentView("assessment")}>
             View Assessments
           </button>
@@ -271,12 +275,15 @@ function ProStudent({
                       Welcome {username}{" "}
                       {hasProBadge && <span className="pro-badge">PRO</span>}
                     </h1>
-                    <h2>Pro Student Dashboard</h2>
+                    <h2 style={{ paddingRight: "30px" }}>
+                      Pro Student Dashboard
+                    </h2>
                   </div>
                 </div>
                 <div
-                  className={`notifications-area ${showNotifications ? "shifted" : ""
-                    }`}
+                  className={`notifications-area ${
+                    showNotifications ? "shifted" : ""
+                  }`}
                 >
                   <div
                     className="notification-ring"
@@ -292,8 +299,9 @@ function ProStudent({
 
               {showNotifications && (
                 <div
-                  className={`notifications-panel ${showNotifications ? "visible" : ""
-                    }`}
+                  className={`notifications-panel ${
+                    showNotifications ? "visible" : ""
+                  }`}
                 >
                   <h3>Notifications</h3>
                   {notifications.length === 0 ? (
@@ -304,8 +312,9 @@ function ProStudent({
                     notifications.map((notification) => (
                       <div
                         key={notification.id}
-                        className={`notification-item ${notification.isRead ? "read" : "unread"
-                          }`}
+                        className={`notification-item ${
+                          notification.isRead ? "read" : "unread"
+                        }`}
                         onClick={() => handleNotificationClick(notification.id)}
                       >
                         <div className="notification-message">
@@ -337,7 +346,10 @@ function ProStudent({
           <Majors onBackMajors={handleBackToDashboard} />
         )}
         {currentView === "Reportsubmission" && (
-          <Reportsubmission onBackReportsubmission={handleBackToDashboard} setNotifications={setNotifications} />
+          <Reportsubmission
+            onBackReportsubmission={handleBackToDashboard}
+            setNotifications={setNotifications}
+          />
         )}
         {currentView === "companies" && (
           <SuggestedCompanies
@@ -365,13 +377,16 @@ function ProStudent({
           />
         )}
         {currentView === "my-internships" && <MyInternships />}
-        {currentView === "videocall" && <VideoCallAppointment />}
+        {currentView === "videocall" && (
+          <VideoCallAppointment setView={setCurrentView} />
+        )}
         {currentView === "requestedAppointments" && (
           <PROStudentRequestedAppointments
             requestedAppointments={requestedAppointments}
             acceptAppointment={setFutureAppointments}
             rejectAppointment={setRequestedAppointments}
             setSCADNotifications={setSCADNotifications}
+            setView={setCurrentView}
           />
         )}
         {currentView === "futureAppointments" && (
@@ -379,6 +394,7 @@ function ProStudent({
             futureAppointments={futureAppointments}
             setFutureAppointments={setFutureAppointments}
             setSCADNotifications={setSCADNotifications}
+            setView={setCurrentView}
           />
         )}
         {currentView === "profile-views" && (

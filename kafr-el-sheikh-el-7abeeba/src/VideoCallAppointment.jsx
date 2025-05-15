@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function VideoCallAppointment() {
+function VideoCallAppointment({ setView }) {
   const [formData, setFormData] = useState({
     purpose: "",
     date: "",
@@ -49,6 +49,24 @@ function VideoCallAppointment() {
 
   return (
     <div className="appointment-form">
+      <div className="other-options">
+        <button
+          className="other-btn"
+          onClick={() => {
+            setView("requestedAppointments");
+          }}
+        >
+          Requested Appointments
+        </button>
+        <button
+          className="other-btn"
+          onClick={() => {
+            setView("futureAppointments");
+          }}
+        >
+          Future Appointments
+        </button>
+      </div>
       <h2>Schedule Video Call</h2>
       {isSubmitted && (
         <div className="success-message">

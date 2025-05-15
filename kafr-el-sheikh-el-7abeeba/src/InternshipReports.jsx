@@ -99,12 +99,10 @@ function InternshipReports() {
     </div>
   );
 
-
   const filteredReports = reports.filter((report) => {
     const matchesSearch =
       report.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       report.studentName.toLowerCase().includes(searchQuery.toLowerCase());
-
 
     const matchesMajor = majorFilter === "All" || report.major === majorFilter;
 
@@ -138,7 +136,7 @@ function InternshipReports() {
   };
 
   return (
-    <div className="listings-container">
+    <div className="listings-container" style={{ paddingRight: "70px" }}>
       <h1>Internship Reports</h1>
 
       <input
@@ -150,7 +148,6 @@ function InternshipReports() {
       />
 
       <div className="filter-row">
-
         <select
           className="filter-select"
           value={majorFilter}
