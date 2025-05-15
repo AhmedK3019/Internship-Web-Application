@@ -38,9 +38,8 @@ function ProStudent({
   const [hasProBadge, setHasProBadge] = useState(false);
   const [internships] = useState(MyinternshipsData);
   const [sharedAssessments, setSharedAssessments] = useState([]);
-
-  const [selectedWorkshopForRegistration, setSelectedWorkshopForRegistration] =
-    useState(null);
+  const [selectedWorkshopForRegistration, setSelectedWorkshopForRegistration] = useState(null);
+  
   const [registeredWorkshopIds, setRegisteredWorkshopIds] = useState(() => {
     if (!user || !user.id) return [];
     const saved = localStorage.getItem(`registered_workshops_${user.id}`);
@@ -110,6 +109,12 @@ function ProStudent({
       }
     }
   }, [registeredWorkshopIds, user]);
+
+  useEffect(() => {
+    if (selectedWorkshopForRegistration) {
+      setCurrentView("join-workshop");
+    }
+  }, [selectedWorkshopForRegistration]);
 
   const [showNotifications, setShowNotifications] = useState(false);
 
@@ -210,10 +215,6 @@ function ProStudent({
     setCurrentView("workshops");
   };
 
-  if (selectedWorkshopForRegistration) {
-    setCurrentView("join-workshop");
-  }
-
   return (
     <div className="page">
       <div className="sidebar">
@@ -247,7 +248,6 @@ function ProStudent({
           <button
             onClick={() => {
               setCurrentView("registered-workshops");
-              setSelectedWorkshopForRegistration(null);
             }}
           >
             My Workshop Registrations
