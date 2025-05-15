@@ -19,19 +19,6 @@ function Reportsubmission({ user, onBackReportsubmission, setNotifications }) {
     rejectionComment: null
   });
 
-  const rejectionComments = [
-    "The report lacks sufficient detail about the technical skills you developed.",
-    "Your learning outcomes are not clearly articulated in the report.",
-    "The connection between your coursework and internship experience needs more explanation.",
-    "The internship duration does not meet the minimum requirement.",
-    "The company is not on our approved list of internship providers.",
-    "The internship duties described do not align with your major's learning outcomes.",
-    "Missing required documentation from the company supervisor.",
-    "The report contains several grammatical errors that need to be corrected.",
-    "The reflection component is too superficial and needs more depth.",
-    "The skills listed don't match the job description you provided earlier."
-  ];
-
   const [isEditing, setIsEditing] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -103,15 +90,6 @@ function Reportsubmission({ user, onBackReportsubmission, setNotifications }) {
   };
 
   const finalizeReport = (reportId) => {
-    const possibleStatuses = ["Pending", "Accepted", "Flagged", "Rejected"];
-    
-    const randomStatus = possibleStatuses[Math.floor(Math.random() * possibleStatuses.length)];
-
-    let comment = null;
-    if (randomStatus === "Flagged" || randomStatus === "Rejected") {
-      comment = rejectionComments[Math.floor(Math.random() * rejectionComments.length)];
-    }
-    
     const currentReports = JSON.parse(localStorage.getItem("internshipReports")) || [...reports];
     
     const reportExists = currentReports.some(r => r.id === reportId);
@@ -125,32 +103,14 @@ function Reportsubmission({ user, onBackReportsubmission, setNotifications }) {
         ? {
           ...report,
           status: "submitted",
-          facultyStatus: randomStatus,
-          submittedDate: new Date().toLocaleDateString(),
-          appealStatus: null,
-          rejectionComment: comment
+          submittedDate: new Date().toLocaleDateString()
         }
         : report
     );
 
-    const updatedReport = updatedReports.find(r => r.id === reportId);
-
     setReports(updatedReports);
     localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
     setSubmissionStatus("submitted");
-    
-    const submittedReport = updatedReports.find(r => r.id === reportId);
-    if (submittedReport && setNotifications && randomStatus !== "Pending") {
-      setNotifications(prev => [
-        ...prev,
-        {
-          id: Date.now(),
-          message: `Your report "${submittedReport.title}" status has been updated. Status: ${randomStatus}`,
-          isRead: false,
-          date: new Date().toISOString().split("T")[0],
-        }
-      ]);
-    }
   };
 
   const handleAppealClick = (reportId) => {
@@ -177,8 +137,6 @@ function Reportsubmission({ user, onBackReportsubmission, setNotifications }) {
     
     setReports(updatedReports);
     localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
-
-
 
     setAppealError(null);
     setAppealReportId(null);
