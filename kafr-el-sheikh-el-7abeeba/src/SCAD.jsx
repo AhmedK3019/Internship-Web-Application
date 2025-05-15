@@ -41,6 +41,13 @@ function SCAD({
     setNotifications(updatedNotifications);
   }
 
+  const handleRemoveNotification = (notificationId, e) => {
+    e.stopPropagation(); 
+    setNotifications(prevNotifications => 
+      prevNotifications.filter(notification => notification.id !== notificationId)
+    );
+  };
+
   return (
     <div className="page">
       <div className="sidebar">
@@ -110,31 +117,53 @@ function SCAD({
                 </div>
               </div>
             </div>
+            
             <SCADCompaniesRequests
               companiesRequests={companiesRequests}
               addUser={addUser}
               rejectCompanyRequest={rejectCompanyRequest}
             />
             {showNotifications && (
-              <div
-                className={`notifications-panel ${
-                  showNotifications ? "visible" : ""
-                }`}
-              >
-                <h3>Notifications</h3>
-                {notifications.map((notification) => (
-                  <div
-                    key={notification.id}
-                    className={`notification-item ${
-                      notification.isRead ? "read" : "unread"
-                    }`}
-                    onClick={() => handleNotificationClick(notification.id)}
-                  >
-                    {notification.message}
-                  </div>
-                ))}
-              </div>
-            )}
+                <div
+                  className={`notifications-panel ${
+                    showNotifications ? "visible" : ""
+                  }`}
+                >
+                  <h3>Notifications</h3>
+                  {notifications.length === 0 ? (
+                    <div className="notification-item">
+                      No notifications at this time.
+                    </div>
+                  ) : (
+                    notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        className={`notification-item ${
+                          notification.isRead ? "read" : "unread"
+                        }`}
+                        onClick={() => handleNotificationClick(notification.id)}
+                      >
+                        {notification.isRead && (
+                            <button 
+                              className="close-button"
+                              onClick={(e) => handleRemoveNotification(notification.id, e)}
+                              aria-label="Remove notification"
+                              style={{ marginRight: "240px",padding:"0.1rem" }}
+                            >
+                              &times;
+                            </button>
+                          )}
+                        <div className="notification-message">
+                          {notification.message}
+                        </div>
+                        <div className="notification-date">
+                          {notification.date}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
           </div>
         )}
         {view === "callRequest" && (

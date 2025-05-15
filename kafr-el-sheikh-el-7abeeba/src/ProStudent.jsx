@@ -128,6 +128,13 @@ function ProStudent({
     );
   }
 
+  const handleRemoveNotification = (notificationId, e) => {
+    e.stopPropagation(); 
+    setNotifications(prevNotifications => 
+      prevNotifications.filter(notification => notification.id !== notificationId)
+    );
+  };
+
   const handleBackToDashboard = () => {
     setCurrentView("");
     setSelectedWorkshopForRegistration(null);
@@ -311,6 +318,16 @@ function ProStudent({
                         }`}
                         onClick={() => handleNotificationClick(notification.id)}
                       >
+                        {notification.isRead && (
+                            <button 
+                              className="close-button"
+                              onClick={(e) => handleRemoveNotification(notification.id, e)}
+                              aria-label="Remove notification"
+                              style={{ marginRight: "240px",padding:"0.1rem" }}
+                            >
+                              &times;
+                            </button>
+                          )}
                         <div className="notification-message">
                           {notification.message}
                         </div>
