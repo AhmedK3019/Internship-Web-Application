@@ -367,6 +367,7 @@ function ProStudent({
         )}
         {currentView === "Reportsubmission" && (
           <Reportsubmission
+          user={user}
             onBackReportsubmission={handleBackToDashboard}
             setNotifications={setNotifications}
           />
