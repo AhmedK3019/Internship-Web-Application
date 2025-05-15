@@ -1113,7 +1113,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 8px;
   width: 90%;
   max-width: 500px;
-  max-height: 80vh;
+  max-height: 90vh;
   position: relative;
 }
 

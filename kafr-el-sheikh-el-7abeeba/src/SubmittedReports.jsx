@@ -341,7 +341,7 @@ function SubmittedReports({ isFaculty = false }) {
               <h2>{selectedReport.title}</h2>
               <button className="close-button" onClick={closeReportModal}>×</button>
             </div>
-
+            <div className="evaluation-details">
             <div className="modal-body">
               <div className="detail-item">
                 <span className="detail-label">Student:</span>
@@ -392,6 +392,7 @@ function SubmittedReports({ isFaculty = false }) {
                   Close
                 </button>
               </div>
+            </div>
             </div>
           </div>
         </div>
