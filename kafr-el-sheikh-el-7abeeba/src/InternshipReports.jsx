@@ -181,9 +181,9 @@ const generatePDF = (report) => {
   let yPosition = 20;
   const lineHeight = 7;
   
-  // Helper function to add a section header
+
   const addSectionHeader = (text) => {
-    // Check if we need a new page
+
     if (yPosition > 270) {
       doc.addPage();
       yPosition = 20;
@@ -200,9 +200,9 @@ const generatePDF = (report) => {
     yPosition += 10;
   };
   
-  // Helper function to add text in label: value format on the same line
+  
   const addInlineText = (label, value) => {
-    // Check if we need a new page
+   
     if (yPosition > 270) {
       doc.addPage();
       yPosition = 20;
@@ -212,29 +212,29 @@ const generatePDF = (report) => {
     doc.setFont("helvetica", "bold");
     doc.text(label, margin, yPosition);
     
-    // Calculate indentation after label
+
     const labelWidth = doc.getStringUnitWidth(label) * 11 / doc.internal.scaleFactor;
-    const valueStartX = margin + Math.max(labelWidth + 5, 40); // At least 40 points from margin
+    const valueStartX = margin + Math.max(labelWidth + 5, 40);
     
     doc.setFont("helvetica", "normal");
     
-    // Handle potentially long text that needs wrapping
+ 
     const textLines = doc.splitTextToSize(value, contentWidth - valueStartX + margin);
     doc.text(textLines, valueStartX, yPosition);
     
-    // Move position based on number of lines
+   
     yPosition += lineHeight * Math.max(textLines.length, 1) + 3;
   };
   
-  // Helper function for multi-line text (for longer sections)
+  
   const addMultilineText = (label, value) => {
-    // Check if we need a new page
+ 
     if (yPosition > 270) {
       doc.addPage();
       yPosition = 20;
     }
     
-    // Add label on its own line
+  
     doc.setFontSize(11);
     doc.setFont("helvetica", "bold");
     doc.text(label, margin, yPosition);
@@ -242,25 +242,22 @@ const generatePDF = (report) => {
     
     doc.setFont("helvetica", "normal");
     
-    // Handle potentially long text that needs wrapping
+    
     const textLines = doc.splitTextToSize(value, contentWidth - 10);
     doc.text(textLines, margin + 10, yPosition);
     
-    // Move position based on number of lines
+
     yPosition += lineHeight * textLines.length + 2;
   };
   
-  // Document title
+ 
   doc.setFontSize(20);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(44, 62, 80); // Dark blue/gray color
   doc.text("INTERNSHIP EVALUATION REPORT", pageWidth / 2, yPosition, { align: "center" });
   yPosition += 15;
 
-  // Add company logo placeholder if desired
-  // doc.addImage(logoBase64, 'PNG', pageWidth - 50, 10, 35, 15);
-  
-  // Student Information Section
+
   addSectionHeader("Student Information");
   addInlineText("Name", report.studentName);
   addInlineText("Email", report.studentEmail);
@@ -268,9 +265,8 @@ const generatePDF = (report) => {
   addInlineText("Department", report.studentDepartment);
   addInlineText("GPA", report.studentGPA);
   addInlineText("Year", report.studentYear);
-  yPosition += 5; // Add some spacing between sections
+  yPosition += 5;
   
-  // Company Information Section
   addSectionHeader("Company Information");
   addInlineText("Company", report.companyName);
   addInlineText("Industry", report.companyIndustry);
@@ -278,7 +274,7 @@ const generatePDF = (report) => {
   addInlineText("Website", report.companyWebsite);
   yPosition += 5;
   
-  // Supervisor Information Section
+
   addSectionHeader("Supervisor Information");
   addInlineText("Name", report.supervisorName);
   addInlineText("Position", report.supervisorPosition);
@@ -286,7 +282,7 @@ const generatePDF = (report) => {
   addInlineText("Phone", report.supervisorPhone);
   yPosition += 5;
   
-  // Internship Details Section
+
   addSectionHeader("Internship Details");
   addInlineText("Title", report.internshipTitle);
   addInlineText("Duration", report.internshipDuration);
@@ -294,10 +290,10 @@ const generatePDF = (report) => {
   addInlineText("Description", report.internshipDescription);
   yPosition += 5;
   
-  // Performance Ratings Section
+ 
   addSectionHeader("Performance Ratings");
   
-  // Create visual rating bars
+
   const addRatingBar = (label, rating) => {
     if (yPosition > 270) {
       doc.addPage();
@@ -307,22 +303,21 @@ const generatePDF = (report) => {
     doc.setFontSize(11);
     doc.setFont("helvetica", "bold");
     doc.text(`${label}: `, margin, yPosition);
-    
-    // Draw rating bar
+
     const barStartX = margin + 70;
     const barWidth = 70;
     const barHeight = 5;
     
-    // Background bar (gray)
+ 
     doc.setFillColor(220, 220, 220);
     doc.rect(barStartX, yPosition - 4, barWidth, barHeight, 'F');
     
-    // Filled rating bar (blue)
+ 
     const fillWidth = (rating / 5) * barWidth;
     doc.setFillColor(66, 133, 244);
     doc.rect(barStartX, yPosition - 4, fillWidth, barHeight, 'F');
     
-    // Rating text
+ 
     doc.setFont("helvetica", "normal");
     doc.text(`${rating}/5`, barStartX + barWidth + 5, yPosition);
     
@@ -336,15 +331,14 @@ const generatePDF = (report) => {
   addRatingBar("Overall Rating", report.overallRating);
   yPosition += 5;
   
-  // Additional Information Section
+
   addSectionHeader("Additional Information");
   addMultilineText("Key Responsibilities", report.keyResponsibilities.join(", "));
   addMultilineText("Skills Gained", report.skillsGained.join(", "));
   addMultilineText("Projects Contributed", report.projectsContributed.join(", "));
   addMultilineText("Supervisor Comments", report.supervisorComments);
   addMultilineText("Recommendation", report.recommendation);
-  
-  // Add footer with page numbers
+
   const totalPages = doc.internal.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
