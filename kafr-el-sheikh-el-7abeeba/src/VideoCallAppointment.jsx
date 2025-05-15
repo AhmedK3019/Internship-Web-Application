@@ -67,7 +67,7 @@ function VideoCallAppointment({ setView }) {
           Future Appointments
         </button>
       </div>
-      <h2>Schedule Video Call</h2>
+      <h1>Schedule Video Call</h1>
       {isSubmitted && (
         <div className="success-message">
           Appointment requested successfully!

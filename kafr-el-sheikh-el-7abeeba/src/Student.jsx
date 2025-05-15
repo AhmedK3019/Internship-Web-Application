@@ -94,12 +94,6 @@ function Student({ user, onLogout }) {
           <button onClick={() => setCurrentView("Reportsubmission")}>
             Report submission
           </button>
-          <button onClick={() => setCurrentView("my-internships")}>
-            My Internships
-          </button>
-          <button onClick={() => setCurrentView("applied")}>
-            Applications
-          </button>
           <button onClick={onLogout} className="logout-btn">
             Logout
           </button>
@@ -177,7 +171,10 @@ function Student({ user, onLogout }) {
           />
         )}
         {currentView === "applied" && (
-          <AppliedInternships appliedInternships={appliedInternships} />
+          <AppliedInternships
+            appliedInternships={appliedInternships}
+            setView={setCurrentView}
+          />
         )}
         {currentView === "majors" && (
           <Majors onBackMajors={handleBackToDashboard} />
@@ -203,7 +200,9 @@ function Student({ user, onLogout }) {
             onApplySuccess={() => handleApplySuccess(selectedInternship.id)}
           />
         )}
-        {currentView === "my-internships" && <MyInternships />}
+        {currentView === "my-internships" && (
+          <MyInternships setView={setCurrentView} />
+        )}
       </div>
     </div>
   );
