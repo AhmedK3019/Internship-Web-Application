@@ -4,6 +4,7 @@ const ReportsData = [
     studentName: "John Doe",
     studentEmail: "JohnDoe@gmail.com",
     studentMajor: "MET",
+    studentStatus: "Accepted",
     studentDepartment: "Computer Engineering",
     studentGPA: 3.4,
     studentYear: "Senior",
@@ -23,6 +24,10 @@ const ReportsData = [
     internshipEndDate: "2024-09-01",
     internshipDuration: "3 months",
     internshipDescription: "Worked on developing React components for customer portal",
+    cycle: "2024-Summer",
+    submissionDate: "2024-09-02",
+    reviewDate: "2024-09-5",
+
     
     technicalSkillsRating: 4.5,
     problemSolvingRating: 4.2,
@@ -37,6 +42,7 @@ const ReportsData = [
     ],
     skillsGained: ["React", "TypeScript", "Redux"],
     projectsContributed: ["Customer Portal Redesign", "Admin Dashboard"],
+    courses: ["CS301", "CS501"],
     
     supervisorComments: "John showed excellent problem-solving skills and adapted quickly to our codebase. He was a valuable member of our frontend team.",
     recommendation: "Highly recommend for frontend development roles",
@@ -46,6 +52,7 @@ const ReportsData = [
     studentName: "Jane Smith",
     studentEmail: "JaneSmith@gmail.com",
     studentMajor: "IET",
+    studentStatus: "Accepted",
     studentDepartment: "Data Science",
     studentGPA: 3.8,
     studentYear: "Junior",
@@ -65,6 +72,9 @@ const ReportsData = [
     internshipEndDate: "2024-04-10",
     internshipDuration: "6 months",
     internshipDescription: "Built data pipelines and visualization dashboards",
+    cycle: "2024-Winter",
+    submissionDate: "2024-4-11",
+    reviewDate: "2024-4-15",
     
     technicalSkillsRating: 4.8,
     problemSolvingRating: 4.7,
@@ -79,6 +89,7 @@ const ReportsData = [
     ],
     skillsGained: ["Python", "SQL", "Tableau"],
     projectsContributed: ["Customer Segmentation Analysis", "Sales Forecasting"],
+    courses: ["DATA402", "STAT200"],
     
     supervisorComments: "Jane's analytical skills were outstanding and she contributed significantly to our Q1 analytics projects.",
     recommendation: "Excellent candidate for data analyst positions",
