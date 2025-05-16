@@ -34,10 +34,11 @@ function Reportsubmission({ user, onBackReportsubmission, setNotifications }) {
     { id: 5, name: "Operating Systems", selected: false },
   ]);
 
+  // Load only the current user's reports
   useEffect(() => {
     const savedReports = JSON.parse(localStorage.getItem("internshipReports")) || [];
-    setReports(savedReports);
-  }, []);
+    setReports(savedReports.filter(report => report.studentName === user.name));
+  }, [user.name]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -71,45 +72,53 @@ function Reportsubmission({ user, onBackReportsubmission, setNotifications }) {
       ...currentReport,
       courses: selectedCourses.map((course) => course.name),
       id: isEditing ? currentReport.id : Date.now(),
-      status: "draft"
+      status: "draft",
+      studentName: user.name,
+      studentEmail: user.email,
+      studentMajor: user.major || "Unknown"
     };
 
+    // Get ALL reports from localStorage
+    const allReports = JSON.parse(localStorage.getItem("internshipReports")) || [];
+    
     let updatedReports;
     if (isEditing) {
-      updatedReports = reports.map((report) =>
+      updatedReports = allReports.map((report) =>
         report.id === currentReport.id ? reportToSave : report
       );
     } else {
-      updatedReports = [...reports, reportToSave];
+      updatedReports = [...allReports, reportToSave];
     }
 
-    setReports(updatedReports);
+    // Save ALL reports back to localStorage
     localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
+    
+    // Update state with just this user's reports
+    setReports(updatedReports.filter(report => report.studentName === user.name));
     resetForm();
     setSubmissionStatus("saved");
   };
 
   const finalizeReport = (reportId) => {
-    const currentReports = JSON.parse(localStorage.getItem("internshipReports")) || [...reports];
+    // Get ALL reports from localStorage
+    const allReports = JSON.parse(localStorage.getItem("internshipReports")) || [];
     
-    const reportExists = currentReports.some(r => r.id === reportId);
-    if (!reportExists) {
-      console.error("Report not found for finalizing:", reportId);
-      return;
-    }
-    
-    const updatedReports = currentReports.map(report =>
+    const updatedReports = allReports.map(report =>
       report.id === reportId
         ? {
-          ...report,
-          status: "submitted",
-          submittedDate: new Date().toLocaleDateString()
-        }
+            ...report,
+            status: "submitted",
+            submittedDate: new Date().toLocaleDateString(),
+            facultyStatus: "Pending"
+          }
         : report
     );
 
-    setReports(updatedReports);
+  
     localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
+    
+
+    setReports(updatedReports.filter(report => report.studentName === user.name));
     setSubmissionStatus("submitted");
   };
 
@@ -129,15 +138,27 @@ function Reportsubmission({ user, onBackReportsubmission, setNotifications }) {
       return;
     }
 
-    const updatedReports = reports.map(report => 
+    // Get ALL reports from localStorage
+    const allReports = JSON.parse(localStorage.getItem("internshipReports")) || [];
+    
+    const updatedReports = allReports.map(report => 
       report.id === appealReportId 
-        ? { ...report, appealStatus: "submitted" } 
+        ? { 
+            ...report, 
+            appealStatus: "submitted",
+            rejectionComment: report.rejectionComment 
+              ? `${report.rejectionComment}\n\nStudent Appeal (${new Date().toLocaleDateString()}): ${appealMessage}`
+              : `Student Appeal (${new Date().toLocaleDateString()}): ${appealMessage}`
+          } 
         : report
     );
     
-    setReports(updatedReports);
+    // Save ALL reports back to localStorage
     localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
 
+    // Update state with just this user's reports
+    setReports(updatedReports.filter(report => report.studentName === user.name));
+    
     setAppealError(null);
     setAppealReportId(null);
     setAppealMessage("");
@@ -160,9 +181,15 @@ function Reportsubmission({ user, onBackReportsubmission, setNotifications }) {
 
   const deleteReport = (id) => {
     if (window.confirm("Are you sure you want to delete this report? This action cannot be undone.")) {
-      const updatedReports = reports.filter((report) => report.id !== id);
-      setReports(updatedReports);
+      // Get ALL reports from localStorage
+      const allReports = JSON.parse(localStorage.getItem("internshipReports")) || [];
+      const updatedReports = allReports.filter((report) => report.id !== id);
+      
+      // Save ALL reports back to localStorage
       localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
+      
+      // Update state with just this user's reports
+      setReports(updatedReports.filter(report => report.studentName === user.name));
     }
   };
 
@@ -261,27 +288,33 @@ function Reportsubmission({ user, onBackReportsubmission, setNotifications }) {
       ...currentReport,
       courses: selectedCourses.map((course) => course.name),
       id: newId,
-      status: "draft",
+      status: "submitted",
       appealStatus: null,
       rejectionComment: null,
       studentName: user.name,
       studentEmail: user.email,
+      studentMajor: user.major || "MET",
+      facultyStatus: "Pending",
+      submittedDate: new Date().toLocaleDateString()
     };
-
+    const allReports = JSON.parse(localStorage.getItem("internshipReports")) || [];
+    
     let updatedReports;
     if (isEditing) {
-      updatedReports = reports.map((report) =>
+      updatedReports = allReports.map((report) =>
         report.id === currentReport.id ? reportToSave : report
       );
     } else {
-      updatedReports = [...reports, reportToSave];
+      updatedReports = [...allReports, reportToSave];
     }
 
-    setReports(updatedReports);
+    // Save ALL reports back to localStorage
     localStorage.setItem("internshipReports", JSON.stringify(updatedReports));
     
+    // Update state with just this user's reports
+    setReports(updatedReports.filter(report => report.studentName === user.name));
+    
     setTimeout(() => {
-      finalizeReport(newId);
       setIsSubmitting(false);
       resetForm();
     }, 100);
