@@ -6,7 +6,7 @@
       password: "janesmith123",
       role: "Student",
 
-       email: "AliceJohnson@gmail.com",
+      email: "AliceJohnson@gmail.com",
       password: "alicejohnson123",
       role: "Pro Student",
 
