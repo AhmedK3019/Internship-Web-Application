@@ -120,7 +120,7 @@ function SCADInternshipReports() {
   return (
     <div className="internship-background">
       <div className="listings-container">
-        <h1>Internship Reports</h1>
+        <h1>Internship Evaluations</h1>
 
         <input
           type="text"

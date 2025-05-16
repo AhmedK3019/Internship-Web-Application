@@ -16,7 +16,7 @@ const SCADViewRealTimeStatistics = () => {
   });
 
   const allStatistics = {
-    "2023-Q1": {
+    "2024-Q1": {
       accepted: 100,
       rejected: 20,
       flagged: 10,
@@ -26,7 +26,7 @@ const SCADViewRealTimeStatistics = () => {
       topCompaniesByCount: ["Google", "Facebook"],
       topCount: [14, 12],
     },
-    "2023-Q2": {
+    "2024-Q2": {
       accepted: 120,
       rejected: 30,
       flagged: 15,
@@ -36,7 +36,7 @@ const SCADViewRealTimeStatistics = () => {
       topCompaniesByCount: ["Microsoft", "Apple"],
       topCount: [10, 7],
     },
-    "2023-Q3": {
+    "2024-Q3": {
       accepted: 90,
       rejected: 25,
       flagged: 5,
@@ -46,7 +46,7 @@ const SCADViewRealTimeStatistics = () => {
       topCompaniesByCount: ["Tesla", "IBM"],
       topCount: [20, 12],
     },
-    "2023-Q4": {
+    "2025-Q1 (current)": {
       accepted: 110,
       rejected: 40,
       flagged: 20,
