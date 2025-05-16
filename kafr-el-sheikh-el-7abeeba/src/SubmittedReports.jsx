@@ -3,7 +3,6 @@ import "./index.css";
 import { jsPDF } from "jspdf";
 
 function SubmittedReports({ isFaculty = false }) {
-
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMajor, setSelectedMajor] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -11,9 +10,8 @@ function SubmittedReports({ isFaculty = false }) {
   const [clarifications, setClarifications] = useState({});
   const [submittedClarifications, setSubmittedClarifications] = useState({});
 
-
   const [reports, setReports] = useState(() => {
-    const savedReports = localStorage.getItem('internshipReports');
+    const savedReports = localStorage.getItem("internshipReports");
     if (savedReports) {
       return JSON.parse(savedReports);
     } else {
@@ -21,7 +19,8 @@ function SubmittedReports({ isFaculty = false }) {
         {
           id: 1,
           title: "Software Development Internship at Tech Solutions",
-          introduction: "During my 3-month internship at Tech Solutions, I worked as a junior software developer on their customer management system.",
+          introduction:
+            "During my 3-month internship at Tech Solutions, I worked as a junior software developer on their customer management system.",
           body: "I implemented new features, fixed bugs, and participated in code reviews. Learned Agile development with React and Node.js.",
           courses: ["Software Engineering", "Database II", "Web Development"],
           status: "submitted",
@@ -29,12 +28,13 @@ function SubmittedReports({ isFaculty = false }) {
           studentName: "John Doe",
           studentEmail: "JohnDoe@gmail.com",
           studentMajor: "MET",
-          facultyStatus: "Pending"
+          facultyStatus: "Pending",
         },
         {
           id: 2,
           title: "Data Analysis Internship at Analytics Pro",
-          introduction: "Processed and analyzed large datasets for marketing clients at Analytics Pro.",
+          introduction:
+            "Processed and analyzed large datasets for marketing clients at Analytics Pro.",
           body: "Cleaned data, created visualizations, and built predictive models using Python and SQL.",
           courses: ["Data Structures", "Database II", "Machine Learning"],
           status: "submitted",
@@ -42,25 +42,31 @@ function SubmittedReports({ isFaculty = false }) {
           studentName: "Jane Smith",
           studentEmail: "JaneSmith@gmail.com",
           studentMajor: "IET",
-          facultyStatus: "Accepted"
+          facultyStatus: "Accepted",
         },
         {
           id: 3,
           title: "Cloud Engineering Internship at CloudTech",
-          introduction: "Worked with AWS services to migrate legacy applications to the cloud.",
+          introduction:
+            "Worked with AWS services to migrate legacy applications to the cloud.",
           body: "Set up infrastructure as code using Terraform and configured CI/CD pipelines.",
-          courses: ["Computer Organizations", "Operating Systems", "Software Engineering"],
+          courses: [
+            "Computer Organizations",
+            "Operating Systems",
+            "Software Engineering",
+          ],
           status: "submitted",
           submittedDate: "05/08/2024",
           studentName: "Alice Johnson",
           studentEmail: "AliceJohnson@gmail.com",
           studentMajor: "AA",
-          facultyStatus: "Flagged"
+          facultyStatus: "Flagged",
         },
         {
           id: 4,
           title: "Web Development Internship at Digital Agency",
-          introduction: "Built and maintained client websites and web applications.",
+          introduction:
+            "Built and maintained client websites and web applications.",
           body: "Front-end development with HTML/CSS/JS and back-end work with PHP/MySQL.",
           courses: ["Web Development", "Database II", "User Interface Design"],
           status: "submitted",
@@ -68,28 +74,33 @@ function SubmittedReports({ isFaculty = false }) {
           studentName: "Bob Brown",
           studentEmail: "BobBrown@gmail.com",
           studentMajor: "BI",
-          facultyStatus: "Rejected"
+          facultyStatus: "Rejected",
         },
         {
           id: 5,
           title: "Cybersecurity Internship at SecureTech",
-          introduction: "Identified and addressed security vulnerabilities in client applications.",
+          introduction:
+            "Identified and addressed security vulnerabilities in client applications.",
           body: "Conducted security audits, penetration testing, and implemented security best practices.",
-          courses: ["Network Security", "Operating Systems", "Computer Networks"],
+          courses: [
+            "Network Security",
+            "Operating Systems",
+            "Computer Networks",
+          ],
           status: "submitted",
           submittedDate: "05/15/2024",
           studentName: "Charlie Davis",
           studentEmail: "CharlieDavis@gmail.com",
           studentMajor: "EMS",
-          facultyStatus: "Pending"
-        }
+          facultyStatus: "Pending",
+        },
       ];
     }
   });
 
   // Save reports to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem('internshipReports', JSON.stringify(reports));
+    localStorage.setItem("internshipReports", JSON.stringify(reports));
   }, [reports]);
 
   // Available majors and status options
@@ -99,29 +110,31 @@ function SubmittedReports({ isFaculty = false }) {
     { value: "Pending", label: "Pending" },
     { value: "Flagged", label: "Flagged" },
     { value: "Rejected", label: "Rejected" },
-    { value: "Accepted", label: "Accepted" }
+    { value: "Accepted", label: "Accepted" },
   ];
 
   // Filter reports based on search and filters
-  const filteredReports = reports.filter(report => {
+  const filteredReports = reports.filter((report) => {
     const matchesSearch =
       report.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       report.studentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       report.studentEmail.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesMajor = selectedMajor ?
-      report.studentMajor === selectedMajor : true;
+    const matchesMajor = selectedMajor
+      ? report.studentMajor === selectedMajor
+      : true;
 
-    const matchesStatus = selectedStatus ?
-      report.facultyStatus === selectedStatus : true;
+    const matchesStatus = selectedStatus
+      ? report.facultyStatus === selectedStatus
+      : true;
 
     return matchesSearch && matchesMajor && matchesStatus;
   });
 
   // Handler for status changes
   const handleStatusChange = (reportId, newStatus) => {
-    setReports(prevReports =>
-      prevReports.map(report =>
+    setReports((prevReports) =>
+      prevReports.map((report) =>
         report.id === reportId
           ? { ...report, facultyStatus: newStatus }
           : report
@@ -141,7 +154,7 @@ function SubmittedReports({ isFaculty = false }) {
 
     doc.setFontSize(18);
     doc.setFont("helvetica", "bold");
-    doc.text(report.title, 105, y, { align: 'center' });
+    doc.text(report.title, 105, y, { align: "center" });
     y += 10;
 
     doc.setDrawColor(200, 200, 200);
@@ -168,35 +181,39 @@ function SubmittedReports({ isFaculty = false }) {
 
     doc.setFontSize(10);
     doc.setTextColor(100, 100, 100);
-    doc.text("Internship Report - Generated by Student Portal", 105, 285, { align: 'center' });
+    doc.text("Internship Report - Generated by Student Portal", 105, 285, {
+      align: "center",
+    });
 
-    doc.save(`${report.title.replace(/[^a-z0-9]/gi, '_')}.pdf`);
+    doc.save(`${report.title.replace(/[^a-z0-9]/gi, "_")}.pdf`);
   };
 
   // Clarification submission
-const handleClarificationSubmit = (reportId, message) => {
-  if (!message?.trim()) {
-    alert("Please enter a clarification message");
-    return;
-  }
+  const handleClarificationSubmit = (reportId, message) => {
+    if (!message?.trim()) {
+      alert("Please enter a clarification message");
+      return;
+    }
 
-  setReports(prevReports => 
-    prevReports.map(report => 
-      report.id === reportId
-        ? { 
-            ...report,
+    setReports((prevReports) =>
+      prevReports.map((report) =>
+        report.id === reportId
+          ? {
+              ...report,
 
-            rejectionComment: report.rejectionComment 
-              ? `${report.rejectionComment}\n\nFaculty Clarification (${new Date().toLocaleDateString()}): ${message}`
-              : `${message}`
-          }
-        : report
-    )
-  );
+              rejectionComment: report.rejectionComment
+                ? `${
+                    report.rejectionComment
+                  }\n\nFaculty Clarification (${new Date().toLocaleDateString()}): ${message}`
+                : `${message}`,
+            }
+          : report
+      )
+    );
 
-  setSubmittedClarifications(prev => ({ ...prev, [reportId]: true }));
-  setClarifications(prev => ({ ...prev, [reportId]: "" }));
-};
+    setSubmittedClarifications((prev) => ({ ...prev, [reportId]: true }));
+    setClarifications((prev) => ({ ...prev, [reportId]: "" }));
+  };
 
   return (
     <div className="internship-background">
@@ -223,8 +240,10 @@ const handleClarificationSubmit = (reportId, message) => {
                 onChange={(e) => setSelectedMajor(e.target.value)}
               >
                 <option value="">All Majors</option>
-                {availableMajors.map(major => (
-                  <option key={major} value={major}>{major}</option>
+                {availableMajors.map((major) => (
+                  <option key={major} value={major}>
+                    {major}
+                  </option>
                 ))}
               </select>
             </div>
@@ -236,7 +255,7 @@ const handleClarificationSubmit = (reportId, message) => {
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
               >
-                {statusOptions.map(option => (
+                {statusOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -255,35 +274,39 @@ const handleClarificationSubmit = (reportId, message) => {
                 : "No submitted reports yet"}
             </div>
           ) : (
-            filteredReports.map(report => (
+            filteredReports.map((report) => (
               <div key={report.id} className="internship-card">
                 <div>
                   <h2>{report.title}</h2>
-                  <h3>Submitted by: {report.studentName} ({report.studentEmail})</h3>
+                  <h3>
+                    Submitted by: {report.studentName} ({report.studentEmail})
+                  </h3>
                   <h4>Major: {report.studentMajor}</h4>
                   <h4>Submitted on: {report.submittedDate}</h4>
+                  <h4
+                    className={`status-${report.facultyStatus.toLowerCase()}`}
+                  >
+                    Current Status: {report.facultyStatus}
+                  </h4>
                 </div>
 
                 <div className="details-grid">
-                  <div className="detail-item">
-                    <span className="detail-label">Current Status:</span>
-                    <span className={`status-${report.facultyStatus.toLowerCase()}`}>
-                      {report.facultyStatus}
-                    </span>
-                  </div>
-
                   <div className="detail-actions">
                     {isFaculty && (
                       <select
                         className="custom-select"
                         value={report.facultyStatus}
-                        onChange={(e) => handleStatusChange(report.id, e.target.value)}
+                        onChange={(e) =>
+                          handleStatusChange(report.id, e.target.value)
+                        }
                       >
-                        {statusOptions.filter(opt => opt.value).map(option => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
+                        {statusOptions
+                          .filter((opt) => opt.value)
+                          .map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
                       </select>
                     )}
 
@@ -302,12 +325,13 @@ const handleClarificationSubmit = (reportId, message) => {
                   </div>
                 </div>
 
-
                 {["Rejected", "Flagged"].includes(report.facultyStatus) && (
                   <div className="clarification-section">
                     {submittedClarifications[report.id] ? (
                       <div className="clarification-success">
-                        <div className="success-message">✓ Submitted Successfully</div>
+                        <div className="success-message">
+                          ✓ Submitted Successfully
+                        </div>
                         <button className="green-btn" disabled>
                           Submitted
                         </button>
@@ -320,9 +344,9 @@ const handleClarificationSubmit = (reportId, message) => {
                           className="search-input"
                           value={clarifications[report.id] || ""}
                           onChange={(e) =>
-                            setClarifications(prev => ({
+                            setClarifications((prev) => ({
                               ...prev,
-                              [report.id]: e.target.value
+                              [report.id]: e.target.value,
                             }))
                           }
                         />
@@ -353,60 +377,59 @@ const handleClarificationSubmit = (reportId, message) => {
           <div className="modal-content">
             <div className="modal-header">
               <h2>{selectedReport.title}</h2>
-              <button className="close-button" onClick={closeReportModal}>×</button>
+              <button className="close-button" onClick={closeReportModal}>
+                ×
+              </button>
             </div>
             <div className="evaluation-details">
-            <div className="modal-body">
-              <div className="detail-item">
-                <span className="detail-label">Student:</span>
-                <span>{selectedReport.studentName}</span>
-              </div>
+              <div className="modal-body">
+                <div className="detail-item">
+                  <span className="detail-label">Student:</span>
+                  <span>{selectedReport.studentName}</span>
+                </div>
 
-              <div className="detail-item">
-                <span className="detail-label">Email:</span>
-                <span>{selectedReport.studentEmail}</span>
-              </div>
+                <div className="detail-item">
+                  <span className="detail-label">Email:</span>
+                  <span>{selectedReport.studentEmail}</span>
+                </div>
 
-              <div className="detail-item">
-                <span className="detail-label">Relevant Courses:</span>
-                <span>{selectedReport.courses.join(", ")}</span>
-              </div>
+                <div className="detail-item">
+                  <span className="detail-label">Relevant Courses:</span>
+                  <span>{selectedReport.courses.join(", ")}</span>
+                </div>
 
-              <div className="form-group">
-                <label>Introduction</label>
-                <textarea
-                  className="input"
-                  value={selectedReport.introduction}
-                  readOnly
-                  rows="6"
-                />
-              </div>
+                <div className="form-group">
+                  <label>Introduction</label>
+                  <textarea
+                    className="input"
+                    value={selectedReport.introduction}
+                    readOnly
+                    rows="6"
+                  />
+                </div>
 
-              <div className="form-group">
-                <label>Report Body</label>
-                <textarea
-                  className="input"
-                  value={selectedReport.body}
-                  readOnly
-                  rows="6"
-                />
-              </div>
+                <div className="form-group">
+                  <label>Report Body</label>
+                  <textarea
+                    className="input"
+                    value={selectedReport.body}
+                    readOnly
+                    rows="6"
+                  />
+                </div>
 
-              <div className="form-actions">
-                <button
-                  className="download-button"
-                  onClick={() => downloadReport(selectedReport)}
-                >
-                  Download PDF
-                </button>
-                <button
-                  className="delete-btn"
-                  onClick={closeReportModal}
-                >
-                  Close
-                </button>
+                <div className="form-actions">
+                  <button
+                    className="download-button"
+                    onClick={() => downloadReport(selectedReport)}
+                  >
+                    Download PDF
+                  </button>
+                  <button className="delete-btn" onClick={closeReportModal}>
+                    Close
+                  </button>
+                </div>
               </div>
-            </div>
             </div>
           </div>
         </div>

@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 
-function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent = false, onRegister, registeredWorkshops = [] }) {
+function SCADWorkshops({
+  workshops = [],
+  setWorkshops,
+  isScad = false,
+  isStudent = false,
+  onRegister,
+  registeredWorkshops = [],
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [selectedWorkshop, setSelectedWorkshop] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [dateError, setDateError] = useState(null);
-  
+
   const initialWorkshopFormState = {
     name: "",
     startDate: "",
@@ -16,9 +23,9 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
     endTime: "",
     description: "",
     speakerBio: "",
-    agenda: ""
+    agenda: "",
   };
-  
+
   const [newWorkshop, setNewWorkshop] = useState(initialWorkshopFormState);
 
   useEffect(() => {
@@ -31,10 +38,10 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewWorkshop(prev => ({ ...prev, [name]: value }));
-    
+    setNewWorkshop((prev) => ({ ...prev, [name]: value }));
+
     // Clear date error when dates are changed
-    if ((name === 'startDate' || name === 'endDate') && dateError) {
+    if ((name === "startDate" || name === "endDate") && dateError) {
       setDateError(null);
     }
   };
@@ -43,7 +50,7 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
     if (newWorkshop.startDate && newWorkshop.endDate) {
       const startDate = new Date(newWorkshop.startDate);
       const endDate = new Date(newWorkshop.endDate);
-      
+
       if (endDate < startDate) {
         setDateError("End date cannot be before start date");
         return false;
@@ -65,13 +72,15 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
     }
 
     if (editingId) {
-      setWorkshops(prev =>
-        prev.map(workshop =>
-          workshop.id === editingId ? { ...newWorkshop, id: editingId } : workshop
+      setWorkshops((prev) =>
+        prev.map((workshop) =>
+          workshop.id === editingId
+            ? { ...newWorkshop, id: editingId }
+            : workshop
         )
       );
     } else {
-      setWorkshops(prev => [...prev, { ...newWorkshop, id: Date.now() }]);
+      setWorkshops((prev) => [...prev, { ...newWorkshop, id: Date.now() }]);
     }
     setNewWorkshop(initialWorkshopFormState);
     setEditingId(null);
@@ -92,7 +101,7 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
   const handleDelete = (id) => {
     if (!isScad || !setWorkshops) return;
 
-    setWorkshops(prev => prev.filter(workshop => workshop.id !== id));
+    setWorkshops((prev) => prev.filter((workshop) => workshop.id !== id));
     if (selectedWorkshop === id) {
       setSelectedWorkshop(null);
     }
@@ -124,15 +133,22 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
     setSelectedWorkshop(selectedWorkshop === workshopId ? null : workshopId);
   };
 
-  const filteredWorkshops = (workshops || []).filter(workshop =>
-    (workshop.name?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
-    (workshop.description?.toLowerCase() || '').includes(searchQuery.toLowerCase())
+  const filteredWorkshops = (workshops || []).filter(
+    (workshop) =>
+      (workshop.name?.toLowerCase() || "").includes(
+        searchQuery.toLowerCase()
+      ) ||
+      (workshop.description?.toLowerCase() || "").includes(
+        searchQuery.toLowerCase()
+      )
   );
 
   return (
     <div className="internship-background">
       <div className="listings-container">
-        <h1>{isScad ? "Manage Online Workshops" : "Available Online Workshops"}</h1>
+        <h1>
+          {isScad ? "Manage Online Workshops" : "Available Online Workshops"}
+        </h1>
 
         <div className="filters-container">
           <div className="search-filter-row">
@@ -155,44 +171,59 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
           </div>
 
           {isScad && showForm && (
-            <form onSubmit={handleSubmit} className="internship-card" style={{ marginBottom: "20px", marginTop: "20px" }}>
+            <form
+              onSubmit={handleSubmit}
+              className="internship-card"
+              style={{ marginBottom: "20px", marginTop: "20px" }}
+            >
               <h2>{editingId ? "Edit Workshop" : "Add New Workshop"}</h2>
 
               <div className="detail-item">
                 <span className="detail-label">Workshop Name:</span>
-                <input type="text" name="name" className="detail-value" style={{ width: "100%" }} value={newWorkshop.name} onChange={handleInputChange} required />
+                <input
+                  type="text"
+                  name="name"
+                  className="input"
+                  style={{ width: "100%" }}
+                  value={newWorkshop.name}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
 
               <div className="filter-row">
                 <div className="detail-item">
                   <span className="detail-label">Start Date:</span>
-                  <input 
-                    type="date" 
-                    name="startDate" 
-                    className="detail-value" 
-                    style={{ width: "100%" }} 
-                    value={newWorkshop.startDate} 
-                    onChange={handleInputChange} 
-                    required 
+                  <input
+                    type="date"
+                    name="startDate"
+                    className="input"
+                    style={{ width: "100%" }}
+                    value={newWorkshop.startDate}
+                    onChange={handleInputChange}
+                    required
                   />
                 </div>
                 <div className="detail-item">
                   <span className="detail-label">End Date:</span>
-                  <input 
-                    type="date" 
-                    name="endDate" 
-                    className="detail-value" 
-                    style={{ width: "100%" }} 
-                    value={newWorkshop.endDate} 
-                    onChange={handleInputChange} 
-                    required 
+                  <input
+                    type="date"
+                    name="endDate"
+                    className="input"
+                    style={{ width: "100%" }}
+                    value={newWorkshop.endDate}
+                    onChange={handleInputChange}
+                    required
                     onBlur={validateDates}
                   />
                 </div>
               </div>
 
               {dateError && (
-                <div className="error-message" style={{ color: "red", margin: "10px 0" }}>
+                <div
+                  className="error-message"
+                  style={{ color: "red", margin: "10px 0" }}
+                >
                   {dateError}
                 </div>
               )}
@@ -200,31 +231,72 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
               <div className="filter-row">
                 <div className="detail-item">
                   <span className="detail-label">Start Time:</span>
-                  <input type="time" name="startTime" className="detail-value" style={{ width: "100%" }} value={newWorkshop.startTime} onChange={handleInputChange} required />
+                  <input
+                    type="time"
+                    name="startTime"
+                    className="input"
+                    style={{ width: "100%" }}
+                    value={newWorkshop.startTime}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </div>
                 <div className="detail-item">
                   <span className="detail-label">End Time:</span>
-                  <input type="time" name="endTime" className="detail-value" style={{ width: "100%" }} value={newWorkshop.endTime} onChange={handleInputChange} required />
+                  <input
+                    type="time"
+                    name="endTime"
+                    className="input"
+                    style={{ width: "100%" }}
+                    value={newWorkshop.endTime}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </div>
               </div>
 
               <div className="detail-item">
                 <span className="detail-label">Description:</span>
-                <textarea name="description" className="detail-value" style={{ width: "100%", minHeight: "80px" }} value={newWorkshop.description} onChange={handleInputChange} required />
+                <textarea
+                  name="description"
+                  className="detail-value"
+                  style={{ width: "100%", minHeight: "80px" }}
+                  value={newWorkshop.description}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
 
               <div className="detail-item">
                 <span className="detail-label">Speaker Bio:</span>
-                <textarea name="speakerBio" className="detail-value" style={{ width: "100%", minHeight: "80px" }} value={newWorkshop.speakerBio} onChange={handleInputChange} required />
+                <textarea
+                  name="speakerBio"
+                  className="detail-value"
+                  style={{ width: "100%", minHeight: "80px" }}
+                  value={newWorkshop.speakerBio}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
 
               <div className="detail-item">
                 <span className="detail-label">Agenda:</span>
-                <textarea name="agenda" className="detail-value" style={{ width: "100%", minHeight: "80px" }} value={newWorkshop.agenda} onChange={handleInputChange} required />
+                <textarea
+                  name="agenda"
+                  className="detail-value"
+                  style={{ width: "100%", minHeight: "80px" }}
+                  value={newWorkshop.agenda}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
-              
+
               <div className="form-actions">
-                <button type="submit" className="btn-primary1" disabled={dateError}>
+                <button
+                  type="submit"
+                  className="btn-primary1"
+                  disabled={dateError}
+                >
                   {editingId ? "Update Workshop" : "Add Workshop"}
                 </button>
                 {editingId && (
@@ -257,22 +329,38 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
             filteredWorkshops.map((workshop) => (
               <div
                 key={workshop.id}
-                className={`internship-card ${selectedWorkshop === workshop.id ? "selected" : ""}`}
+                className={`internship-card ${
+                  selectedWorkshop === workshop.id ? "selected" : ""
+                }`}
                 onClick={() => handleCardClick(workshop.id)}
               >
                 <div>
                   <h2>{workshop.name}</h2>
                   <h3>
-                    {new Date(workshop.startDate).toLocaleDateString()} - {new Date(workshop.endDate).toLocaleDateString()}
+                    {new Date(workshop.startDate).toLocaleDateString()} -{" "}
+                    {new Date(workshop.endDate).toLocaleDateString()}
                   </h3>
                 </div>
                 <div className="expand-indicator">
                   {selectedWorkshop === workshop.id ? "▼" : "▶"}
                 </div>
-                <div style={{ borderBottom: "1px solid rgba(126, 200, 227, 0.2)", padding: "0.5rem 0" }}>
-                  <span style={{ display: "flex", justifyContent: "space-between", fontWeight: "normal" }}>
+                <div
+                  style={{
+                    borderBottom: "1px solid rgba(126, 200, 227, 0.2)",
+                    padding: "0.5rem 0",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontWeight: "normal",
+                    }}
+                  >
                     <span className="detail-label">Time:</span>
-                    <span className="detail-value">{workshop.startTime} - {workshop.endTime}</span>
+                    <span className="detail-value">
+                      {workshop.startTime} - {workshop.endTime}
+                    </span>
                   </span>
                 </div>
                 {selectedWorkshop === workshop.id && (
@@ -283,7 +371,9 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
                     <span className="detail-value">{workshop.description}</span>
                     <div className="detail-item">
                       <span className="detail-label">Speaker Bio:</span>
-                      <span className="detail-value">{workshop.speakerBio}</span>
+                      <span className="detail-value">
+                        {workshop.speakerBio}
+                      </span>
                     </div>
                     <div className="detail-item">
                       <span className="detail-label">Agenda:</span>
@@ -322,7 +412,9 @@ function SCADWorkshops({ workshops = [], setWorkshops, isScad = false, isStudent
                           className="btn-primary1"
                           disabled={registeredWorkshops.includes(workshop.id)}
                         >
-                          {registeredWorkshops.includes(workshop.id) ? "Registered ✓" : "Register"}
+                          {registeredWorkshops.includes(workshop.id)
+                            ? "Registered ✓"
+                            : "Register"}
                         </button>
                       )}
                     </div>
