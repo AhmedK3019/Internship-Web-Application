@@ -1,6 +1,6 @@
 # Kafr El Sheikh El 7abeeba - Internship Management System
 
-A comprehensive web application for managing internships at German University Cairo (GUC), specifically designed for the Kafr El Sheikh campus. This application facilitates the entire internship lifecycle from application to evaluation.
+A comprehensive web application for managing internships at German University Cairo (GUC),  this application facilitates the entire internship lifecycle from application to evaluation.
 
 ## Live Demo
 https://ahmedk3019.github.io/Internship-Web-Application/
