@@ -1,6 +1,7 @@
 # Internship Management System
 
 A comprehensive web application for managing internships at German University Cairo (GUC),  this application facilitates the entire internship lifecycle from application to evaluation.
+
 This project is part of the CSEN 603 Software Engineering course in the GUC 
 
 ## Live Demo
