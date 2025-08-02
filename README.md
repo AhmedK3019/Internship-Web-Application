@@ -226,29 +226,8 @@ src/
 - Modular CSS architecture
 - Error handling and validation
 
-## 🌟 Future Enhancements
-
-- **Database Integration**: Migrate from localStorage to proper database
-- **Authentication System**: Implement JWT-based authentication
-- **Email Notifications**: Automated email alerts for important events
-- **Mobile App**: React Native mobile application
-- **Advanced Analytics**: Machine learning-based recommendations
-- **Multi-language Support**: Arabic and English localization
-
-## 📝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 ## 📄 License
 
 This project is developed for educational purposes as part of the German University Cairo curriculum.
-
-## 📞 Support
-
-For technical support or questions about the application, please contact the development team or SCAD office at German University Cairo.
 
 ---
