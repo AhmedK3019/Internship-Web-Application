@@ -1,7 +1,5 @@
 import React from "react";
-import GoogleImage from "/google.png";
-import SchneiderImage from "/schneider.jpg";
-import ElSewedyImage from "/elsewedy.png";
+import { getPublicAssetPath } from "./utils/assetPaths";
 
 function SuggestedCompanies({ onBackSuggestedCompanies }) {
   return (
@@ -9,7 +7,7 @@ function SuggestedCompanies({ onBackSuggestedCompanies }) {
       <div>
         <h1>Suggested Companies</h1>
         <div className="companies-page box1">
-          <img src={GoogleImage} alt="Google Image" class="GoogleImage" />
+          <img src={getPublicAssetPath("google.png")} alt="Google Image" class="GoogleImage" />
           <p class="CompanyText GoogleText">
             Google is a global tech giant best known for its search engine.
             Founded in 1998, it's now part of Alphabet Inc. Google offers a wide
@@ -20,7 +18,7 @@ function SuggestedCompanies({ onBackSuggestedCompanies }) {
         </div>
 
         <div className="companies-page box2">
-          <img src={SchneiderImage} alt="Google Image" class="SchneiderImage" />
+          <img src={getPublicAssetPath("schneider.jpg")} alt="Schneider Image" class="SchneiderImage" />
           <p class="CompanyText SchneiderText">
             Schneider Electric is a French multinational specializing in energy
             management and automation. It provides hardware, software, and
@@ -31,7 +29,7 @@ function SuggestedCompanies({ onBackSuggestedCompanies }) {
         </div>
 
         <div className="companies-page box3">
-          <img src={ElSewedyImage} alt="Google Image" class="ElSewedyImage" />
+          <img src={getPublicAssetPath("elsewedy.png")} alt="ElSewedy Image" class="ElSewedyImage" />
           <p class="CompanyText ElSewedyText">
             ElSewedy Electric is an Egyptian multinational in the energy and
             infrastructure sectors. It manufactures cables, meters,

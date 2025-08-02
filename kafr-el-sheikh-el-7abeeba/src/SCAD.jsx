@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
+import { getPublicAssetPath } from "./utils/assetPaths";
 import SCADCompaniesRequests from "./SCADCompaniesRequests";
 import SCADVideoCallAppointment from "./SCADVideoCallAppointment";
 import SCADRequestedAppointments from "./SCADRequestedAppointments";
@@ -92,7 +93,7 @@ function SCAD({
             <div className="dashboard-header">
               <div className="company-info">
                 <img
-                  src={`/SCAD.jpg`}
+                  src={getPublicAssetPath("SCAD.jpg")}
                   alt="SCAD Logo"
                   className="company-dashboard-logo"
                 />

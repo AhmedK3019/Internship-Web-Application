@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import './index.css';
+import { getPublicAssetPath } from './utils/assetPaths';
 
 const LiveComponent = ({ user, onBack, workshop, onAttendeeChatMessage }) => {
     const videoRef = useRef(null);
@@ -107,7 +108,7 @@ const LiveComponent = ({ user, onBack, workshop, onAttendeeChatMessage }) => {
                                 controls
                                 onTimeUpdate={handleTimeUpdate}
                             >
-                                <source src="/GUC.mp4" type="video/mp4" />
+                                <source src={getPublicAssetPath("GUC.mp4")} type="video/mp4" />
                                 Your browser does not support the video tag.
                             </video>
                         </div>

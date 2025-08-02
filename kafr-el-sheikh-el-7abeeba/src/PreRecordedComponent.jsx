@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./index.css";
+import { getPublicAssetPath } from "./utils/assetPaths";
 
 const PreRecordedComponent = ({ onBack, workshop, onFinish }) => {
     const videoRef = useRef(null);
@@ -55,7 +56,7 @@ const PreRecordedComponent = ({ onBack, workshop, onFinish }) => {
                                 controls
                                 onTimeUpdate={handleTimeUpdate}
                             >
-                                <source src="/GUC.mp4" type="video/mp4" />
+                                <source src={getPublicAssetPath("GUC.mp4")} type="video/mp4" />
                                 Your browser does not support the video tag.
                             </video>
                         </div>
